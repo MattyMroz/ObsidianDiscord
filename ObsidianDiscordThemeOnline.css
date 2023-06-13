@@ -87,7 +87,7 @@
     --server-color: transparent;
     --server-folder-color: hsl(225, 8%, 11%);
     --status-picker-color: hsl(225, 8%, 13%);
-    --sidebar-panel-color: hsl(0, 0%, 100%);
+    --sidebar-panel-color: hsl(225, 8%, 13%);
     --chat-color: var(--main-color);
     --message-color: hsl(225, 8%, 11%);
     --message-color-hover: hsl(225, 8%, 13%);
