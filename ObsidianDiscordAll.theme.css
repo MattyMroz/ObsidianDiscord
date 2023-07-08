@@ -597,6 +597,10 @@ html:not(.app-focused) .typeWindows-2-g3UY .winButton-3UMjdg.winButtonMinMax-3Rs
 }
 
 /* CHANNELS LIST -> CHANNEL */
+.link-1_kTxV {
+    background-color: transparent !important;
+}
+
 .wrapper-NhbLHG {
     margin: 2px 2px 0 8px;
     padding: 0;
