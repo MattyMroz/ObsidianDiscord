@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.0.0
+ * @version 1.1.0
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -19,138 +19,147 @@
  */
 
 :root {
-    --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --app-bg: var(--main-alt);
-    --accent-hue: 245;
-    --accent-saturation: 90%;
-    --accent-lightness: 65%;
-    --accent-hsl: var(--accent-hue), calc(var(--accent-saturation) * var(--saturation-factor)), var(--accent-lightness);
-    --accent-button-action: rgb(246, 243, 237);
-    --accent-button-action-hover: 0.06;
-    --accent-button-action-active: 0.12;
-    --accent-text-color: rgb(246, 243, 237);
-    --alert-hue: 0;
-    --alert-saturation: 85%;
-    --alert-lightness: 61%;
-    --alert-hsl: var(--alert-hue), calc(var(--alert-saturation) * var(--saturation-factor)), var(--alert-lightness);
-    --alert-button-action: rgb(246, 243, 237);
-    --alert-button-action-hover: 0.1;
-    --alert-button-action-active: 0.2;
-    --alert-text-color: rgb(246, 243, 237);
-    --success-color: #43b581;
-    --message-radius: 19px;
-    --message-padding-top: 8px;
-    --message-padding-side: 12px;
-    --main-textarea-color: var(--input-color);
-    --main-textarea-border: var(--input-border-color);
-    --main-textarea-radius: 24px;
-    --media-radius: calc(var(--message-radius) / 1.25);
-    --card-radius: 8px;
-    --card-radius-big: 18px;
-    --button-height: 36px;
-    --button-radius: calc(var(--button-height) / 2);
-    --button-padding: 0 24px;
-    --button-link-accent-color: var(--accent-hsl--material-you);
-    --button-link-accent-text-color: hsl(var(--accent-hsl--material-you));
-    --input-height: var(--button-height);
-    --input-radius: var(--button-radius);
-    --input-padding: 0 12px;
-    --popout-radius: var(--card-radius);
-    --popout-radius-big: var(--card-radius-big);
-    --avatar-radius: 50%;
-    --channel-radius: 21px;
-    --spotify-color: #1db954;
-    --stream-color: #593695;
-    --stream-flash: 89, 54, 149;
-    --xbox-color: #107c10;
-    --ping-color: #fe365c;
-    --bar-color: #f53c4a;
-    --ping-box-shadow-color: #ff2d54;
-    --bar-box-shadow-color: #ff2d54bf;
-    --tooltip-color: hsla(225, 8%, 20%, 0.9);
-    --tooltip-text-color: hsl(0, 0%, 87%);
-    --tooltip-font-size: 12px;
-    --tooltip-padding: 8px;
-    --tooltip-radius: 8px;
-    --tooltip-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-    --shadow-1dp: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    --shadow-2dp: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-    --shadow-3dp: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
-    --default-animation: cubic-bezier(0.4, 0, 0.2, 1);
-    --default-time: 250ms;
-    --scrollbar-width: 10px;
-    --scrollbar-thin-width: 6px;
-    --window-title-bar: 22px;
-    --window-button-min: #ffbd44;
-    --window-button-max: #00ca4e;
-    --window-button-close: #ff605c;
-    --code-font: Consolas, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Monaco, Courier New, Courier, monospace;
+  --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-bg: var(--main-alt);
+  --accent-hue: 245;
+  --accent-saturation: 90%;
+  --accent-lightness: 65%;
+  --accent-hsl: var(--accent-hue),
+    calc(var(--accent-saturation) * var(--saturation-factor)),
+    var(--accent-lightness);
+  --accent-button-action: rgb(246, 243, 237);
+  --accent-button-action-hover: 0.06;
+  --accent-button-action-active: 0.12;
+  --accent-text-color: rgb(246, 243, 237);
+  --alert-hue: 0;
+  --alert-saturation: 85%;
+  --alert-lightness: 61%;
+  --alert-hsl: var(--alert-hue),
+    calc(var(--alert-saturation) * var(--saturation-factor)),
+    var(--alert-lightness);
+  --alert-button-action: rgb(246, 243, 237);
+  --alert-button-action-hover: 0.1;
+  --alert-button-action-active: 0.2;
+  --alert-text-color: rgb(246, 243, 237);
+  --success-color: #43b581;
+  --message-radius: 19px;
+  --message-padding-top: 8px;
+  --message-padding-side: 12px;
+  --main-textarea-color: var(--input-color);
+  --main-textarea-border: var(--input-border-color);
+  --main-textarea-radius: 24px;
+  --media-radius: calc(var(--message-radius) / 1.25);
+  --card-radius: 8px;
+  --card-radius-big: 18px;
+  --button-height: 36px;
+  --button-radius: calc(var(--button-height) / 2);
+  --button-padding: 0 24px;
+  --button-link-accent-color: var(--accent-hsl--material-you);
+  --button-link-accent-text-color: hsl(var(--accent-hsl--material-you));
+  --input-height: var(--button-height);
+  --input-radius: var(--button-radius);
+  --input-padding: 0 12px;
+  --popout-radius: var(--card-radius);
+  --popout-radius-big: var(--card-radius-big);
+  --avatar-radius: 50%;
+  --channel-radius: 21px;
+  --spotify-color: #1db954;
+  --stream-color: #593695;
+  --stream-flash: 89, 54, 149;
+  --xbox-color: #107c10;
+  --ping-color: #fe365c;
+  --bar-color: #f53c4a;
+  --ping-box-shadow-color: #ff2d54;
+  --bar-box-shadow-color: #ff2d54bf;
+  --tooltip-color: hsla(225, 8%, 20%, 0.9);
+  --tooltip-text-color: hsl(0, 0%, 87%);
+  --tooltip-font-size: 12px;
+  --tooltip-padding: 8px;
+  --tooltip-radius: 8px;
+  --tooltip-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  --shadow-1dp: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  --shadow-2dp: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+    0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-3dp: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+  --default-animation: cubic-bezier(0.4, 0, 0.2, 1);
+  --default-time: 250ms;
+  --scrollbar-width: 10px;
+  --scrollbar-thin-width: 6px;
+  --window-title-bar: 22px;
+  --window-button-min: #ffbd44;
+  --window-button-max: #00ca4e;
+  --window-button-close: #ff605c;
+  --code-font: Consolas, Andale Mono WT, Andale Mono, Lucida Console,
+    Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono,
+    Liberation Mono, Nimbus Mono L, Monaco, Courier New, Courier, monospace;
 }
 
 .theme-dark {
-    --main-color: hsl(225, 9%, 9%);
-    --main-alt: hsl(220, 9%, 6%);
-    --accent-hsl--material-you: var(--accent-hsl);
-    --accent-text-color--material-you: var(--accent-text-color);
-    --server-color: transparent;
-    --server-folder-color: hsl(225, 8%, 11%);
-    --status-picker-color: hsl(225, 8%, 13%);
-    --sidebar-panel-color: hsl(225, 8%, 13%);
-    --chat-color: var(--main-color);
-    --message-color: hsl(225, 8%, 11%);
-    --message-color-hover: hsl(225, 8%, 13%);
-    --message-color-alt: hsl(225, 8%, 13%);
-    --attachment-color: hsl(225, 8%, 15%);
-    --typing-color: hsla(210, 9%, 9%, 0.9);
-    --popout-color: hsl(225, 7%, 11%);
-    --popout-color-alt: hsl(225, 7%, 13%);
-    --popout-header-border: rgba(255, 255, 255, 0.125);
-    --separator-color: rgba(255, 255, 255, 0.125);
-    --header-secondary: rgb(246, 243, 237);
-    --profile-body-background-color: hsl(225, 8%, 13%);
-    --input-color: hsl(225, 8%, 13%);
-    --input-color-alt: hsl(225, 8%, 11%);
-    --input-border-color: rgba(255, 255, 255, 0.125);
-    --input-text-color: rgb(246, 243, 237);
-    --input-placeholder-color: hsl(225, 8%, 30%);
-    --input-pill-color: hsl(225, 8%, 30%);
-    --tab-border-color: rgba(255, 255, 255, 0.125);
-    --interactive-muted: rgba(103, 103, 103, 0.303);
-    --text-disabled: rgb(246, 243, 237);
-    --menu-item-hover: hsl(225, 8%, 13%);
-    --menu-item-select: rgba(255, 255, 255, 0.1);
-    --menu-item-select-accent-opacity: 0.3;
-    --menu-item-text-color: rgb(246, 243, 237);
-    --card-color-outlined: transparent;
-    --card-color-filled: hsl(225, 8%, 11%);
-    --card-color-hover: hsl(225, 8%, 13%);
-    --card-color-active: hsl(225, 8%, 14%);
-    --card-color-alt: hsl(225, 8%, 13%);
-    --card-color-alt-hover: hsl(225, 8%, 15%);
-    --card-border-color: rgba(255, 255, 255, 0.125);
-    --card-header-text-color: rgb(246, 243, 237);
-    --card-button-color: hsl(225, 8%, 13%);
-    --card-button-color-hover: hsl(225, 8%, 15%);
-    --activity-card-color: hsl(225, 8%, 13%);
-    --activity-card-color--hover: hsl(225, 8%, 15%);
-    --activity-card-color--active: hsl(225, 8%, 16%);
-    --activity-card-color--inset: hsl(225, 8%, 14%);
-    --button-link-color: 0, 0%, 100%;
-    --button-link-text-color: rgb(246, 243, 237);
-    --button-border-color: rgba(255, 255, 255, 0.125);
-    --switch-knob-color: rgb(120, 120, 120);
-    --switch-knob-color-modal: rgb(143, 143, 143);
-    --switch-slider-color: rgb(50, 50, 52);
-    --switch-slider-color-modal: var(--switch-slider-color);
-    --switch-color-modifier: 1.3;
-    --switch-color-checked: hsla(var(--accent-hsl), 0.3);
-    --md-ripple-color: 0, 100%, 100%;
-    --emoji-category-header: hsl(225, 8%, 11%);
-    --scrollbar-color: 255, 255, 255;
-    --window-button: rgba(255, 255, 255, 0.1);
-    --window-button-inactive: rgba(255, 255, 255, 0.05);
-    --text-brand: hsl(var(--accent-hsl));
-    --text-link: hsl(var(--accent-hsl));
+  --main-color: hsl(225, 9%, 9%);
+  --main-alt: hsl(220, 9%, 6%);
+  --accent-hsl--material-you: var(--accent-hsl);
+  --accent-text-color--material-you: var(--accent-text-color);
+  --server-color: transparent;
+  --server-folder-color: hsl(225, 8%, 11%);
+  --status-picker-color: hsl(225, 8%, 13%);
+  --sidebar-panel-color: hsl(225, 8%, 13%);
+  --chat-color: var(--main-color);
+  --message-color: hsl(225, 8%, 11%);
+  --message-color-hover: hsl(225, 8%, 13%);
+  --message-color-alt: hsl(225, 8%, 13%);
+  --attachment-color: hsl(225, 8%, 15%);
+  --typing-color: hsla(210, 9%, 9%, 0.9);
+  --popout-color: hsl(225, 7%, 11%);
+  --popout-color-alt: hsl(225, 7%, 13%);
+  --popout-header-border: rgba(255, 255, 255, 0.125);
+  --separator-color: rgba(255, 255, 255, 0.125);
+  --header-secondary: rgb(246, 243, 237);
+  --profile-body-background-color: hsl(225, 8%, 13%);
+  --input-color: hsl(225, 8%, 13%);
+  --input-color-alt: hsl(225, 8%, 11%);
+  --input-border-color: rgba(255, 255, 255, 0.125);
+  --input-text-color: rgb(246, 243, 237);
+  --input-placeholder-color: hsl(225, 8%, 30%);
+  --input-pill-color: hsl(225, 8%, 30%);
+  --tab-border-color: rgba(255, 255, 255, 0.125);
+  --interactive-muted: rgba(103, 103, 103, 0.303);
+  --text-disabled: rgb(246, 243, 237);
+  --menu-item-hover: hsl(225, 8%, 13%);
+  --menu-item-select: rgba(255, 255, 255, 0.1);
+  --menu-item-select-accent-opacity: 0.3;
+  --menu-item-text-color: rgb(246, 243, 237);
+  --card-color-outlined: transparent;
+  --card-color-filled: hsl(225, 8%, 11%);
+  --card-color-hover: hsl(225, 8%, 13%);
+  --card-color-active: hsl(225, 8%, 14%);
+  --card-color-alt: hsl(225, 8%, 13%);
+  --card-color-alt-hover: hsl(225, 8%, 15%);
+  --card-border-color: rgba(255, 255, 255, 0.125);
+  --card-header-text-color: rgb(246, 243, 237);
+  --card-button-color: hsl(225, 8%, 13%);
+  --card-button-color-hover: hsl(225, 8%, 15%);
+  --activity-card-color: hsl(225, 8%, 13%);
+  --activity-card-color--hover: hsl(225, 8%, 15%);
+  --activity-card-color--active: hsl(225, 8%, 16%);
+  --activity-card-color--inset: hsl(225, 8%, 14%);
+  --button-link-color: 0, 0%, 100%;
+  --button-link-text-color: rgb(246, 243, 237);
+  --button-border-color: rgba(255, 255, 255, 0.125);
+  --switch-knob-color: rgb(120, 120, 120);
+  --switch-knob-color-modal: rgb(143, 143, 143);
+  --switch-slider-color: rgb(50, 50, 52);
+  --switch-slider-color-modal: var(--switch-slider-color);
+  --switch-color-modifier: 1.3;
+  --switch-color-checked: hsla(var(--accent-hsl), 0.3);
+  --md-ripple-color: 0, 100%, 100%;
+  --emoji-category-header: hsl(225, 8%, 11%);
+  --scrollbar-color: 255, 255, 255;
+  --window-button: rgba(255, 255, 255, 0.1);
+  --window-button-inactive: rgba(255, 255, 255, 0.05);
+  --text-brand: hsl(var(--accent-hsl));
+  --text-link: hsl(var(--accent-hsl));
 }
 
 /*
@@ -160,65 +169,64 @@
  */
 
 :root {
-    /* color: hsl(245, 90%, 65%); */
-    --accent-hue: 245;
-    --accent-saturation: 90%;
-    --accent-lightness: 65%;
-    --accent-text-color: rgb(246, 243, 237);
-    --accent-button-action: rgb(246, 243, 237);
+  /* color: hsl(245, 90%, 65%); */
+  --accent-hue: 245;
+  --accent-saturation: 90%;
+  --accent-lightness: 65%;
+  --accent-text-color: rgb(246, 243, 237);
+  --accent-button-action: rgb(246, 243, 237);
 
-    --avatar-radius: 50%;
+  --avatar-radius: 50%;
 
-    --message-radius: 19px;
-    --message-padding-top: 8px;
-    --message-padding-side: 12px;
+  --message-radius: 19px;
+  --message-padding-top: 8px;
+  --message-padding-side: 12px;
 
-    --media-radius: 19px;
+  --media-radius: 19px;
 
-    --card-radius: 8px;
-    --card-radius-big: 18px;
+  --card-radius: 8px;
+  --card-radius-big: 18px;
 
-    --popout-radius: 8px;
-    --popout-radius-big: 18px;
+  --popout-radius: 8px;
+  --popout-radius-big: 18px;
 
+  /* RESPONSIVE */
 
-    /* RESPONSIVE */
+  /* Guildlist */
+  --guildicon-size: 50;
+  --enable-if-using-favorites-experiment: 0;
+  /* boolean */
+  --guildlist-collapse: 0;
+  /* boolean */
 
-    /* Guildlist */
-    --guildicon-size: 50;
-    --enable-if-using-favorites-experiment: 0;
-    /* boolean */
-    --guildlist-collapse: 0;
-    /* boolean */
+  /* Channel sidebar */
+  --slide-window-on-hover: 1;
+  /* boolean */
+  --float-sidebar-width: 48;
+  --sidebar-hover-width: 240px;
+  --sidebar-hover-delay: 0.2s;
+  --sidebar-transition-duration: 0.4s;
+  --sidebar-window-gap: 8px;
+  --sidebar-border-radius: 8px;
+  --sidebar-usersettings-width: 66px;
 
-    /* Channel sidebar */
-    --slide-window-on-hover: 1;
-    /* boolean */
-    --float-sidebar-width: 48;
-    --sidebar-hover-width: 240px;
-    --sidebar-hover-delay: 0.2s;
-    --sidebar-transition-duration: 0.4s;
-    --sidebar-window-gap: 8px;
-    --sidebar-border-radius: 8px;
-    --sidebar-usersettings-width: 66px;
+  /* Memberlist */
+  --float-members-width: 65px;
+  --members-hover-width: 240px;
+  --members-hover-delay: 0.2s;
+  --members-transition-duration: 0.4s;
 
-    /* Memberlist */
-    --float-members-width: 65px;
-    --members-hover-width: 240px;
-    --members-hover-delay: 0.2s;
-    --members-transition-duration: 0.4s;
+  /* Channelheader */
+  --topic-opacity: 1;
+  --toolbar-visibility: flex;
+  /* [flex][none] */
 
-    /* Channelheader */
-    --topic-opacity: 1;
-    --toolbar-visibility: flex;
-    /* [flex][none] */
+  /* Textarea buttons */
+  /* [flex][none] */
+  --textarea-buttons-gif: flex;
+  --textarea-buttons-sticker: flex;
+  --textarea-buttons-gift: none;
 
-    /* Textarea buttons */
-    /* [flex][none] */
-    --textarea-buttons-gif: flex;
-    --textarea-buttons-sticker: flex;
-    --textarea-buttons-gift: none;
-
-    /* Theme compatibility */
-    /* --float-guildlist-width-correction: 0px; */
+  /* Theme compatibility */
+  /* --float-guildlist-width-correction: 0px; */
 }
