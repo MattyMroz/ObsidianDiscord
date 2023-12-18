@@ -17,15 +17,18 @@
 
 [![ObsidianDiscordThemeOnline.css](https://img.shields.io/badge/Download-ObsidianDiscordThemeOnline.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css)
 
-#### ObsidianDiscordThemeLocal.css
+<!-- #### ObsidianDiscordThemeLocal.css
 
-[![ObsidianDiscordThemeLocal.css](https://img.shields.io/badge/Download-ObsidianDiscordThemeLocal.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeLocal.css)
+[![ObsidianDiscordThemeLocal.css](https://img.shields.io/badge/Download-ObsidianDiscordThemeLocal.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeLocal.css) -->
 
 #### Browser - No configuration
 
 ```
 @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css);
 ```
+
+**❗❗❗Responsiveness Is No Longer Supported❗❗❗**
+
 
 ## 👀 Demonstration
 
