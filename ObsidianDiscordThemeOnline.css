@@ -16,10 +16,10 @@
 /* @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css); */
 
 /*
-    *
-    *  BASIC SETTINGS
-    *
-    */
+        *
+        *  BASIC SETTINGS
+        *
+        */
 
 :root {
     --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -240,4 +240,14 @@
 .active_e695d6 {
     background-color: var(--bar-color);
     box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color);
+}
+
+/*
+ *
+ *	SPOILERS
+ *
+ */
+
+.spoilerContent__37bfa {
+    background-color: var(--message-color) !important;
 }

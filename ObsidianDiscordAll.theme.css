@@ -16,10 +16,10 @@
 /* @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css); */
 
 /*
-     *
-     *  BASIC SETTINGS
-     *
-     */
+        *
+        *  BASIC SETTINGS
+        *
+        */
 
 :root {
     --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -223,10 +223,10 @@
 }
 
 /*
-  *
-  *  PINGS & NOTIFICATIONS
-  *
-  */
+ *
+ *  PINGS & NOTIFICATIONS
+ *
+ */
 
 .numberBadge__50328 {
     padding: 5px 5px !important;
@@ -240,4 +240,14 @@
 .active_e695d6 {
     background-color: var(--bar-color);
     box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color);
+}
+
+/*
+ *
+ *	SPOILERS
+ *
+ */
+
+.spoilerContent__37bfa {
+    background-color: var(--message-color) !important;
 }
