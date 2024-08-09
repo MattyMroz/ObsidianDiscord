@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Obsidian Discord Theme
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  Dodaje motyw Obsidian do Discorda po załadowaniu strony
+// @version      1.3
+// @description  Dodaje motyw Obsidian do Discorda po załadowaniu strony, 10 razy w odstępach 1-sekundowych
 // @author       Matty_Mroz
 // @match        https://discord.com/*
 // @grant        GM_addStyle
@@ -15,7 +15,7 @@
     'use strict';
 
     const cssUrls = [
-        'https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css'
+        'https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css',
     ];
 
     function loadCSS(url) {
@@ -39,6 +39,13 @@
             });
     }
 
-    window.addEventListener('load', loadAllCSS);
+    function repeatedLoad(times) {
+        if (times > 0) {
+            loadAllCSS();
+            setTimeout(() => repeatedLoad(times - 1), 500);
+        }
+    }
+
+    window.addEventListener('load', () => repeatedLoad(10));
 
 })();
