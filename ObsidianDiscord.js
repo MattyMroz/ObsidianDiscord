@@ -2,7 +2,7 @@
 // @name         Obsidian Discord Theme
 // @namespace    http://tampermonkey.net/
 // @version      1.3
-// @description  Dodaje motyw Obsidian do Discorda po załadowaniu strony, 10 razy w odstępach 1-sekundowych, a następnie zmienia pasek adresu
+// @description  Dodaje motyw Obsidian do Discorda po załadowaniu strony, 10 razy w odstępach 1-sekundowych, a następnie przy zmianie paska adresu
 // @author       Matty_Mroz
 // @match        https://discord.com/*
 // @grant        GM_addStyle
