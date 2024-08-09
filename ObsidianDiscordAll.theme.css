@@ -353,15 +353,19 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
 
 .buttonsInner_d5deea.popover_e986d9.wrapper_f7e168 {
     border-radius: 25px;
-    background-color: var(--attachment-color);
-    box-shadow: none;
+    background-color: var(--message-color-hover);
+    box-shadow: var(--shadow-2dp);
 }
 
 .button_f7e168 {
     border-radius: 50%;
     transition: none;
     animation: none;
-    background-color: var(--attachment-color);
+    background-color: var(--message-color-hover);
+}
+
+.button_f7e168:hover {
+    background-color: var(--message-color);
 }
 
 /*

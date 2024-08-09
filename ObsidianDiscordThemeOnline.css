@@ -16,10 +16,10 @@
 /* @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css); */
 
 /*
-    *
-    *  BASIC SETTINGS
-    *
-    */
+     *
+     *  BASIC SETTINGS
+     *
+     */
 
 :root {
     --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -223,10 +223,10 @@
 }
 
 /*
-    *
-    *  PINGS & NOTIFICATIONS
-    *
-    */
+     *
+     *  PINGS & NOTIFICATIONS
+     *
+     */
 
 .numberBadge_df8943,
 .wrapper_a2f8f7.badge_e3c1c6 {
@@ -243,30 +243,30 @@ div.newBadge_a25714.eyebrow_a25714.textBadge_df8943.base_df8943.eyebrow_df8943.b
 
 
 /*
-    *
-    *	SPOILERS
-    *
-    */
+     *
+     *	SPOILERS
+     *
+     */
 
 span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
     background-color: var(--sidebar-panel-color) !important;
 }
 
 /*
-    *
-    *	SERVER FOLDERS
-    *
-    */
+     *
+     *	SERVER FOLDERS
+     *
+     */
 
 .expandedFolderBackground_bc7085 {
     border-radius: 25px;
 }
 
 /*
-  *
-  *	LOGIN SCREEN
-  *
-  */
+   *
+   *	LOGIN SCREEN
+   *
+   */
 
 .authBox_b83a05 {
     padding: 24px 24px 0;
@@ -342,10 +342,10 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
 }
 
 /*
-  *
-  *	MESSAGE ACTIONS
-  *
-  */
+   *
+   *	MESSAGE ACTIONS
+   *
+   */
 
 .buttons_d5deea.container_a3b500 {
     transition: none;
@@ -353,22 +353,26 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
 
 .buttonsInner_d5deea.popover_e986d9.wrapper_f7e168 {
     border-radius: 25px;
-    background-color: var(--attachment-color);
-    box-shadow: none;
+    background-color: var(--message-color-hover);
+    box-shadow: var(--shadow-2dp);
 }
 
 .button_f7e168 {
     border-radius: 50%;
     transition: none;
     animation: none;
-    background-color: var(--attachment-color);
+    background-color: var(--message-color-hover);
+}
+
+.button_f7e168:hover {
+    background-color: var(--message-color);
 }
 
 /*
-  *
-  *	SCROLL DOWN BUTTON
-  *
-  */
+   *
+   *	SCROLL DOWN BUTTON
+   *
+   */
 
 .jumpToPresentBar_cf58b5::before {
     content: "";
