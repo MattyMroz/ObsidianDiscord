@@ -16,10 +16,10 @@
 /* @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css); */
 
 /*
-     *
-     *  BASIC SETTINGS
-     *
-     */
+      *
+      *  BASIC SETTINGS
+      *
+      */
 
 :root {
     --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -223,10 +223,10 @@
 }
 
 /*
-     *
-     *  PINGS & NOTIFICATIONS
-     *
-     */
+      *
+      *  PINGS & NOTIFICATIONS
+      *
+      */
 
 .numberBadge_df8943,
 .wrapper_a2f8f7.badge_e3c1c6 {
@@ -243,30 +243,30 @@ div.newBadge_a25714.eyebrow_a25714.textBadge_df8943.base_df8943.eyebrow_df8943.b
 
 
 /*
-     *
-     *	SPOILERS
-     *
-     */
+      *
+      *	SPOILERS
+      *
+      */
 
 span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
     background-color: var(--sidebar-panel-color) !important;
 }
 
 /*
-     *
-     *	SERVER FOLDERS
-     *
-     */
+      *
+      *	SERVER FOLDERS
+      *
+      */
 
 .expandedFolderBackground_bc7085 {
     border-radius: 25px;
 }
 
 /*
-   *
-   *	LOGIN SCREEN
-   *
-   */
+    *
+    *	LOGIN SCREEN
+    *
+    */
 
 .authBox_b83a05 {
     padding: 24px 24px 0;
@@ -342,10 +342,10 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
 }
 
 /*
-   *
-   *	MESSAGE ACTIONS
-   *
-   */
+    *
+    *	MESSAGE ACTIONS
+    *
+    */
 
 .buttons_d5deea.container_a3b500 {
     transition: none;
@@ -369,10 +369,10 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
 }
 
 /*
-   *
-   *	SCROLL DOWN BUTTON
-   *
-   */
+    *
+    *	SCROLL DOWN BUTTON
+    *
+    */
 
 .jumpToPresentBar_cf58b5::before {
     content: "";
@@ -391,4 +391,67 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
     mask-position: center;
     -webkit-mask-size: contain;
     mask-size: contain;
+}
+
+/*
+  *
+  *	MEMBERS LIST
+  *
+  */
+.members_cbd271 {
+    background-color: var(--main-color);
+}
+
+.members_cbd271,
+.members_cbd271>div {
+    background-color: var(--main-color);
+}
+
+.members_cbd271 .container_d808b0 {
+    width: 100%;
+    height: 42px;
+    margin-left: 0;
+    margin-bottom: 2px;
+}
+
+.members_cbd271 .container_d808b0,
+.members_cbd271 .container_d808b0 .layout_d808b0 {
+    border-radius: var(--channel-radius);
+}
+
+.members_cbd271 .container_d808b0 .layout_d808b0 {
+    width: calc(100% - 18px);
+    margin-left: 8px;
+    padding: 0 8px 0 8px;
+    transition: 200ms ease all;
+}
+
+.members_cbd271 .container_d808b0:hover .layout_d808b0 {
+    background-color: var(--menu-item-hover);
+}
+
+.members_cbd271 .container_d808b0.selected .layout_d808b0 {
+    background-color: hsla(var(--accent-hsl), var(--menu-item-select-accent-opacity));
+}
+
+.member_a31c43 {
+    background-color: transparent;
+}
+
+.membersGroup_cbd271 {
+    font-size: 14px;
+    text-transform: none;
+}
+
+.botTag_a31c43 {
+    border-radius: 8px !important;
+}
+
+.botTag_a31c43.botTagRegular_a9e77f {
+    background-color: hsl(var(--accent-hsl--material-you));
+    color: var(--accent-text-color--material-you);
+}
+
+.botTag_a31c43.botTagRegular_a9e77f .botTagVerified_a9e77f {
+    z-index: 2;
 }
