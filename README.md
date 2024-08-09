@@ -9,25 +9,18 @@
 
 ## Files
 
-#### ObsidianDiscordAll.theme.css
-
-[![ObsidianDiscordAll.theme.css](https://img.shields.io/badge/Download-ObsidianDiscordAll.theme.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordAll.theme.css)
-
 #### ObsidianDiscordThemeOnline.css
 
 [![ObsidianDiscordThemeOnline.css](https://img.shields.io/badge/Download-ObsidianDiscordThemeOnline.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css)
 
-<!-- #### ObsidianDiscordThemeLocal.css
 
-[![ObsidianDiscordThemeLocal.css](https://img.shields.io/badge/Download-ObsidianDiscordThemeLocal.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeLocal.css) -->
-
-#### Browser - No configuration
+#### CSS IMPORT
 
 ```
 @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css);
 ```
 
-**❗❗❗Responsiveness Is No Longer Supported❗❗❗**
+**❗❗❗Better Responsiveness Is No Longer Supported❗❗❗**
 
 
 ## 👀 Demonstration
@@ -56,6 +49,13 @@
 ### <p align="center">⚡ Browser - Configuration</p>
 
 <p align="center">
-<img src="./assets/img/Chrome_Edge.png" alt="" width="100%" height="">
-<img src="./assets/img/ObsidianDiscordAllLocal.css.png" alt="" width="75%" height="">
+
+To use this script, you'll need to install the Tampermonkey extension. You can get it from the Chrome Web Store:
+
+[![Tampermonkey Extension](https://img.shields.io/badge/Install-Tampermonkey_Extension-blue?style=for-the-badge&logo=google-chrome)](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
+
+Once you have Tampermonkey installed, you can download and install the script from the following link:
+
+[![Tampermonkey Script](https://img.shields.io/badge/Download-Tampermonkey_Script-darkviolet?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.js)
+
 </p>
