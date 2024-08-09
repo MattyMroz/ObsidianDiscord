@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.2.1
+ * @version 1.2.2
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -16,10 +16,10 @@
 /* @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css); */
 
 /*
-  *
-  *  BASIC SETTINGS
-  *
-  */
+   *
+   *  BASIC SETTINGS
+   *
+   */
 
 :root {
     --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -223,10 +223,10 @@
 }
 
 /*
-  *
-  *  PINGS & NOTIFICATIONS
-  *
-  */
+   *
+   *  PINGS & NOTIFICATIONS
+   *
+   */
 
 .numberBadge__50328 {
     padding: 5px 5px !important;
@@ -241,6 +241,13 @@
     background-color: var(--bar-color);
     box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color);
 }
+
+/*
+   *
+   *	SPOILERS
+   *
+   */
+
 
 div.bar_c10249.unreadMentionsBar_fea3ef.mention_c10249.active_c10249 {
     background-color: var(--bar-color);
@@ -258,21 +265,10 @@ div.bar_c10249.unreadBar_c43953.mention_c10249.active_c10249 {
 
 }
 
-/*
-  *
-  *	SPOILERS
-  *
-  */
-span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
-    background-color: var(--sidebar-panel-color) !important;
-}
-
-/*
- *
- *  SERVER FOLDERS
- *
- */
-
 .expandedFolderBackground_bc7085 {
     border-radius: 25px;
+}
+
+span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
+    background-color: var(--sidebar-panel-color) !important;
 }
