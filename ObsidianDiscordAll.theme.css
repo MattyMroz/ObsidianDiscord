@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.2.3
+ * @version 1.2.4
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -228,19 +228,17 @@
       *
       */
 
-.numberBadge_df8943,
+.numberBadge__2b1f5,
 .wrapper_a2f8f7.badge_e3c1c6 {
     background-color: var(--ping-color);
     box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color);
 }
 
-div.bar_edf32f.unreadMentionsBar_fea3ef.mention_edf32f.active_edf32f,
-div.bar_edf32f.unreadBar_c43953.mention_edf32f.active_edf32f,
-div.newBadge_a25714.eyebrow_a25714.textBadge_df8943.base_df8943.eyebrow_df8943.baseShapeRound_df8943 {
+.bar__3b95d,
+.live_a7acae {
     background-color: var(--bar-color);
     box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color);
 }
-
 
 /*
       *
@@ -258,7 +256,7 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
       *
       */
 
-.expandedFolderBackground_bc7085 {
+.expandedFolderBackground__48112 {
     border-radius: 25px;
 }
 
@@ -374,7 +372,7 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
     *
     */
 
-.jumpToPresentBar_cf58b5::before {
+.jumpToPresentBar__0f481::before {
     content: "";
     position: absolute;
     left: 50%;
