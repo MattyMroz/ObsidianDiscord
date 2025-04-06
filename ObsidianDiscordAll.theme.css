@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.2.4
+ * @version 1.2.5
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -16,10 +16,10 @@
 /* @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css); */
 
 /*
-      *
-      *  BASIC SETTINGS
-      *
-      */
+  *
+  *  BASIC SETTINGS
+  *
+  */
 
 :root {
     --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -223,97 +223,97 @@
 }
 
 /*
-      *
-      *  PINGS & NOTIFICATIONS
-      *
-      */
+  *
+  *  PINGS & NOTIFICATIONS
+  *
+  */
 
 .numberBadge__2b1f5,
 .wrapper_a2f8f7.badge_e3c1c6 {
-    background-color: var(--ping-color);
-    box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color);
+    background-color: var(--ping-color) !important;
+    box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color) !important;
 }
 
 .bar__3b95d,
 .live_a7acae {
-    background-color: var(--bar-color);
-    box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color);
+    background-color: var(--bar-color) !important;
+    box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color) !important;
 }
 
 /*
-      *
-      *	SPOILERS
-      *
-      */
+  *
+  *	SPOILERS
+  *
+  */
 
 span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
     background-color: var(--sidebar-panel-color) !important;
 }
 
 /*
-      *
-      *	SERVER FOLDERS
-      *
-      */
+  *
+  *	SERVER FOLDERS
+  *
+  */
 
 .expandedFolderBackground__48112 {
-    border-radius: 25px;
+    border-radius: 25px !important;
 }
 
 /*
-    *
-    *	LOGIN SCREEN
-    *
-    */
+  *
+  *	LOGIN SCREEN
+  *
+  */
 
 .authBox_b83a05 {
-    padding: 24px 24px 0;
+    padding: 24px 24px 0 !important;
     background-color: var(--popout-color) !important;
     border-radius: var(--popout-radius-big) !important;
     box-shadow: var(--shadow-3dp) !important;
 }
 
 .authBox_b83a05:last-child {
-    padding-bottom: 24px;
+    padding-bottom: 24px !important;
 }
 
 .authBox_b83a05 .mainLoginContainer_d58f04 {
-    margin-right: 24px;
-    padding-right: 24px;
-    border-right: 1px solid var(--card-border-color);
+    margin-right: 24px !important;
+    padding-right: 24px !important;
+    border-right: 1px solid var(--card-border-color) !important;
 }
 
 .authBox_b83a05 .heading-xl\/semibold_dc00ef {
-    margin-bottom: 16px;
-    font-weight: 400;
+    margin-bottom: 16px !important;
+    font-weight: 400 !important;
 }
 
 .authBox_b83a05 .verticalSeparator_c6cd4b {
-    display: none;
+    display: none !important;
 }
 
 .authBox_b83a05 .qrLogin_c6cd4b {
-    height: 320px;
+    height: 320px !important;
 }
 
 .authBox_b83a05 .needAccount_d58f04 {
-    line-height: 24px;
+    line-height: 24px !important;
 }
 
 .authBox_b83a05 .lookLink_dd4f85 .sizeMin_dd4f85 {
-    line-height: var(--button-height);
+    line-height: var(--button-height) !important;
 }
 
 .authBox_b83a05:not(.chooseAccountAuthBox-Udr8ty) .lookLink_dd4f85 {
-    --button-height: 17px;
-    --button-padding: 0;
-    --button-radius: 0;
+    --button-height: 17px !important;
+    --button-padding: 0 !important;
+    --button-radius: 0 !important;
     font-size: 14px !important;
     font-weight: 400 !important;
 }
 
 .authBox_b83a05:not(.chooseAccountAuthBox-Udr8ty) .lookLink_dd4f85:after {
-    display: none;
+    display: none !important;
 }
 
 .authBox_b83a05:not(.chooseAccountAuthBox-Udr8ty) .lookLink_dd4f85:hover {
@@ -321,74 +321,74 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
 }
 
 .authBox_b83a05 .needAccount_d58f04+.lookLink_dd4f85 {
-    position: relative;
-    top: -3px;
+    position: relative !important;
+    top: -3px !important;
 }
 
 .navRow-dG-XX8 {
-    height: auto;
-    padding: 24px;
+    height: auto !important;
+    padding: 24px !important;
     background-color: transparent !important;
 }
 
 .navRow-dG-XX8 .button-ejjZWC {
-    margin: 0;
+    margin: 0 !important;
 }
 
 .navRow-dG-XX8 .button_dd4f85 {
-    margin: 0;
+    margin: 0 !important;
 }
 
 /*
-    *
-    *	MESSAGE ACTIONS
-    *
-    */
+  *
+  *	MESSAGE ACTIONS
+  *
+  */
 
 .buttons_d5deea.container_a3b500 {
-    transition: none;
+    transition: none !important;
 }
 
 .buttonsInner_d5deea.popover_e986d9.wrapper_f7e168 {
-    border-radius: 25px;
-    background-color: var(--message-color-hover);
-    box-shadow: var(--shadow-2dp);
+    border-radius: 25px !important;
+    background-color: var(--message-color-hover) !important;
+    box-shadow: var(--shadow-2dp) !important;
 }
 
 .button_f7e168 {
-    border-radius: 50%;
-    transition: none;
-    animation: none;
-    background-color: var(--message-color-hover);
+    border-radius: 50% !important;
+    transition: none !important;
+    animation: none !important;
+    background-color: var(--message-color-hover) !important;
 }
 
 .button_f7e168:hover {
-    background-color: var(--message-color);
+    background-color: var(--message-color) !important;
 }
 
 /*
-    *
-    *	SCROLL DOWN BUTTON
-    *
-    */
+  *
+  *	SCROLL DOWN BUTTON
+  *
+  */
 
 .jumpToPresentBar__0f481::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 30px;
-    height: 30px;
-    background-color: var(--menu-item-text-color);
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.81 4.38 8 8.57l4.19-4.19 1.52 1.53L8 11.62 2.29 5.91l1.52-1.53z'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.81 4.38 8 8.57l4.19-4.19 1.52 1.53L8 11.62 2.29 5.91l1.52-1.53z'/%3E%3C/svg%3E");
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
+    content: "" !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 30px !important;
+    height: 30px !important;
+    background-color: var(--menu-item-text-color) !important;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.81 4.38 8 8.57l4.19-4.19 1.52 1.53L8 11.62 2.29 5.91l1.52-1.53z'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.81 4.38 8 8.57l4.19-4.19 1.52 1.53L8 11.62 2.29 5.91l1.52-1.53z'/%3E%3C/svg%3E") !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
 }
 
 /*
@@ -396,49 +396,50 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
   *	MEMBERS LIST
   *
   */
+
 .members_cbd271 {
-    background-color: var(--main-color);
+    background-color: var(--main-color) !important;
 }
 
 .members_cbd271,
 .members_cbd271>div {
-    background-color: var(--main-color);
+    background-color: var(--main-color) !important;
 }
 
 .members_cbd271 .container_d808b0 {
-    width: 100%;
-    height: 42px;
-    margin-left: 0;
-    margin-bottom: 2px;
+    width: 100% !important;
+    height: 42px !important;
+    margin-left: 0 !important;
+    margin-bottom: 2px !important;
 }
 
 .members_cbd271 .container_d808b0,
 .members_cbd271 .container_d808b0 .layout_d808b0 {
-    border-radius: var(--channel-radius);
+    border-radius: var(--channel-radius) !important;
 }
 
 .members_cbd271 .container_d808b0 .layout_d808b0 {
-    width: calc(100% - 18px);
-    margin-left: 8px;
-    padding: 0 8px 0 8px;
-    transition: 200ms ease all;
+    width: calc(100% - 18px) !important;
+    margin-left: 8px !important;
+    padding: 0 8px 0 8px !important;
+    transition: 200ms ease all !important;
 }
 
 .members_cbd271 .container_d808b0:hover .layout_d808b0 {
-    background-color: var(--menu-item-hover);
+    background-color: var(--menu-item-hover) !important;
 }
 
 .members_cbd271 .container_d808b0.selected .layout_d808b0 {
-    background-color: hsla(var(--accent-hsl), var(--menu-item-select-accent-opacity));
+    background-color: hsla(var(--accent-hsl), var(--menu-item-select-accent-opacity)) !important;
 }
 
 .member_a31c43 {
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 .membersGroup_cbd271 {
-    font-size: 14px;
-    text-transform: none;
+    font-size: 14px !important;
+    text-transform: none !important;
 }
 
 .botTag_a31c43 {
@@ -446,10 +447,10 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
 }
 
 .botTag_a31c43.botTagRegular_a9e77f {
-    background-color: hsl(var(--accent-hsl--material-you));
-    color: var(--accent-text-color--material-you);
+    background-color: hsl(var(--accent-hsl--material-you)) !important;
+    color: var(--accent-text-color--material-you) !important;
 }
 
 .botTag_a31c43.botTagRegular_a9e77f .botTagVerified_a9e77f {
-    z-index: 2;
+    z-index: 2 !important;
 }
