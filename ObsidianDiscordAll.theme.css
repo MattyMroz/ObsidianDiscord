@@ -569,8 +569,8 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
 .iconItem_c69b6d svg,
 .actionIcon_c69b6d {
     display: block !important;
-    width: 16px !important;
-    height: 16px !important;
+    width: 12px !important;
+    height: 12px !important;
     transform: none !important;
     overflow: visible !important;
 }
@@ -598,6 +598,42 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     visibility: visible !important;
     opacity: 1 !important;
     color: rgb(246, 243, 237) !important;
+}
+
+/*
+  *
+  *	GUILD NAV VOICE BADGE
+  *	Voice activity indicator on server icons
+  *
+  */
+
+.upperBadge_cc5dd2 {
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+    overflow: visible !important;
+}
+
+.upperBadge_cc5dd2 .iconBadge__2b1f5 {
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.upperBadge_cc5dd2 svg.icon__2b1f5 {
+    display: block !important;
+    width: 12px !important;
+    height: 12px !important;
+    color: rgb(246, 243, 237) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow: visible !important;
+}
+
+.upperBadge_cc5dd2 svg.icon__2b1f5 [fill="currentColor"] {
+    fill: currentColor !important;
 }
 
 /*
