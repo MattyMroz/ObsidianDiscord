@@ -345,25 +345,69 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
   *
   */
 
-.buttons_d5deea.container_a3b500 {
+.buttons_d5deea.container_a3b500,
+.buttons__5126c.container__040f0 {
     transition: none !important;
 }
 
-.buttonsInner_d5deea.popover_e986d9.wrapper_f7e168 {
+.buttonsInner_d5deea.popover_e986d9.wrapper_f7e168,
+.buttonsInner__5126c.popover_f84418.wrapper_f7ecac {
     border-radius: 25px !important;
     background-color: var(--message-color-hover) !important;
     box-shadow: var(--shadow-2dp) !important;
 }
 
-.button_f7e168 {
+.button_f7e168,
+.button_f7ecac,
+div.hoverBarButton_f84418.button_f7ecac {
     border-radius: 50% !important;
     transition: none !important;
     animation: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    line-height: 0 !important;
+    overflow: hidden !important;
     background-color: var(--message-color-hover) !important;
+    color: hsl(240, 4%, 72%) !important;
 }
 
-.button_f7e168:hover {
+.button_f7e168:hover,
+.button_f7ecac:hover,
+div.hoverBarButton_f84418.button_f7ecac:hover {
     background-color: var(--message-color) !important;
+    color: rgb(246, 243, 237) !important;
+}
+
+.button_f7ecac svg,
+div.hoverBarButton_f84418.button_f7ecac svg,
+.button_f7ecac svg.icon_f84418,
+div.hoverBarButton_f84418.button_f7ecac svg.icon_f84418 {
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin: auto !important;
+    transform: none !important;
+    position: static !important;
+    inset: auto !important;
+    flex: 0 0 auto !important;
+    color: inherit !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow: visible !important;
+}
+
+.button_f7ecac svg [fill="currentColor"],
+div.hoverBarButton_f84418.button_f7ecac svg [fill="currentColor"] {
+    fill: currentColor !important;
+}
+
+.button_f7ecac svg [stroke="currentColor"],
+div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
+    stroke: currentColor !important;
 }
 
 /*
@@ -452,4 +496,93 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
 
 .botTag_a31c43.botTagRegular_a9e77f .botTagVerified_a9e77f {
     z-index: 2 !important;
+}
+
+/*
+  *
+  *	CHANNEL SIDEBAR ICON FIXES
+  *	Fixes missing SVG icons in channel row actions and voice indicators
+  *
+  */
+
+/* Voice / speaking icons near channels */
+.iconBase_c69b6d,
+.iconNoChannelInfo_c69b6d,
+[class*="channelInfo_"] [class*="iconBase_"],
+[class*="channelInfo_"] [class*="iconNoChannelInfo_"] {
+    display: block !important;
+    width: 14px !important;
+    height: 14px !important;
+    color: hsl(240, 4%, 72%) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow: visible !important;
+}
+
+.iconBase_c69b6d [fill="currentColor"],
+.iconNoChannelInfo_c69b6d [fill="currentColor"],
+[class*="channelInfo_"] [class*="iconBase_"] [fill="currentColor"],
+[class*="channelInfo_"] [class*="iconNoChannelInfo_"] [fill="currentColor"] {
+    fill: currentColor !important;
+}
+
+.iconBase_c69b6d [stroke="currentColor"],
+.iconNoChannelInfo_c69b6d [stroke="currentColor"],
+[class*="channelInfo_"] [class*="iconBase_"] [stroke="currentColor"],
+[class*="channelInfo_"] [class*="iconNoChannelInfo_"] [stroke="currentColor"] {
+    stroke: currentColor !important;
+}
+
+/* Right-side channel action icons: visible only on row hover */
+[class*="children_"] [class*="iconItem_"],
+[class*="children_"] [class*="actionIcon_"],
+.iconItem_c69b6d,
+.actionIcon_c69b6d {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 28px !important;
+    height: 28px !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    color: hsl(240, 4%, 72%) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: color var(--default-time) var(--default-animation), opacity var(--default-time) var(--default-animation), visibility var(--default-time) var(--default-animation) !important;
+}
+
+[class*="children_"] [class*="iconItem_"] svg,
+[class*="children_"] [class*="actionIcon_"],
+.iconItem_c69b6d svg,
+.actionIcon_c69b6d {
+    display: block !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin: auto !important;
+    overflow: visible !important;
+}
+
+[class*="children_"] [class*="iconItem_"] svg [fill="currentColor"],
+[class*="children_"] [class*="actionIcon_"] [fill="currentColor"],
+.iconItem_c69b6d svg [fill="currentColor"],
+.actionIcon_c69b6d [fill="currentColor"] {
+    fill: currentColor !important;
+}
+
+[class*="children_"] [class*="iconItem_"] svg [stroke="currentColor"],
+[class*="children_"] [class*="actionIcon_"] [stroke="currentColor"],
+.iconItem_c69b6d svg [stroke="currentColor"],
+.actionIcon_c69b6d [stroke="currentColor"] {
+    stroke: currentColor !important;
+}
+
+.wrapper__2ea32:hover .iconItem_c69b6d,
+.wrapper__2ea32:hover .actionIcon_c69b6d,
+[class*="wrapper__2ea32"]:hover [class*="children_"] [class*="iconItem_"],
+[class*="wrapper__2ea32"]:hover [class*="children_"] [class*="actionIcon_"],
+.iconItem_c69b6d:hover,
+.actionIcon_c69b6d:hover {
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: rgb(246, 243, 237) !important;
 }
