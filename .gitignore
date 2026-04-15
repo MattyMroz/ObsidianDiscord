@@ -1,0 +1,5 @@
+# VS Code / Copilot system
+.github/
+
+# Binaries
+*.exe

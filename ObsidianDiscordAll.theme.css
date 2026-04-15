@@ -1,0 +1,455 @@
+/**
+ * @name Obsidian Discord
+ * @version 1.2.6
+ * @description A theme for Discord based on the Obsidian color scheme + a few extras
+ * @author Matty_Mroz
+ *
+ * @website https://github.com/MattyMroz/
+ * @source https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css
+ * @credit CapnKitten (https://github.com/CapnKitten)
+ * @credit maenDisease (https://github.com/maenDisease)
+ */
+
+@import url(https://capnkitten.github.io/BetterDiscord/Themes/Material-Discord/css/source.css);
+
+/* Material You addon */
+/* @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css); */
+
+/*
+  *
+  *  BASIC SETTINGS
+  *
+  */
+
+:root {
+    --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --app-bg: var(--main-alt);
+    --accent-hue: 245;
+    --accent-saturation: 90%;
+    --accent-lightness: 65%;
+    --accent-hsl: var(--accent-hue), calc(var(--accent-saturation) * var(--saturation-factor)), var(--accent-lightness);
+    --accent-button-action: rgb(246, 243, 237);
+    --accent-button-action-hover: 0.06;
+    --accent-button-action-active: 0.12;
+    --accent-text-color: rgb(246, 243, 237);
+    --alert-hue: 0;
+    --alert-saturation: 85%;
+    --alert-lightness: 61%;
+    --alert-hsl: var(--alert-hue), calc(var(--alert-saturation) * var(--saturation-factor)), var(--alert-lightness);
+    --alert-button-action: rgb(246, 243, 237);
+    --alert-button-action-hover: 0.1;
+    --alert-button-action-active: 0.2;
+    --alert-text-color: rgb(246, 243, 237);
+    --success-color: #43b581;
+    --message-radius: 19px;
+    --message-padding-top: 8px;
+    --message-padding-side: 12px;
+    --main-textarea-color: var(--input-color);
+    --main-textarea-border: var(--input-border-color);
+    --main-textarea-radius: 24px;
+    --media-radius: calc(var(--message-radius) / 1.25);
+    --card-radius: 8px;
+    --card-radius-big: 18px;
+    --button-height: 36px;
+    --button-radius: calc(var(--button-height) / 2);
+    --button-padding: 0 24px;
+    --button-link-accent-color: var(--accent-hsl--material-you);
+    --button-link-accent-text-color: hsl(var(--accent-hsl--material-you));
+    --input-height: var(--button-height);
+    --input-radius: var(--button-radius);
+    --input-padding: 0 12px;
+    --popout-radius: var(--card-radius);
+    --popout-radius-big: var(--card-radius-big);
+    --avatar-radius: 50%;
+    --channel-radius: 21px;
+    --spotify-color: #1db954;
+    --stream-color: #593695;
+    --stream-flash: 89, 54, 149;
+    --xbox-color: #107c10;
+    --ping-color: #fe365c;
+    --bar-color: #f53c4a;
+    --ping-box-shadow-color: #ff2d54;
+    --bar-box-shadow-color: #ff2d54bf;
+    --tooltip-color: hsla(225, 8%, 20%, 0.9);
+    --tooltip-text-color: hsl(0, 0%, 87%);
+    --tooltip-font-size: 12px;
+    --tooltip-padding: 8px;
+    --tooltip-radius: 8px;
+    --tooltip-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    --shadow-1dp: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    --shadow-2dp: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-3dp: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+    --default-animation: cubic-bezier(0.4, 0, 0.2, 1);
+    --default-time: 250ms;
+    --scrollbar-width: 10px;
+    --scrollbar-thin-width: 6px;
+    --window-title-bar: 22px;
+    --window-button-min: #ffbd44;
+    --window-button-max: #00ca4e;
+    --window-button-close: #ff605c;
+    --code-font: Consolas, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Monaco, Courier New, Courier, monospace;
+}
+
+.theme-dark {
+    --main-color: hsl(225, 9%, 9%);
+    --main-alt: hsl(220, 9%, 6%);
+    --accent-hsl--material-you: var(--accent-hsl);
+    --accent-text-color--material-you: var(--accent-text-color);
+    --server-color: transparent;
+    --server-folder-color: hsl(225, 8%, 11%);
+    --status-picker-color: hsl(225, 8%, 13%);
+    --sidebar-panel-color: hsl(225, 8%, 13%);
+    --chat-color: var(--main-color);
+    --message-color: hsl(225, 8%, 11%);
+    --message-color-hover: hsl(225, 8%, 13%);
+    --message-color-alt: hsl(225, 8%, 13%);
+    --attachment-color: hsl(225, 8%, 15%);
+    --typing-color: hsla(210, 9%, 9%, 0.9);
+    --popout-color: hsl(225, 7%, 11%);
+    --popout-color-alt: hsl(225, 7%, 13%);
+    --popout-header-border: rgba(255, 255, 255, 0.125);
+    --separator-color: rgba(255, 255, 255, 0.125);
+    --header-secondary: rgb(246, 243, 237);
+    --profile-body-background-color: hsl(225, 8%, 13%);
+    --input-color: hsl(225, 8%, 13%);
+    --input-color-alt: hsl(225, 8%, 11%);
+    --input-border-color: rgba(255, 255, 255, 0.125);
+    --input-text-color: rgb(246, 243, 237);
+    --input-placeholder-color: hsl(225, 8%, 30%);
+    --input-pill-color: hsl(225, 8%, 30%);
+    --tab-border-color: rgba(255, 255, 255, 0.125);
+    --interactive-muted: rgba(103, 103, 103, 0.303);
+    --text-disabled: rgb(246, 243, 237);
+    --menu-item-hover: hsl(225, 8%, 13%);
+    --menu-item-select: rgba(255, 255, 255, 0.1);
+    --menu-item-select-accent-opacity: 0.3;
+    --menu-item-text-color: rgb(246, 243, 237);
+    --card-color-outlined: transparent;
+    --card-color-filled: hsl(225, 8%, 11%);
+    --card-color-hover: hsl(225, 8%, 13%);
+    --card-color-active: hsl(225, 8%, 14%);
+    --card-color-alt: hsl(225, 8%, 13%);
+    --card-color-alt-hover: hsl(225, 8%, 15%);
+    --card-border-color: rgba(255, 255, 255, 0.125);
+    --card-header-text-color: rgb(246, 243, 237);
+    --card-button-color: hsl(225, 8%, 13%);
+    --card-button-color-hover: hsl(225, 8%, 15%);
+    --activity-card-color: hsl(225, 8%, 13%);
+    --activity-card-color--hover: hsl(225, 8%, 15%);
+    --activity-card-color--active: hsl(225, 8%, 16%);
+    --activity-card-color--inset: hsl(225, 8%, 14%);
+    --button-link-color: 0, 0%, 100%;
+    --button-link-text-color: rgb(246, 243, 237);
+    --button-border-color: rgba(255, 255, 255, 0.125);
+    --switch-knob-color: rgb(120, 120, 120);
+    --switch-knob-color-modal: rgb(143, 143, 143);
+    --switch-slider-color: rgb(50, 50, 52);
+    --switch-slider-color-modal: var(--switch-slider-color);
+    --switch-color-modifier: 1.3;
+    --switch-color-checked: hsla(var(--accent-hsl), 0.3);
+    --md-ripple-color: 0, 100%, 100%;
+    --emoji-category-header: hsl(225, 8%, 11%);
+    --scrollbar-color: 255, 255, 255;
+    --window-button: rgba(255, 255, 255, 0.1);
+    --window-button-inactive: rgba(255, 255, 255, 0.05);
+    --text-brand: hsl(var(--accent-hsl));
+    --text-link: hsl(var(--accent-hsl));
+}
+
+.theme-light {
+    --main-color: #f9f9f9;
+    --main-alt: #e8e8e8;
+    --accent-hsl--material-you: var(--accent-hsl);
+    --accent-text-color--material-you: var(--accent-text-color);
+    --server-color: transparent;
+    --server-folder-color: rgba(0, 0, 0, 0.1);
+    --status-picker-color: #dee0e0;
+    --sidebar-panel-color: #ebeced;
+    --chat-color: var(--main-color);
+    --message-color: hsl(210, 4%, 90%);
+    --message-color-hover: hsl(210, 4%, 86%);
+    --message-color-alt: hsl(210, 4%, 84%);
+    --attachment-color: hsl(210, 4%, 79%);
+    --main-textarea-color-alt: hsl(0, 0%, 98%);
+    --typing-color: hsla(0, 0%, 97.6%, 0.9);
+    --popout-color: #fff;
+    --popout-color-alt: #e5e5e5;
+    --popout-header-border: #ccc;
+    --separator-color: rgba(0, 0, 0, 0.195);
+    --header-secondary: #444;
+    --profile-body-background-color: #ededed;
+    --input-color: hsl(0, 0%, 89%);
+    --input-color-alt: hsl(0, 0%, 100%);
+    --input-border-color: hsl(0, 0%, 66%);
+    --input-text-color: hsl(0, 0%, 17%);
+    --input-placeholder-color: hsl(0, 0%, 39%);
+    --input-pill-color: hsla(0, 0%, 0%, 0.135);
+    --tab-border-color: #777;
+    --interactive-muted: #999;
+    --text-disabled: #bebebe;
+    --menu-item-hover: rgba(0, 0, 0, 0.1);
+    --menu-item-select: rgba(0, 0, 0, 0.125);
+    --menu-item-select-accent-opacity: 0.4;
+    --menu-item-text-color: #333;
+    --card-color-outlined: transparent;
+    --card-color-filled: hsl(0, 0%, 92%);
+    --card-color-hover: hsl(0, 0%, 85%);
+    --card-color-active: hsl(0, 0%, 80%);
+    --card-color-alt: hsl(0, 0%, 98%);
+    --card-color-alt-hover: hsl(0, 0%, 88%);
+    --card-border-color: hsl(0, 0%, 78%);
+    --card-header-text-color: #333;
+    --card-button-color: rgba(255, 255, 255, 1);
+    --card-button-color-hover: rgb(0, 0, 0, 0.1);
+    --activity-card-color: rgba(0, 0, 0, 0.0785);
+    --activity-card-color--hover: rgba(0, 0, 0, 0.1);
+    --activity-card-color--active: rgba(0, 0, 0, 0.125);
+    --activity-card-color--inset: rgba(255, 255, 255, 0.685);
+    --button-link-color: 0, 0%, 0%;
+    --button-link-text-color: #333;
+    --button-border-color: #ccc;
+    --switch-knob-color: hsl(0, 0%, 49%);
+    --switch-slider-color: hsl(0, 0%, 81%);
+    --switch-slider-color-modal: var(--switch-slider-color);
+    --switch-color-modifier: 1.8;
+    --switch-color-checked: hsla(var(--accent-hsl), 0.8);
+    --md-ripple-color: 0, 0%, 0%;
+    --emoji-category-header: rgba(255, 255, 255, 0.9);
+    --scrollbar-color: 0, 0, 0;
+    --window-button: rgba(0, 0, 0, 0.2);
+    --window-button-inactive: rgba(0, 0, 0, 0.1);
+    --text-brand: hsl(var(--accent-hsl));
+    --text-link: hsl(var(--accent-hsl));
+}
+
+/*
+  *
+  *  PINGS & NOTIFICATIONS
+  *
+  */
+
+.numberBadge__2b1f5,
+.wrapper_a2f8f7.badge_e3c1c6 {
+    background-color: var(--ping-color) !important;
+    box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color) !important;
+}
+
+.bar__3b95d,
+.live_a7acae {
+    background-color: var(--bar-color) !important;
+    box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color) !important;
+}
+
+/*
+  *
+  *	SPOILERS
+  *
+  */
+
+span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
+    background-color: var(--sidebar-panel-color) !important;
+}
+
+/*
+  *
+  *	SERVER FOLDERS
+  *
+  */
+
+.expandedFolderBackground__48112 {
+    border-radius: 25px !important;
+}
+
+/*
+  *
+  *	LOGIN SCREEN
+  *
+  */
+
+.authBox_b83a05 {
+    padding: 24px 24px 0 !important;
+    background-color: var(--popout-color) !important;
+    border-radius: var(--popout-radius-big) !important;
+    box-shadow: var(--shadow-3dp) !important;
+}
+
+.authBox_b83a05:last-child {
+    padding-bottom: 24px !important;
+}
+
+.authBox_b83a05 .mainLoginContainer_d58f04 {
+    margin-right: 24px !important;
+    padding-right: 24px !important;
+    border-right: 1px solid var(--card-border-color) !important;
+}
+
+.authBox_b83a05 .heading-xl\/semibold_dc00ef {
+    margin-bottom: 16px !important;
+    font-weight: 400 !important;
+}
+
+.authBox_b83a05 .verticalSeparator_c6cd4b {
+    display: none !important;
+}
+
+.authBox_b83a05 .qrLogin_c6cd4b {
+    height: 320px !important;
+}
+
+.authBox_b83a05 .needAccount_d58f04 {
+    line-height: 24px !important;
+}
+
+.authBox_b83a05 .lookLink_dd4f85 .sizeMin_dd4f85 {
+    line-height: var(--button-height) !important;
+}
+
+.authBox_b83a05:not(.chooseAccountAuthBox-Udr8ty) .lookLink_dd4f85 {
+    --button-height: 17px !important;
+    --button-padding: 0 !important;
+    --button-radius: 0 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.authBox_b83a05:not(.chooseAccountAuthBox-Udr8ty) .lookLink_dd4f85:after {
+    display: none !important;
+}
+
+.authBox_b83a05:not(.chooseAccountAuthBox-Udr8ty) .lookLink_dd4f85:hover {
+    text-decoration: underline !important;
+}
+
+.authBox_b83a05 .needAccount_d58f04+.lookLink_dd4f85 {
+    position: relative !important;
+    top: -3px !important;
+}
+
+.navRow-dG-XX8 {
+    height: auto !important;
+    padding: 24px !important;
+    background-color: transparent !important;
+}
+
+.navRow-dG-XX8 .button-ejjZWC {
+    margin: 0 !important;
+}
+
+.navRow-dG-XX8 .button_dd4f85 {
+    margin: 0 !important;
+}
+
+/*
+  *
+  *	MESSAGE ACTIONS
+  *
+  */
+
+.buttons_d5deea.container_a3b500 {
+    transition: none !important;
+}
+
+.buttonsInner_d5deea.popover_e986d9.wrapper_f7e168 {
+    border-radius: 25px !important;
+    background-color: var(--message-color-hover) !important;
+    box-shadow: var(--shadow-2dp) !important;
+}
+
+.button_f7e168 {
+    border-radius: 50% !important;
+    transition: none !important;
+    animation: none !important;
+    background-color: var(--message-color-hover) !important;
+}
+
+.button_f7e168:hover {
+    background-color: var(--message-color) !important;
+}
+
+/*
+  *
+  *	SCROLL DOWN BUTTON
+  *
+  */
+
+.jumpToPresentBar__0f481::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 30px !important;
+    height: 30px !important;
+    background-color: var(--menu-item-text-color) !important;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.81 4.38 8 8.57l4.19-4.19 1.52 1.53L8 11.62 2.29 5.91l1.52-1.53z'/%3E%3C/svg%3E") !important;
+    mask-image: url("data:image/svg+xml,%3Csvg data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.81 4.38 8 8.57l4.19-4.19 1.52 1.53L8 11.62 2.29 5.91l1.52-1.53z'/%3E%3C/svg%3E") !important;
+    -webkit-mask-repeat: no-repeat !important;
+    mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    mask-position: center !important;
+    -webkit-mask-size: contain !important;
+    mask-size: contain !important;
+}
+
+/*
+  *
+  *	MEMBERS LIST
+  *
+  */
+
+.members_cbd271 {
+    background-color: var(--main-color) !important;
+}
+
+.members_cbd271,
+.members_cbd271>div {
+    background-color: var(--main-color) !important;
+}
+
+.members_cbd271 .container_d808b0 {
+    width: 100% !important;
+    height: 42px !important;
+    margin-left: 0 !important;
+    margin-bottom: 2px !important;
+}
+
+.folderGroupBackground__48112 {
+    border-radius: var(--channel-radius) !important;
+}
+
+.members_cbd271 .container_d808b0 .layout_d808b0 {
+    width: calc(100% - 18px) !important;
+    margin-left: 8px !important;
+    padding: 0 8px 0 8px !important;
+    transition: 200ms ease all !important;
+}
+
+.members_cbd271 .container_d808b0:hover .layout_d808b0 {
+    background-color: var(--menu-item-hover) !important;
+}
+
+.members_cbd271 .container_d808b0.selected .layout_d808b0 {
+    background-color: hsla(var(--accent-hsl), var(--menu-item-select-accent-opacity)) !important;
+}
+
+.member_a31c43 {
+    background-color: transparent !important;
+}
+
+.membersGroup_cbd271 {
+    font-size: 14px !important;
+    text-transform: none !important;
+}
+
+.botTag_a31c43 {
+    border-radius: 8px !important;
+}
+
+.botTag_a31c43.botTagRegular_a9e77f {
+    background-color: hsl(var(--accent-hsl--material-you)) !important;
+    color: var(--accent-text-color--material-you) !important;
+}
+
+.botTag_a31c43.botTagRegular_a9e77f .botTagVerified_a9e77f {
+    z-index: 2 !important;
+}
