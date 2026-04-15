@@ -653,3 +653,82 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     margin-right: 5px !important;
 }
 
+/*
+  *
+  *	AUDIO PLAYER
+  *	Fix layout degraded by Material Discord video-overlay CSS
+  *
+  */
+
+.wrapperAudio_cf09d8 .audioControls_cf09d8 {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    min-height: 44px !important;
+    height: auto !important;
+    position: relative !important;
+}
+
+.wrapperAudio_cf09d8 .audioControls_cf09d8 .horizontal_b26b79 {
+    position: relative !important;
+    width: auto !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    inset-block-start: auto !important;
+    align-self: center !important;
+}
+
+.wrapperAudio_cf09d8 .audioControls_cf09d8 .flex_abf706 {
+    position: relative !important;
+    inset-inline-start: auto !important;
+    flex-shrink: 0 !important;
+}
+
+.wrapperAudio_cf09d8 .audioControls_cf09d8 .container__2d263,
+.wrapperAudio_cf09d8 .audioControls_cf09d8 .volumeButton__2d263 {
+    width: auto !important;
+    height: auto !important;
+}
+
+.wrapperAudio_cf09d8 .videoButton_cf09d8 {
+    background-color: transparent !important;
+    flex-shrink: 0 !important;
+    width: 32px !important;
+    height: 32px !important;
+}
+
+.wrapperAudio_cf09d8 .videoButton_cf09d8:hover {
+    background-color: var(--card-button-color) !important;
+}
+
+.wrapperAudio_cf09d8 .controlIcon_cf09d8 {
+    color: rgb(246, 243, 237) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.wrapperAudio_cf09d8 .controlIcon_cf09d8 [fill="currentColor"] {
+    fill: currentColor !important;
+}
+
+/* volume slider expanded — fix czarnego tła */
+.wrapperAudio_cf09d8 .audioControls_cf09d8 .container__2d263 {
+    background-color: transparent !important;
+}
+
+.wrapperAudio_cf09d8 .durationTimeWrapper_cf09d8 {
+    position: relative !important;
+    margin-block: 0 !important;
+    margin-inline: 0 !important;
+    padding-inline: 6px !important;
+    height: auto !important;
+    background-color: transparent !important;
+    flex-shrink: 0 !important;
+}
+
+.wrapperAudio_cf09d8 .durationTimeDisplay_cf09d8,
+.wrapperAudio_cf09d8 .durationTimeSeparator_cf09d8 {
+    color: rgb(246, 243, 237) !important;
+    opacity: 1 !important;
+}
+
