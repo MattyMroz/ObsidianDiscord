@@ -1,5 +1,14 @@
-# VS Code / Copilot system
-.github/
+# VS Code / Copilot system (keep .github/workflows/ for CI)
+.github/*
+!.github/workflows/
 
 # Binaries
 *.exe
+
+# Temp / backup
+*.bak
+__pycache__/
+.mypy_cache/
+
+# Downloaded data (not tracked — download fresh when needed)
+Changes.txt

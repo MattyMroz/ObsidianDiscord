@@ -355,6 +355,7 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
     border-radius: 25px !important;
     background-color: var(--message-color-hover) !important;
     box-shadow: var(--shadow-2dp) !important;
+    margin-left: -200px;
 }
 
 .button_f7e168,
@@ -613,6 +614,6 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     opacity: 1 !important;
     visibility: visible !important;
     overflow: visible !important;
-    margin-right: 5px !important;
+    margin-right: 6px !important;
 }
 

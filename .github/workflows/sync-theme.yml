@@ -1,0 +1,25 @@
+name: Sync Theme Files
+
+on:
+  push:
+    branches: [main]
+    paths: ["ObsidianDiscordAll.theme.css"]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy main → online
+        run: cp ObsidianDiscordAll.theme.css ObsidianDiscordThemeOnline.css
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --quiet ObsidianDiscordThemeOnline.css || {
+            git add ObsidianDiscordThemeOnline.css
+            git commit -m "sync: copy theme to ObsidianDiscordThemeOnline.css"
+            git push
+          }

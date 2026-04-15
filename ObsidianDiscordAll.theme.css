@@ -355,6 +355,7 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
     border-radius: 25px !important;
     background-color: var(--message-color-hover) !important;
     box-shadow: var(--shadow-2dp) !important;
+    margin-left: -200px;
 }
 
 .button_f7e168,
