@@ -360,17 +360,18 @@ span.spoilerContent_a3d0f7.spoilerMarkdownContent_a3d0f7.hidden_a3d0f7 {
 .button_f7e168,
 .button_f7ecac,
 div.hoverBarButton_f84418.button_f7ecac {
-    border-radius: 50% !important;
+    border-radius: 15px !important;
     transition: none !important;
     animation: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 32px !important;
-    height: 32px !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 30px !important;
+    height: 30px !important;
     padding: 0 !important;
     line-height: 0 !important;
-    overflow: hidden !important;
+    box-sizing: border-box !important;
+    align-self: center !important;
+    vertical-align: middle !important;
     background-color: var(--message-color-hover) !important;
     color: hsl(240, 4%, 72%) !important;
 }
@@ -382,6 +383,12 @@ div.hoverBarButton_f84418.button_f7ecac:hover {
     color: rgb(246, 243, 237) !important;
 }
 
+div.hoverBarButton_f84418.button_f7ecac {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
 .button_f7ecac svg,
 div.hoverBarButton_f84418.button_f7ecac svg,
 .button_f7ecac svg.icon_f84418,
@@ -389,7 +396,7 @@ div.hoverBarButton_f84418.button_f7ecac svg.icon_f84418 {
     display: block !important;
     width: 18px !important;
     height: 18px !important;
-    margin: auto !important;
+    margin: 0 !important;
     transform: none !important;
     position: static !important;
     inset: auto !important;
@@ -398,6 +405,10 @@ div.hoverBarButton_f84418.button_f7ecac svg.icon_f84418 {
     opacity: 1 !important;
     visibility: visible !important;
     overflow: visible !important;
+}
+
+div.hoverBarButton_f84418.button_f7ecac > svg.icon_f84418 {
+    margin-right: 6px !important;
 }
 
 .button_f7ecac svg [fill="currentColor"],
@@ -533,18 +544,19 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     stroke: currentColor !important;
 }
 
-/* Right-side channel action icons: visible only on row hover */
+[class*="children_"] [class*="iconItem_"],
+.iconItem_c69b6d {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    vertical-align: middle !important;
+    line-height: 0 !important;
+}
+
 [class*="children_"] [class*="iconItem_"],
 [class*="children_"] [class*="actionIcon_"],
 .iconItem_c69b6d,
 .actionIcon_c69b6d {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 28px !important;
-    height: 28px !important;
-    margin: 0 !important;
-    border-radius: 50% !important;
     color: hsl(240, 4%, 72%) !important;
     opacity: 0 !important;
     visibility: hidden !important;
@@ -558,7 +570,7 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     display: block !important;
     width: 16px !important;
     height: 16px !important;
-    margin: auto !important;
+    transform: none !important;
     overflow: visible !important;
 }
 
@@ -586,3 +598,21 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     opacity: 1 !important;
     color: rgb(246, 243, 237) !important;
 }
+
+/*
+  *
+  *	CHAT ICON VISIBILITY FALLBACKS
+  *	Toolbar icons in chat header
+  *
+  */
+
+.toolbar__9293f .iconWrapper__9293f.clickable__9293f svg.icon__9293f,
+.toolbar__9293f .icon_d98031.iconWrapper__9293f.clickable__9293f svg.icon__9293f {
+    display: block !important;
+    color: inherit !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    overflow: visible !important;
+    margin-right: 5px !important;
+}
+
