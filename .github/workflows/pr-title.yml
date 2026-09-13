@@ -39,6 +39,6 @@ jobs:
           printf '%s\n' "$PR_TITLE" > "$RUNNER_TEMP/title"
           conventional-pre-commit \
             --force-scope \
-            --scopes=theme,userscript,tools,assets,docs,git,hooks,ci \
+            --scopes=theme,userscript,scripts,assets,docs,git,hooks,ci \
             feat fix chore docs refactor test perf style ci build revert \
             "$RUNNER_TEMP/title"

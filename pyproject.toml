@@ -5,7 +5,7 @@ description = "Obsidian theme for Discord - maintenance tooling for the CSS clas
 requires-python = ">=3.14"
 dependencies = []
 
-# The repository ships a CSS theme, not a Python package. tools/ holds maintenance
+# The repository ships a CSS theme, not a Python package. scripts/ holds maintenance
 # scripts run directly, so there is nothing to build or install.
 [tool.uv]
 package = false
@@ -15,4 +15,4 @@ dev = ["mypy>=1.18", "ruff>=0.16"]
 
 [tool.mypy]
 strict = true
-files = ["tools"]
+files = ["scripts"]

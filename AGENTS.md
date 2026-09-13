@@ -25,7 +25,7 @@ warstwa, której nie da się ominąć przez `--no-verify`.
 - `!important` i zahashowane selektory w CSS są tu złożonością konieczną: nadpisujemy cudzy arkusz o wyższej specyficzności. Nie „sprzątaj" ich.
 - Kod, komentarze, nazwy plików i commity po angielsku (repo publiczne, README angielski). `AGENTS.md` i dokumenty robocze po polsku. Pliki źródłowe (`.css`, `.js`, `.py`) muszą być **czysto ASCII** — pilnuje tego hook `ascii-only`.
 - `assets/img/`: kebab-case, format WebP.
-- Commity: Conventional Commits ze **obowiązkowym scope**, wymuszane przez hook `commit-msg` i workflow `pr-title.yml`. Dozwolone scope: `theme`, `userscript`, `tools`, `assets`, `docs`, `git`, `hooks`, `ci`. Lista żyje w dwóch miejscach (`.pre-commit-config.yaml` i `pr-title.yml`) — `pre-commit` nie umie dzielić konfiguracji między plikami, więc przy zmianie popraw oba.
+- Commity: Conventional Commits ze **obowiązkowym scope**, wymuszane przez hook `commit-msg` i workflow `pr-title.yml`. Dozwolone scope: `theme`, `userscript`, `scripts`, `assets`, `docs`, `git`, `hooks`, `ci`. Lista żyje w dwóch miejscach (`.pre-commit-config.yaml` i `pr-title.yml`) — `pre-commit` nie umie dzielić konfiguracji między plikami, więc przy zmianie popraw oba.
 
 ## Klasy CSS Discorda
 
@@ -33,26 +33,26 @@ Discord używa CSS Modules — selektory typu `members_cbd271` mają hash, któr
 
 ```sh
 # Changes.txt: https://github.com/SyndiShanX/Update-Classes (Raw -> zapisz lokalnie)
-python tools/update_classes.py Changes.txt ObsidianDiscord.theme.css
+python scripts/update_classes.py Changes.txt ObsidianDiscord.theme.css
 ```
 
 `Changes.txt` jest ignorowany przez gita celowo — pobieraj świeży, nie przypinaj kopii.
 
-Przy dotykaniu selektorów preferuj rzeczy odporne na hash: `var(--background-primary)` i podobne tokeny Discorda, `[class*="members"]`, `[aria-label="..."]`. Każdy taki selektor to jedna rzecz mniej do naprawy po następnym update. Przegląd narzędzi i opcji automatyzacji: `knowledge/discord-class-research.md`.
+Przy dotykaniu selektorów preferuj rzeczy odporne na hash: `var(--background-primary)` i podobne tokeny Discorda, `[class*="members"]`, `[aria-label="..."]`. Każdy taki selektor to jedna rzecz mniej do naprawy po następnym update. Przegląd narzędzi i opcji automatyzacji: `docs/discord-class-research.md`.
 
 ## Mapa
 
-| Ścieżka                               | Rola                                                   |
-| ------------------------------------- | ------------------------------------------------------ |
-| `ObsidianDiscord.theme.css`           | motyw, źródło prawdy, plik instalowany w BetterDiscord |
-| `ObsidianDiscordThemeOnline.css`      | publiczny alias `@import`, jedna linia, stabilny URL   |
-| `ObsidianDiscord.js`                  | userscript Tampermonkey, pobiera CSS przez alias       |
-| `tools/update_classes.py`             | podmiana zahashowanych klas wg changelistu SyndiShanX  |
-| `knowledge/discord-class-research.md` | research narzędzi do klas Discorda                     |
-| `assets/img/`                         | zrzuty ekranu do README                                |
-| `.pre-commit-config.yaml`             | bramka `prek`, oparta na `agents/presets/hooks`        |
-| `biome.json`                          | formatter i linter CSS/JS, trzy reguły świadomie off   |
-| `.github/workflows/ci.yml`            | bramka serwerowa + strażnicy aliasu i sufiksu motywu   |
+| Ścieżka                          | Rola                                                   |
+| -------------------------------- | ------------------------------------------------------ |
+| `ObsidianDiscord.theme.css`      | motyw, źródło prawdy, plik instalowany w BetterDiscord |
+| `ObsidianDiscordThemeOnline.css` | publiczny alias `@import`, jedna linia, stabilny URL   |
+| `ObsidianDiscord.js`             | userscript Tampermonkey, pobiera CSS przez alias       |
+| `scripts/update_classes.py`      | podmiana zahashowanych klas wg changelistu SyndiShanX  |
+| `docs/discord-class-research.md` | research narzędzi do klas Discorda                     |
+| `assets/img/`                    | zrzuty ekranu do README                                |
+| `.pre-commit-config.yaml`        | bramka `prek`, oparta na `agents/presets/hooks`        |
+| `biome.json`                     | formatter i linter CSS/JS, trzy reguły świadomie off   |
+| `.github/workflows/ci.yml`       | bramka serwerowa + strażnicy aliasu i sufiksu motywu   |
 
 ## Pułapki
 

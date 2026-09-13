@@ -11,7 +11,7 @@ How to use:
        (click Raw -> Save As -> put in this repo root or wherever)
 
     2. Run:
-       python tools/update_classes.py Changes.txt ObsidianDiscord.theme.css
+python scripts/update_classes.py Changes.txt ObsidianDiscord.theme.css
 
     3. Check the diff, test in Discord, commit.
 
@@ -54,9 +54,9 @@ def apply_changes(css: str, pairs: list[tuple[str, str]]) -> tuple[str, list[str
 def main() -> None:
     """Rewrite the CSS file given on argv using the changelist given on argv."""
     if len(sys.argv) < 3:
-        print("Usage: python tools/update_classes.py <Changes.txt> <theme.css>")
+        print("Usage: python scripts/update_classes.py <Changes.txt> <theme.css>")
         print(
-            "Example: python tools/update_classes.py Changes.txt ObsidianDiscord.theme.css"
+            "Example: python scripts/update_classes.py Changes.txt ObsidianDiscord.theme.css"
         )
         sys.exit(1)
 
