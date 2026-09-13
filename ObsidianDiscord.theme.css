@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.2.7
+ * @version 1.3.0
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -21,6 +21,12 @@
 :root {
     --app-font: "gg sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --app-bg: var(--main-alt);
+    /* Material writes its own name into the title bar, in two pieces: the ::before
+       of the wordmark takes watermark-one in bold and the ::after takes
+       watermark-two. Overriding the variables is enough, and unlike the selector
+       carrying them, variable names survive Discord's class hashes. */
+    --app-watermark-one: "Obsidian";
+    --app-watermark-two: "Discord";
     --accent-hue: 245;
     --accent-saturation: 90%;
     --accent-lightness: 65%;
@@ -748,4 +754,20 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
 .wrapperAudio_cf09d8 .durationTimeSeparator_cf09d8 {
     color: rgb(246, 243, 237) !important;
     opacity: 1 !important;
+}
+
+/*
+  *
+  *	CONTEXT MENU ICON SIDE
+  *	Material sets flex-direction: row-reverse on every context menu item, which
+  *	moves the icon to the trailing edge - Material Design's habit, but the
+  *	opposite of where Discord puts it and of where it is looked for. Discord
+  *	orders the item as icon then label, so plain row returns the icon to the
+  *	left and takes the submenu arrow back to the right along with it.
+  *
+  */
+
+[class*="menu_"] [class*="item_"],
+.menu_c1e9c4 .item_c1e9c4 {
+    flex-direction: row !important;
 }
