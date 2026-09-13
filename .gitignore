@@ -288,10 +288,6 @@ logs/
 # Everything after this section overrides templates, which is the point.
 
 # ── Project-specific ──────────────────────────────────────────────────────────
-# GitHub config stays local; only workflows are shared.
-.github/*
-!.github/workflows/
-
 # Discord class changelist from SyndiShanX — always fetch fresh, never pin a copy.
 Changes.txt
 
