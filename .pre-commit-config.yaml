@@ -80,12 +80,12 @@ repos:
           - build
           - revert
 
-# ── OWN STANDARDS ─────────────────────────────────────────────────────────────
-
-  - repo: https://github.com/MattyMroz/agents
-    rev: hooks-v1.0.0 # or newer: prek autoupdate
-    hooks:
-      - id: const-docstrings
+# OWN STANDARDS from MattyMroz/agents is deliberately absent. const-docstrings
+# guards docstrings on module-level constants; tools/update_classes.py declares
+# none, so it never had anything to check here. It also broke CI outright: the
+# agents repo is private, so a runner cannot clone it without a token, and the
+# server-side gate is the one layer --no-verify cannot skip. Re-add it if that
+# repo turns public and this one grows module-level constants.
 
 # ── MARKDOWN ──────────────────────────────────────────────────────────────────
 
