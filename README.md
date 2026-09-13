@@ -13,7 +13,6 @@
 
 [![ObsidianDiscordThemeOnline.css](https://img.shields.io/badge/Download-ObsidianDiscordThemeOnline.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css)
 
-
 #### CSS IMPORT
 
 ```
@@ -21,7 +20,6 @@
 ```
 
 **❗❗❗Better Responsiveness Is No Longer Supported❗❗❗**
-
 
 ## 👀 Demonstration
 

@@ -37,14 +37,14 @@ Przy dotykaniu selektorów preferuj rzeczy odporne na hash: `var(--background-pr
 
 ## Mapa
 
-| Ścieżka | Rola |
-|---|---|
-| `ObsidianDiscord.theme.css` | motyw, źródło prawdy, plik instalowany w BetterDiscord |
-| `ObsidianDiscordThemeOnline.css` | publiczny alias `@import`, jedna linia, stabilny URL |
-| `ObsidianDiscord.js` | userscript Tampermonkey, pobiera CSS przez alias |
-| `tools/update_classes.py` | podmiana zahashowanych klas wg changelistu SyndiShanX |
-| `knowledge/discord-class-research.md` | research narzędzi do klas Discorda |
-| `assets/img/` | zrzuty ekranu do README |
+| Ścieżka                               | Rola                                                   |
+| ------------------------------------- | ------------------------------------------------------ |
+| `ObsidianDiscord.theme.css`           | motyw, źródło prawdy, plik instalowany w BetterDiscord |
+| `ObsidianDiscordThemeOnline.css`      | publiczny alias `@import`, jedna linia, stabilny URL   |
+| `ObsidianDiscord.js`                  | userscript Tampermonkey, pobiera CSS przez alias       |
+| `tools/update_classes.py`             | podmiana zahashowanych klas wg changelistu SyndiShanX  |
+| `knowledge/discord-class-research.md` | research narzędzi do klas Discorda                     |
+| `assets/img/`                         | zrzuty ekranu do README                                |
 
 ## Pułapki
 

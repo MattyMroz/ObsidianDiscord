@@ -3,25 +3,25 @@
 > Data: 2025-07-26
 > Kontekst: ObsidianDiscord theme — research narzędzi i podejść do problemu zmieniających się klas CSS Discorda
 
----
+______________________________________________________________________
 
 ## 1. Problem
 
 Discord używa CSS Modules — klasy w formacie `componentName_hash6chars` (np. `members_cbd271`, `button_f7e168`). Hashe zmieniają się przy **każdym** update klienta Discord, łamiąc custom CSS themes.
 
----
+______________________________________________________________________
 
 ## 2. Znalezione narzędzia
 
 ### 2.1 `fedeericodl/discord-update-classnames` — GŁÓWNE NARZĘDZIE
 
-| | |
-|---|---|
-| **URL** | <https://github.com/fedeericodl/discord-update-classnames> |
-| **Gwiazdki** | 16 |
-| **Język** | TypeScript |
-| **Status** | Aktywny (update 4 dni temu), **NOT RELEASED** — używać `@main` |
-| **Typ** | **GitHub Action** |
+|              |                                                                |
+| ------------ | -------------------------------------------------------------- |
+| **URL**      | <https://github.com/fedeericodl/discord-update-classnames>     |
+| **Gwiazdki** | 16                                                             |
+| **Język**    | TypeScript                                                     |
+| **Status**   | Aktywny (update 4 dni temu), **NOT RELEASED** — używać `@main` |
+| **Typ**      | **GitHub Action**                                              |
 
 **Jak działa:**
 
@@ -66,27 +66,27 @@ jobs:
 
 **Inputs:**
 
-| Input | Opis | Required |
-|---|---|---|
-| `files` | Pliki/foldery do przetwarzania (glob patterns) | Tak |
-| `ignore-class-names` | Klasy do ignorowania (BD/Vencord itp.) | Nie |
-| `report-outdated` | Fail jeśli znaleziono przestarzałe klasy | Nie |
-| `target-branch` | Branch docelowy (domyślnie `classname-updates`) | Nie |
-| `pr-title` | Tytuł PR (domyślnie "Class Name Updates") | Nie |
+| Input                | Opis                                            | Required |
+| -------------------- | ----------------------------------------------- | -------- |
+| `files`              | Pliki/foldery do przetwarzania (glob patterns)  | Tak      |
+| `ignore-class-names` | Klasy do ignorowania (BD/Vencord itp.)          | Nie      |
+| `report-outdated`    | Fail jeśli znaleziono przestarzałe klasy        | Nie      |
+| `target-branch`      | Branch docelowy (domyślnie `classname-updates`) | Nie      |
+| `pr-title`           | Tytuł PR (domyślnie "Class Name Updates")       | Nie      |
 
 **Outputs:** `version-hash`, `built-at`, `total-class-names`, `changed-class-names`, `failed-changed-class-names`
 
 **Znane ograniczenie:** Jeśli klasa została przeniesiona do innego webpack module, NIE zostanie zaktualizowana (bo module ID się zmienił).
 
----
+______________________________________________________________________
 
 ### 2.2 `SyndiShanX/Update-Classes` — Centralny changelist społeczności
 
-| | |
-|---|---|
-| **URL** | <https://github.com/SyndiShanX/Update-Classes> |
-| **Gwiazdki** | 36 |
-| **Status** | **Aktywnie utrzymywany** — update 5 dni temu |
+|              |                                                |
+| ------------ | ---------------------------------------------- |
+| **URL**      | <https://github.com/SyndiShanX/Update-Classes> |
+| **Gwiazdki** | 36                                             |
+| **Status**   | **Aktywnie utrzymywany** — update 5 dni temu   |
 
 **Co to jest:** Centralny plik `Changes.txt` z mapowaniem starych→nowych klas. Format: stara klasa w jednej linii, nowa klasa w następnej (bez pustych linii). Używany przez wiele narzędzi jako źródło prawdy.
 
@@ -96,40 +96,40 @@ jobs:
 - `Regex_Changes.txt` — zmiany w formie regex
 - Python script + `.exe` do lokalnego użytku
 
----
+______________________________________________________________________
 
 ### 2.3 `Metro420yt/class-update` — Prostszy GitHub Action
 
-| | |
-|---|---|
-| **URL** | <https://github.com/Metro420yt/class-update> |
-| **Gwiazdki** | 2 |
-| **Status** | Na GitHub Marketplace jako "Discord Class Updater" |
+|              |                                                    |
+| ------------ | -------------------------------------------------- |
+| **URL**      | <https://github.com/Metro420yt/class-update>       |
+| **Gwiazdki** | 2                                                  |
+| **Status**   | Na GitHub Marketplace jako "Discord Class Updater" |
 
 Prostszy alternatywny Action — korzysta z `SyndiShanX/Update-Classes/Changes.txt` jako źródła zmian. Inputs: `folder`, `ext` (rozszerzenie pliku), `diff` (URL do changelist).
 
----
+______________________________________________________________________
 
 ### 2.4 `Saltssaumure/ClassUpdate` — Lokalne narzędzie Python
 
-| | |
-|---|---|
-| **URL** | <https://github.com/Saltssaumure/ClassUpdate> |
-| **Gwiazdki** | 33 |
-| **Status** | Archiwalne (Oct 2023 – Jun 2024) |
+|              |                                               |
+| ------------ | --------------------------------------------- |
+| **URL**      | <https://github.com/Saltssaumure/ClassUpdate> |
+| **Gwiazdki** | 33                                            |
+| **Status**   | Archiwalne (Oct 2023 – Jun 2024)              |
 
 Lokalny Python script aktualizujący klasy folderowo. Korzysta z changelist SyndiShanX. Inspiracja dla `Metro420yt/class-update`.
 
----
+______________________________________________________________________
 
 ### 2.5 Powiązane zasoby
 
-| Zasób | URL | Opis |
-|---|---|---|
-| `itmesarah/classchanges` | <https://github.com/itmesarah/classchanges> | Śledzenie zmian klas (historycznie) |
-| `NyxIsBad/discordscripts` | <https://github.com/NyxIsBad/discordscripts> | Sformatowane listy zmian |
+| Zasób                     | URL                                          | Opis                                |
+| ------------------------- | -------------------------------------------- | ----------------------------------- |
+| `itmesarah/classchanges`  | <https://github.com/itmesarah/classchanges>  | Śledzenie zmian klas (historycznie) |
+| `NyxIsBad/discordscripts` | <https://github.com/NyxIsBad/discordscripts> | Sformatowane listy zmian            |
 
----
+______________________________________________________________________
 
 ## 3. Podejścia popularnych tematów
 
@@ -160,7 +160,7 @@ Lokalny Python script aktualizujący klasy folderowo. Korzysta z changelist Synd
 - CSS z build scriptem (npm run dev)
 - Bardzo aktywny (commit 18h temu)
 
----
+______________________________________________________________________
 
 ## 4. Stabilne selektory w Discord
 
@@ -209,7 +209,7 @@ Atrybutowe selektory mogą być **bardziej odporne** na zmiany klas:
 
 Dokumentacja BD: <https://docs.betterdiscord.app/themes/tutorials/selectors>
 
----
+______________________________________________________________________
 
 ## 5. Wnioski i rekomendacje dla ObsidianDiscord
 
@@ -247,7 +247,7 @@ Dokumentacja BD: <https://docs.betterdiscord.app/themes/tutorials/selectors>
 2. **Stopniowo:** Przy każdej aktualizacji klas, zamieniaj hardcoded selektory na CSS vars/partial match gdzie to możliwe
 3. **Docelowo:** Minimalna zależność od hashowanych klas → Action potrzebny coraz rzadziej
 
----
+______________________________________________________________________
 
 ## 6. Ekosystem narzędzi — podsumowanie
 
