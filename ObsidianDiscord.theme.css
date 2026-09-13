@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.5.1
+ * @version 1.5.2
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -876,6 +876,17 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
 [class*="sidebar__409aa"] [class*="label__409aa"] {
     color: rgb(246, 243, 237) !important;
     opacity: 0.6 !important;
+}
+
+/* The sidebar has three children and Material does not leave them ending at the
+   same place: fixedContent__409aa gets a 12px inline-end margin, while nav__409aa
+   gets none. Measured in one sidebar, that is 240px against 252px. Which of the
+   two holds the visible entries varies between renders - injected into a running
+   client the list sat in fixedContent and lined up, loaded with the page it sat in
+   nav__409aa and every row ran 12px past the search field. Giving every child the
+   same margin makes the alignment independent of that. */
+[class*="sidebar__409aa"] > * {
+    margin-inline-end: 12px !important;
 }
 
 /* Sidebar search field, so it matches the inputs the theme styles elsewhere.
