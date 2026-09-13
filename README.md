@@ -9,15 +9,22 @@
 
 ## Files
 
-#### ObsidianDiscordThemeOnline.css
+#### ObsidianDiscord.theme.css
 
-[![ObsidianDiscordThemeOnline.css](https://img.shields.io/badge/Download-ObsidianDiscordThemeOnline.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css)
+[![ObsidianDiscord.theme.css](https://img.shields.io/badge/Download-ObsidianDiscord.theme.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscord.theme.css)
+
+One stylesheet. Drop it into the BetterDiscord themes folder, or import it from
+your own custom CSS:
 
 #### CSS IMPORT
 
 ```
-@import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css);
+@import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscord.theme.css);
 ```
+
+> **Moved:** the old `ObsidianDiscordThemeOnline.css` address is gone. It was a
+> one-line file that imported the theme and nothing else. If you have it in your
+> custom CSS, replace it with the import above.
 
 **❗❗❗Better Responsiveness Is No Longer Supported❗❗❗**
 
@@ -55,5 +62,11 @@ To use this script, you'll need to install the Tampermonkey extension. You can g
 Once you have Tampermonkey installed, you can download and install the script from the following link:
 
 [![Tampermonkey Script](https://img.shields.io/badge/Download-Tampermonkey_Script-darkviolet?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.js)
+
+The script is all you need in the browser - do not paste the theme there as well.
+Discord's Content Security Policy blocks the page from fetching Material Discord,
+which this theme is built on, so the script pulls a prebuilt stylesheet that has
+Material already inside it and pastes that in. That file is generated on every
+change and published automatically; it is not something you install by hand.
 
 </p>
