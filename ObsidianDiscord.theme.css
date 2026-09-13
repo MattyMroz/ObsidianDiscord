@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.5.0
+ * @version 1.5.1
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -24,7 +24,11 @@
     /* Material writes its own name into the title bar, in two pieces: the ::before
        of the wordmark takes watermark-one in bold and the ::after takes
        watermark-two. Overriding the variables is enough, and unlike the selector
-       carrying them, variable names survive Discord's class hashes. */
+       carrying them, variable names survive Discord's class hashes.
+       These now reach only the desktop wordmark: the browser's top bar shows the
+       server name again, see APP TITLE BAR below. Left in place because the
+       desktop client cannot be measured from here, and dropping them would put
+       Material's own name in a title bar nobody here can look at. */
     --app-watermark-one: "Obsidian";
     --app-watermark-two: "Discord";
     --accent-hue: 245;
@@ -674,6 +678,36 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     opacity: 1 !important;
     visibility: visible !important;
     overflow: visible !important;
+}
+
+/*
+  *
+  *	APP TITLE BAR
+  *	Material takes the server name out of the top bar and puts its own name there
+  *	instead: it sets display: none on the guild icon, on the label and on the svg,
+  *	then paints --app-watermark-one and -two through ::before and ::after of
+  *	title_edbb22. What is meant to be there is the server you are looking at.
+  *
+  *	Measured with the theme detached, Discord draws an icon at 16x16 and a 125x18
+  *	label 8px apart; restoring those three elements and dropping the two
+  *	pseudo-elements reproduces both positions exactly.
+  *
+  */
+
+[class*="title_edbb22"]::before,
+[class*="title_edbb22"]::after {
+    content: none !important;
+}
+
+/* Material collapses this to 0 because it has only pseudo-elements to space. */
+[class*="title_edbb22"] {
+    gap: 8px !important;
+}
+
+[class*="title_edbb22"] [class*="guildIcon_edbb22"],
+[class*="title_edbb22"] [class*="text-sm/medium"],
+[class*="title_edbb22"] svg {
+    display: block !important;
 }
 
 /*
