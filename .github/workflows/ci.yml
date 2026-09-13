@@ -1,0 +1,91 @@
+name: CI
+
+# Local hooks can be skipped with --no-verify and a fresh clone has none
+# installed until `prek install`. On GitHub.com this is the only layer that
+# cannot be bypassed.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  hooks:
+    name: Hooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # Exact tag: the author publishes no moving v3, only v3.0.0.
+      - uses: j178/prek-action@v3.0.0
+        with:
+          extra-args: --all-files
+
+  types:
+    name: Types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      # mypy is a pre-push hook, so `prek run --all-files` above never reaches
+      # it. Without this job nothing type-checks the maintenance script in CI.
+      - name: mypy
+        run: uv run mypy
+
+  alias:
+    name: Theme alias
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # The theme once lived in two copies that drifted apart and shipped
+      # different styling to BetterDiscord and browser users for months. These
+      # two assertions are what would have caught it.
+      - name: Alias forwards and carries no rules of its own
+        run: |
+          alias_file=ObsidianDiscordThemeOnline.css
+
+          imports=$(grep -c '^@import' "$alias_file")
+          if [ "$imports" -ne 1 ]; then
+            echo "::error file=$alias_file::expected exactly 1 @import, found $imports"
+            exit 1
+          fi
+
+          if grep -q '{' "$alias_file"; then
+            echo "::error file=$alias_file::contains a rule block; it must only forward"
+            exit 1
+          fi
+
+          target=$(sed -n 's|^@import url(.*/\([^/)]*\));|\1|p' "$alias_file")
+          if [ ! -f "$target" ]; then
+            echo "::error file=$alias_file::forwards to '$target', which is not in the repo"
+            exit 1
+          fi
+          echo "alias -> $target"
+
+      # BetterDiscord only loads files matching *.theme.css from its themes dir.
+      - name: Theme file keeps the suffix BetterDiscord requires
+        run: |
+          count=$(ls -1 *.theme.css 2>/dev/null | wc -l)
+          if [ "$count" -ne 1 ]; then
+            echo "::error::expected exactly 1 *.theme.css in the root, found $count"
+            exit 1
+          fi
+          ls -1 *.theme.css

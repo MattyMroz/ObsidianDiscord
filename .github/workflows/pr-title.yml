@@ -1,0 +1,44 @@
+name: PR Title
+
+# A squash merge builds the commit message from the PR title, on GitHub's
+# servers, where no local hook runs. This job is the only gate on that path.
+# It runs the same validator as the commit-msg hook, with the same arguments.
+#
+# The scope list is duplicated from .pre-commit-config.yaml on purpose:
+# pre-commit has no mechanism for sharing configuration between files.
+#
+# No paths: filter - a required check that never runs leaves the PR stuck on
+# "Expected - waiting for status" forever.
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-title-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  title:
+    name: Conventional Commits (PR title)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Validate PR title
+        env:
+          # Via env, never inlined into run: - a PR title is untrusted input.
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pip install --quiet conventional-pre-commit==4.4.0
+          printf '%s\n' "$PR_TITLE" > "$RUNNER_TEMP/title"
+          conventional-pre-commit \
+            --force-scope \
+            --scopes=theme,userscript,tools,assets,docs,git,hooks,ci \
+            feat fix chore docs refactor test perf style ci build revert \
+            "$RUNNER_TEMP/title"
