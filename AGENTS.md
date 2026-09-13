@@ -13,15 +13,15 @@ uv run mypy                               # hook pre-push, nie łapie go run --a
 Po klonie: `uv sync`, `git config --local core.autocrlf false`, `prek install`.
 Bez `autocrlf false` hook `mixed-line-ending` wpada w pętlę z `.gitattributes`.
 
-CI (`.github/workflows/ci.yml`) powtarza bramkę plus dwa strażniki aliasu — to jedyna
+CI (`.github/workflows/ci.yml`) powtarza bramkę plus strażnika jednego arkusza — to jedyna
 warstwa, której nie da się ominąć przez `--no-verify`.
 
 ## Twarde reguły
 
-- IMPORTANT: `ObsidianDiscord.theme.css` jest **jedynym źródłem prawdy** dla CSS. `ObsidianDiscordThemeOnline.css` zawiera wyłącznie jeden `@import` i nic więcej. NIE wklejaj do niego reguł motywu: dwie kopie tych samych ~700 linii już raz rozjechały się na miesiące i wysyłały różny wygląd do BetterDiscorda i do przeglądarki.
-- `ObsidianDiscordThemeOnline.css` jest **stabilnym adresem publicznym** — tego URL-a nie wolno zmieniać. Siedzi w README i w konfiguracjach BetterDiscorda. Dzięki tej warstwie plik motywu można swobodnie przemianować: zmienia się wtedy jedna linia aliasu, a nie instalacje użytkowników.
-- `ObsidianDiscordBrowser.css` jest **generowany** przez `scripts/build_browser_css.py` — nigdy nie edytuj go ręcznie, każdy build go nadpisuje. Poprawki idą do pliku motywu. Po zmianie motywu przebuduj bundle, inaczej przeglądarka dostaje starą wersję.
-- Nazwa pliku motywu **musi kończyć się na `.theme.css`** — BetterDiscord ładuje z folderu motywów tylko takie pliki.
+- IMPORTANT: repo trzyma **dokładnie jeden plik CSS**: `ObsidianDiscord.theme.css`. Pilnuje tego strażnik w `ci.yml` (`git ls-files '*.css'` musi zwrócić jedną ścieżkę i musi to być ta nazwa). Nie dodawaj drugiego arkusza — projekt miał kiedyś trzy i nikt nie wiedział, który obowiązuje.
+- Nazwa pliku motywu **musi kończyć się na `.theme.css`** — BetterDiscord ładuje z folderu motywów tylko takie pliki. Dlatego jedyny plik CSS jest jednocześnie plikiem instalacyjnym i celem `@import` z README.
+- `ObsidianDiscordBrowser.css` jest **wyjściem builda i nie jest w repo** — `.gitignore` go blokuje, `scripts/build_browser_css.py` go składa, a `pages.yml` buduje i publikuje na Pages. Lokalnie służy tylko do testów. Nigdy go nie commituj i nie edytuj: każdy build nadpisuje go od zera, poprawki idą do pliku motywu.
+- Strażniki bundle (rozmiar, zero `@import`, zero pobrań z capnkitten, dokładnie jedna kopia motywu, zgodny `@version`) siedzą w `verify()` w `build_browser_css.py`, nie w YAML-u. Build sam odmawia zapisu złego pliku, więc PR i deploy dziedziczą tę samą kontrolę. Dodając regułę, dodaj ją tam.
 - Zmiana wyglądu motywu bumpuje `@version` w nagłówku `ObsidianDiscord.theme.css`. `@version` w `ObsidianDiscord.js` jest **niezależny** — to wersja userscriptu, nie motywu.
 - `!important` i zahashowane selektory w CSS są tu złożonością konieczną: nadpisujemy cudzy arkusz o wyższej specyficzności. Nie „sprzątaj" ich.
 - Kod, komentarze, nazwy plików i commity po angielsku (repo publiczne, README angielski). `AGENTS.md` i dokumenty robocze po polsku. Pliki źródłowe (`.css`, `.js`, `.py`) muszą być **czysto ASCII** — pilnuje tego hook `ascii-only`.
@@ -36,7 +36,7 @@ Robi to za nas `.github/workflows/update-classes.yml`: codziennie pobiera change
 
 Rolę recenzenta pełni strażnik w tym samym workflow: odrzuca przebieg, jeśli podmiana ruszyła nagłówek, którykolwiek `@import` albo liczbę bloków reguł. Zmiana nazw klas nie może zrobić żadnej z tych rzeczy. `@version` nie jest bumpowany — naprawa hashy przywraca zamierzony wygląd, nie tworzy nowego.
 
-Ten sam przebieg **przebudowuje bundle** i commituje go razem z motywem. Bez tego naprawa kończy się na motywie, a przeglądarka zostaje ze starymi hashami w swojej kopii. Bundle ma własnego strażnika: rozmiar, zero `@import`, zero pobrań z capnkitten i `@version` zgodne z motywem.
+Po commicie ten workflow **wywołuje `pages.yml`** (`uses:` z `ref: main`), żeby publikowany bundle powstał z naprawionego motywu. Nie da się tego zostawić triggerowi `push`: push wykonany tokenem `GITHUB_TOKEN` nie uruchamia kolejnych workflowów, więc bez tego wywołania przeglądarka zostawałaby na martwych hashach do następnego ludzkiego pusha.
 
 Ręcznie, gdy potrzebny jest przebieg poza harmonogramem:
 
@@ -62,24 +62,24 @@ Co robi build i dlaczego:
 
 ## Mapa
 
-| Ścieżka                                | Rola                                                   |
-| -------------------------------------- | ------------------------------------------------------ |
-| `ObsidianDiscord.theme.css`            | motyw, źródło prawdy, plik instalowany w BetterDiscord |
-| `ObsidianDiscordThemeOnline.css`       | publiczny alias `@import`, jedna linia, stabilny URL   |
-| `ObsidianDiscordBrowser.css`           | **generowany** bundle dla przeglądarki, ~650 KB        |
-| `ObsidianDiscord.js`                   | userscript Tampermonkey, pobiera bundle                |
-| `scripts/build_browser_css.py`         | składa bundle: Material + ikony + motyw, obok CSP      |
-| `scripts/update_classes.py`            | podmiana zahashowanych klas wg changelistu SyndiShanX  |
-| `docs/discord-class-research.md`       | research narzędzi do klas Discorda                     |
-| `assets/img/`                          | zrzuty ekranu do README                                |
-| `.pre-commit-config.yaml`              | bramka `prek`, oparta na `agents/presets/hooks`        |
-| `biome.json`                           | formatter i linter CSS/JS, trzy reguły świadomie off   |
-| `.github/workflows/ci.yml`             | bramka serwerowa + strażnicy aliasu i sufiksu motywu   |
-| `.github/workflows/update-classes.yml` | codzienna auto-naprawa klas, commit na `main`          |
+| Ścieżka                                | Rola                                                             |
+| -------------------------------------- | ---------------------------------------------------------------- |
+| `ObsidianDiscord.theme.css`            | **jedyny plik CSS**: źródło prawdy, instalka BetterDiscorda      |
+| `ObsidianDiscord.js`                   | userscript Tampermonkey, pobiera opublikowany bundle             |
+| `scripts/build_browser_css.py`         | składa bundle obok CSP i sam go weryfikuje (`verify()`)          |
+| `scripts/update_classes.py`            | podmiana zahashowanych klas wg changelistu SyndiShanX            |
+| `docs/discord-class-research.md`       | research narzędzi do klas Discorda                               |
+| `docs/settings-screen.md`              | zapis pracy nad ekranem ustawień i metoda pomiaru w przeglądarce |
+| `assets/img/`                          | zrzuty ekranu do README                                          |
+| `.pre-commit-config.yaml`              | bramka `prek`, oparta na `agents/presets/hooks`                  |
+| `biome.json`                           | formatter i linter CSS/JS, trzy reguły świadomie off             |
+| `.github/workflows/ci.yml`             | bramka serwerowa, strażnik jednego arkusza, build bundle na PR   |
+| `.github/workflows/pages.yml`          | build bundle + deploy Pages; publikuje motyw i bundle            |
+| `.github/workflows/update-classes.yml` | codzienna auto-naprawa klas, commit na `main`, potem deploy      |
 
 ## Pułapki
 
-- Repo jest serwowane przez GitHub Pages, więc URL-e `mattymroz.github.io/ObsidianDiscord/...` w README i userscripcie są żywe — zmiana nazwy pliku w roocie psuje instalacje użytkowników.
+- Pages **nie serwuje już brancha** — stroną jest artefakt z `pages.yml` (Jekyll na checkoucie + dorzucony bundle), a `build_type` repo stoi na `workflow`. URL-e `mattymroz.github.io/ObsidianDiscord/...` są żywe, więc zmiana nazwy pliku w roocie nadal psuje instalacje użytkowników. Jeśli bundle zniknie z Pages, sprawdź najpierw ostatni przebieg `pages.yml`, nie repo.
 - Userscript pobiera CSS **raz** i przy zmianach DOM tylko doczepia z powrotem swój element `<style>`. Nie przywracaj pobierania przy każdej zmianie URL.
 - `.claude/skills/` i `.agents/skills/` to junctiony generowane przez repo `agents` — nigdy nie commituj ich zawartości.
 - Tworzenie PR-a przez Actions wymaga **dwóch** rzeczy: `permissions: pull-requests: write` w workflow **oraz** przełącznika repo `can_approve_pull_request_reviews`. Samo `permissions` daje `GitHub Actions is not permitted to create or approve pull requests`. Stan sprawdzisz przez `gh api repos/MattyMroz/ObsidianDiscord/actions/permissions/workflow`.
