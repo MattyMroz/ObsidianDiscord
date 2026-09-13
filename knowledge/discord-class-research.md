@@ -60,7 +60,7 @@ jobs:
             - name: Run Class Name Updater
               uses: fedeericodl/discord-update-classnames@main
               with:
-                  files: "ObsidianDiscordAll.theme.css"
+                  files: "ObsidianDiscord.theme.css"
                   ignore-class-names: "bd-,vencord-" # Ignoruj klasy BD/Vencord
 ```
 
