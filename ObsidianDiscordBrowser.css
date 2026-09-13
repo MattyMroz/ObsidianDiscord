@@ -24021,6 +24021,19 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
 
 /*
   *
+  *	CHAT SEARCH BAR
+  *	Discord pads the editor by 6px, which its own 16px corner radius eats: the
+  *	placeholder measured 6px from the left edge and read as touching the curve.
+  *
+  */
+
+.searchBar_c322aa .editor__25bec,
+[class*="searchBar_c322aa"] [class*="editor__25bec"] {
+    padding-left: 12px !important;
+}
+
+/*
+  *
   *	AUDIO PLAYER
   *	Fix layout degraded by Material Discord video-overlay CSS
   *
@@ -24174,17 +24187,30 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     opacity: 0.6 !important;
 }
 
-/* Sidebar search field, so it matches the inputs the theme styles elsewhere. */
+/* Sidebar search field, so it matches the inputs the theme styles elsewhere.
+   --card-radius-big is 18px, which on a 37.6px tall field is a full pill; the
+   nav entries beside it carry --card-radius, so the field follows them. */
 .searchBarContainer_fffcb4 .wrapper__72c38,
 [class*="searchBarContainer_"] [class*="wrapper__72c38"] {
     background-color: var(--main-textarea-color) !important;
     border: 1px solid var(--main-textarea-border) !important;
-    border-radius: var(--card-radius-big) !important;
+    border-radius: var(--card-radius) !important;
 }
 
-/* Nested page list under an expanded nav entry. */
+/* Nested page list under an expanded nav entry. Discord gives these rows no
+   padding at all, so the hover and selected fills measured 20px tall against
+   the 40px of the nav entries above them, and its 16px grid gap then spread
+   four short labels over the height of six. */
+.subnav_e4d939,
+[class*="subnav_e4d939"] {
+    gap: 4px !important;
+}
+
 .subnav_e4d939 .item_e4d939,
 [class*="subnav_e4d939"] [class*="item_e4d939"] {
+    display: flex !important;
+    align-items: center !important;
+    padding: 5px 10px !important;
     border-radius: var(--card-radius) !important;
     color: var(--menu-item-text-color) !important;
 }
