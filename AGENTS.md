@@ -19,7 +19,8 @@ warstwa, której nie da się ominąć przez `--no-verify`.
 ## Twarde reguły
 
 - IMPORTANT: `ObsidianDiscord.theme.css` jest **jedynym źródłem prawdy** dla CSS. `ObsidianDiscordThemeOnline.css` zawiera wyłącznie jeden `@import` i nic więcej. NIE wklejaj do niego reguł motywu: dwie kopie tych samych ~700 linii już raz rozjechały się na miesiące i wysyłały różny wygląd do BetterDiscorda i do przeglądarki.
-- `ObsidianDiscordThemeOnline.css` jest **stabilnym adresem publicznym** — tego URL-a nie wolno zmieniać. Siedzi w README, w konfiguracjach BetterDiscorda i w userscripcie. Dzięki tej warstwie plik motywu można swobodnie przemianować: zmienia się wtedy jedna linia aliasu, a nie instalacje użytkowników.
+- `ObsidianDiscordThemeOnline.css` jest **stabilnym adresem publicznym** — tego URL-a nie wolno zmieniać. Siedzi w README i w konfiguracjach BetterDiscorda. Dzięki tej warstwie plik motywu można swobodnie przemianować: zmienia się wtedy jedna linia aliasu, a nie instalacje użytkowników.
+- `ObsidianDiscordBrowser.css` jest **generowany** przez `scripts/build_browser_css.py` — nigdy nie edytuj go ręcznie, każdy build go nadpisuje. Poprawki idą do pliku motywu. Po zmianie motywu przebuduj bundle, inaczej przeglądarka dostaje starą wersję.
 - Nazwa pliku motywu **musi kończyć się na `.theme.css`** — BetterDiscord ładuje z folderu motywów tylko takie pliki.
 - Zmiana wyglądu motywu bumpuje `@version` w nagłówku `ObsidianDiscord.theme.css`. `@version` w `ObsidianDiscord.js` jest **niezależny** — to wersja userscriptu, nie motywu.
 - `!important` i zahashowane selektory w CSS są tu złożonością konieczną: nadpisujemy cudzy arkusz o wyższej specyficzności. Nie „sprzątaj" ich.
@@ -35,6 +36,8 @@ Robi to za nas `.github/workflows/update-classes.yml`: codziennie pobiera change
 
 Rolę recenzenta pełni strażnik w tym samym workflow: odrzuca przebieg, jeśli podmiana ruszyła nagłówek, którykolwiek `@import` albo liczbę bloków reguł. Zmiana nazw klas nie może zrobić żadnej z tych rzeczy. `@version` nie jest bumpowany — naprawa hashy przywraca zamierzony wygląd, nie tworzy nowego.
 
+Ten sam przebieg **przebudowuje bundle** i commituje go razem z motywem. Bez tego naprawa kończy się na motywie, a przeglądarka zostaje ze starymi hashami w swojej kopii. Bundle ma własnego strażnika: rozmiar, zero `@import`, zero pobrań z capnkitten i `@version` zgodne z motywem.
+
 Ręcznie, gdy potrzebny jest przebieg poza harmonogramem:
 
 ```sh
@@ -46,13 +49,26 @@ python scripts/update_classes.py Changes.txt ObsidianDiscord.theme.css
 
 Przy dotykaniu selektorów preferuj rzeczy odporne na hash: `var(--background-primary)` i podobne tokeny Discorda, `[class*="members"]`, `[aria-label="..."]`. Każdy taki selektor to jedna rzecz mniej do naprawy po następnym update. Przegląd narzędzi i opcji automatyzacji: `docs/discord-class-research.md`.
 
+## Przeglądarka i CSP
+
+Discord wysyła `style-src 'self' 'unsafe-inline' ...` i `font-src 'self' https://fonts.gstatic.com ...`. Wklejony tekst CSS przechodzi, **pobranie czegokolwiek z `capnkitten.github.io` nie** — więc w przeglądarce sam motyw znaczy motyw bez Materiala. `GM_xmlhttpRequest` polityki strony nie podlega, dlatego userscript pobiera gotowy bundle i wkleja go jako tekst.
+
+Co robi build i dlaczego:
+
+- wciąga Materiala z podimportami, zamienia SVG na `data:` URI (`img-src` dopuszcza `data:`);
+- **pomija `icons.css`** — ukrywa oryginalne ikony Discorda przez dopasowanie dokładnych danych `path`, Discord te dane zmienił, więc maski lądowały na niezakrytych ikonach i każda rysowała się dwa razy. `update_classes.py` tego nie naprawi: changelist nie zapisuje `path`;
+- **podmienia `@font-face`** z capnkitten na te z `fonts.gstatic.com` (Google Sans Code i Google Sans Flex są na Google Fonts). `font-src` nie dopuszcza ani `data:`, ani capnkitten. To nie kosmetyka — Material wymierza layout pod te kroje, bez nich elementy robią się szersze i tekst nachodzi na tekst;
+- stosuje changelist SyndiShanX także do Materiala — `update_classes.py` naprawia tylko nasz motyw, a bundle to jedyne miejsce, gdzie wolno nam przepisać cudzy arkusz.
+
 ## Mapa
 
 | Ścieżka                                | Rola                                                   |
 | -------------------------------------- | ------------------------------------------------------ |
 | `ObsidianDiscord.theme.css`            | motyw, źródło prawdy, plik instalowany w BetterDiscord |
 | `ObsidianDiscordThemeOnline.css`       | publiczny alias `@import`, jedna linia, stabilny URL   |
-| `ObsidianDiscord.js`                   | userscript Tampermonkey, pobiera CSS przez alias       |
+| `ObsidianDiscordBrowser.css`           | **generowany** bundle dla przeglądarki, ~650 KB        |
+| `ObsidianDiscord.js`                   | userscript Tampermonkey, pobiera bundle                |
+| `scripts/build_browser_css.py`         | składa bundle: Material + ikony + motyw, obok CSP      |
 | `scripts/update_classes.py`            | podmiana zahashowanych klas wg changelistu SyndiShanX  |
 | `docs/discord-class-research.md`       | research narzędzi do klas Discorda                     |
 | `assets/img/`                          | zrzuty ekranu do README                                |
