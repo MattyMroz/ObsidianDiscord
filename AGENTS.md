@@ -31,6 +31,10 @@ warstwa, której nie da się ominąć przez `--no-verify`.
 
 Discord używa CSS Modules — selektory typu `members_cbd271` mają hash, który zmienia się przy **każdym** update klienta i łamie motyw.
 
+Robi to za nas `.github/workflows/update-classes.yml`: codziennie pobiera changelist SyndiShanX i przy zmianach aktualizuje PR na branchu `class-updates`. **PR wymaga review i nie wolno go auto-mergować** — skrypt podmienia podciągi w całym pliku, więc tylko człowiek stwierdzi, czy motyw dalej wygląda poprawnie. `@version` bumpuje człowiek przy merge'u.
+
+Ręcznie, gdy potrzebny jest przebieg poza harmonogramem:
+
 ```sh
 # Changes.txt: https://github.com/SyndiShanX/Update-Classes (Raw -> zapisz lokalnie)
 python scripts/update_classes.py Changes.txt ObsidianDiscord.theme.css
@@ -42,20 +46,22 @@ Przy dotykaniu selektorów preferuj rzeczy odporne na hash: `var(--background-pr
 
 ## Mapa
 
-| Ścieżka                          | Rola                                                   |
-| -------------------------------- | ------------------------------------------------------ |
-| `ObsidianDiscord.theme.css`      | motyw, źródło prawdy, plik instalowany w BetterDiscord |
-| `ObsidianDiscordThemeOnline.css` | publiczny alias `@import`, jedna linia, stabilny URL   |
-| `ObsidianDiscord.js`             | userscript Tampermonkey, pobiera CSS przez alias       |
-| `scripts/update_classes.py`      | podmiana zahashowanych klas wg changelistu SyndiShanX  |
-| `docs/discord-class-research.md` | research narzędzi do klas Discorda                     |
-| `assets/img/`                    | zrzuty ekranu do README                                |
-| `.pre-commit-config.yaml`        | bramka `prek`, oparta na `agents/presets/hooks`        |
-| `biome.json`                     | formatter i linter CSS/JS, trzy reguły świadomie off   |
-| `.github/workflows/ci.yml`       | bramka serwerowa + strażnicy aliasu i sufiksu motywu   |
+| Ścieżka                                | Rola                                                   |
+| -------------------------------------- | ------------------------------------------------------ |
+| `ObsidianDiscord.theme.css`            | motyw, źródło prawdy, plik instalowany w BetterDiscord |
+| `ObsidianDiscordThemeOnline.css`       | publiczny alias `@import`, jedna linia, stabilny URL   |
+| `ObsidianDiscord.js`                   | userscript Tampermonkey, pobiera CSS przez alias       |
+| `scripts/update_classes.py`            | podmiana zahashowanych klas wg changelistu SyndiShanX  |
+| `docs/discord-class-research.md`       | research narzędzi do klas Discorda                     |
+| `assets/img/`                          | zrzuty ekranu do README                                |
+| `.pre-commit-config.yaml`              | bramka `prek`, oparta na `agents/presets/hooks`        |
+| `biome.json`                           | formatter i linter CSS/JS, trzy reguły świadomie off   |
+| `.github/workflows/ci.yml`             | bramka serwerowa + strażnicy aliasu i sufiksu motywu   |
+| `.github/workflows/update-classes.yml` | codzienna auto-naprawa klas, otwiera PR                |
 
 ## Pułapki
 
 - Repo jest serwowane przez GitHub Pages, więc URL-e `mattymroz.github.io/ObsidianDiscord/...` w README i userscripcie są żywe — zmiana nazwy pliku w roocie psuje instalacje użytkowników.
 - Userscript pobiera CSS **raz** i przy zmianach DOM tylko doczepia z powrotem swój element `<style>`. Nie przywracaj pobierania przy każdej zmianie URL.
-- `.gitignore` ignoruje `.github/*` poza `workflows/`, a `.claude/skills/` i `.agents/skills/` to junctiony generowane przez repo `agents` — nigdy nie commituj ich zawartości.
+- `.claude/skills/` i `.agents/skills/` to junctiony generowane przez repo `agents` — nigdy nie commituj ich zawartości.
+- Tworzenie PR-a przez Actions wymaga **dwóch** rzeczy: `permissions: pull-requests: write` w workflow **oraz** przełącznika repo `can_approve_pull_request_reviews`. Samo `permissions` daje `GitHub Actions is not permitted to create or approve pull requests`. Stan sprawdzisz przez `gh api repos/MattyMroz/ObsidianDiscord/actions/permissions/workflow`.
