@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.2.6
+ * @version 1.2.7
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -11,9 +11,6 @@
  */
 
 @import url(https://capnkitten.github.io/BetterDiscord/Themes/Material-Discord/css/source.css);
-
-/* Material You addon */
-/* @import url(https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css); */
 
 /*
   *
@@ -693,10 +690,12 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
 .wrapperAudio_cf09d8 .videoButton_cf09d8 {
     background-color: transparent !important;
     flex-shrink: 0 !important;
+    width: 32px !important;
+    height: 32px !important;
 }
 
 .wrapperAudio_cf09d8 .videoButton_cf09d8:hover {
-    background-color: var(--card-button-color-hover) !important;
+    background-color: var(--card-button-color) !important;
 }
 
 .wrapperAudio_cf09d8 .controlIcon_cf09d8 {
@@ -709,7 +708,7 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     fill: currentColor !important;
 }
 
-/* volume slider expanded — fix czarnego tła */
+/* volume slider expanded - clears the black background it inherits */
 .wrapperAudio_cf09d8 .audioControls_cf09d8 .container__2d263 {
     background-color: transparent !important;
 }
