@@ -12,20 +12,23 @@
 // @downloadURL  https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.js
 // ==/UserScript==
 
-(function () {
+(() => {
     'use strict';
 
     // The stable public alias, not the theme file directly. It forwards to whatever
     // the theme file is called today, so renaming it never breaks copies of this
     // script that are already installed. One extra request, cached afterwards.
-    const THEME_URL = 'https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css';
+    const THEME_URL =
+        'https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordThemeOnline.css';
 
     let styleElement = null;
 
     // At document-start <head> does not exist yet, so fall back to <html>.
     function attach() {
         if (styleElement && !styleElement.isConnected) {
-            (document.head || document.documentElement).appendChild(styleElement);
+            (document.head || document.documentElement).appendChild(
+                styleElement,
+            );
         }
     }
 
@@ -47,16 +50,18 @@
     GM_xmlhttpRequest({
         method: 'GET',
         url: THEME_URL,
-        onload: function (response) {
+        onload: (response) => {
             if (response.status === 200) {
                 inject(response.responseText);
             } else {
-                console.error('[Obsidian Discord] theme request returned HTTP', response.status);
+                console.error(
+                    '[Obsidian Discord] theme request returned HTTP',
+                    response.status,
+                );
             }
         },
-        onerror: function () {
+        onerror: () => {
             console.error('[Obsidian Discord] could not reach', THEME_URL);
         },
     });
-
 })();
