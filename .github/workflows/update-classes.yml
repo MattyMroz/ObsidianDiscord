@@ -1,0 +1,96 @@
+name: Discord class updates
+
+# Discord rewrites its CSS class hashes on every client update, which silently
+# kills selectors in the theme. SyndiShanX publishes the old -> new mappings, so
+# this runs the repair daily and opens a pull request when the theme moved.
+
+on:
+  schedule:
+    # Daily. Off the hour, because scheduled runs pile up on round times.
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+# The previous sync workflow in this repo failed for months on `git push`
+# because it never declared these. Set them explicitly.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: class-updates
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Apply the changelist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      # $RUNNER_TEMP, never the workspace: the changelist is a 3 MB file that
+      # must not reach a commit, and keeping it outside the repo tree makes that
+      # structural instead of a .gitignore rule someone can edit.
+      - name: Fetch the changelist
+        run: |
+          curl -fsSL \
+            -o "$RUNNER_TEMP/Changes.txt" \
+            https://raw.githubusercontent.com/SyndiShanX/Update-Classes/main/Changes.txt
+          wc -c <"$RUNNER_TEMP/Changes.txt"
+
+      - name: Apply the class changes
+        run: |
+          uv run --no-dev python scripts/update_classes.py \
+            "$RUNNER_TEMP/Changes.txt" \
+            ObsidianDiscord.theme.css
+
+      - name: Open or update the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          branch=class-updates
+          theme=ObsidianDiscord.theme.css
+
+          # Nothing moved: no branch, no commit, no pull request, exit clean.
+          if git diff --quiet -- "$theme"; then
+            echo "Theme already matches the changelist."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Only the theme is ever staged, so a stray file cannot ride along.
+          git checkout -B "$branch"
+          git add -- "$theme"
+          git commit -m "fix(theme): update Discord class hashes"
+
+          # The branch belongs to this workflow alone, and every run rebuilds it
+          # from current main, so overwriting it is the intended behaviour.
+          git push --force origin "$branch"
+
+          if [ -n "$(gh pr list --head "$branch" --state open --json number --jq '.[].number')" ]; then
+            echo "Existing pull request updated."
+            exit 0
+          fi
+
+          gh pr create \
+            --head "$branch" \
+            --base main \
+            --title "fix(theme): update Discord class hashes" \
+            --body "$(cat <<'BODY'
+          Automated run of `scripts/update_classes.py` against the current
+          [SyndiShanX changelist](https://github.com/SyndiShanX/Update-Classes).
+
+          **Review before merging. Do not auto-merge.** The script replaces
+          substrings across the whole file, so a mapping can in principle land
+          somewhere other than a selector, and only a human can tell whether the
+          theme still looks right in Discord.
+
+          Bump `@version` in the theme header as part of the merge if the change
+          is visible to users.
+          BODY
+          )"
