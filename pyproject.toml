@@ -16,3 +16,9 @@ dev = ["mypy>=1.18", "ruff>=0.16"]
 [tool.mypy]
 strict = true
 files = ["scripts"]
+
+# Discord's CSS Modules class names are a word plus a hex hash, and the hex reads
+# as misspelled English: container_abd9a8 gets flagged because of the abd. The
+# names are not ours to rename, so the shape is ignored wholesale.
+[tool.typos.default]
+extend-ignore-identifiers-re = ["[A-Za-z]+_{1,2}[0-9a-f]{5,6}"]
