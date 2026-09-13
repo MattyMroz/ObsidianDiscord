@@ -1,0 +1,36 @@
+name: 🔧 Task / Chore
+description: Technical task, cleanup, tech debt, research
+title: "chore(scope): "
+labels: ["infra"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What needs to be done
+      description: A concrete task. Can be research, refactor, tech-debt, cleanup.
+      placeholder: "Replace the hashed selectors in the audio section with attribute selectors so the next Discord update cannot break them."
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area (you can add more via labels after creating)
+      options:
+        - theme
+        - userscript
+        - scripts
+        - assets
+        - docs
+        - git
+        - hooks
+        - ci
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Definition of done
+      value: |
+        - [ ]
+    validations:
+      required: false

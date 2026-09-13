@@ -1,0 +1,56 @@
+name: ✨ Feature
+description: New styling or improvement
+title: "feat(scope): "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should be styled or added, and why is it better than what is there now?
+      placeholder: "Style the pinned messages popout, which still shows the default Discord colours."
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope / how to do it
+      description: Roughly what needs to change. No over-planning.
+      placeholder: "One rule block in ObsidianDiscord.theme.css, ideally keyed off [class*=\"pinned\"] rather than a hashed class."
+    validations:
+      required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area (you can add more via labels after creating)
+      options:
+        - theme
+        - userscript
+        - scripts
+        - assets
+        - docs
+        - git
+        - hooks
+        - ci
+    validations:
+      required: true
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      options:
+        - small (up to 1 day)
+        - medium (a few days)
+        - large (epic, split it)
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Definition of done
+      value: |
+        - [ ] verified in Discord, both light and dark if it applies
+        - [ ] selectors prefer Discord tokens or attributes over hashed class names
+        - [ ] `@version` bumped, because the look changed
+    validations:
+      required: false

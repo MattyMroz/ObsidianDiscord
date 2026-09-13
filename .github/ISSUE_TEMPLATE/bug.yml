@@ -1,0 +1,77 @@
+name: 🐛 Bug
+description: Something looks or behaves wrong
+title: "fix(scope): "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What looks wrong and where in Discord? A screenshot is worth more than a paragraph.
+      placeholder: "The member list lost its dark background and went back to the default grey."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected appearance
+      description: What should it look like?
+      placeholder: "The member list should use the same background as the channel sidebar."
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: How the theme is installed
+      description: The two paths load the same CSS differently, so a bug in one may not exist in the other.
+      options:
+        - BetterDiscord
+        - Userscript (Tampermonkey)
+        - Both
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Theme version
+      description: The `@version` line at the top of ObsidianDiscord.theme.css, or the userscript version.
+      placeholder: "1.2.7"
+    validations:
+      required: false
+  - type: dropdown
+    id: after-update
+    attributes:
+      label: Did it start right after a Discord update?
+      description: Discord changes its CSS class hashes on every client update, which is the most common cause of a broken selector here.
+      options:
+        - "Yes"
+        - "No"
+        - "Not sure"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area (you can add more via labels after creating)
+      options:
+        - theme
+        - userscript
+        - scripts
+        - assets
+        - docs
+        - git
+        - hooks
+        - ci
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Definition of done
+      value: |
+        - [ ] looks right again in Discord
+        - [ ] the selector survives the next client update, or the limitation is written down
+        - [ ] `@version` bumped, because the look changed
+    validations:
+      required: false
