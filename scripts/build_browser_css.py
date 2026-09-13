@@ -32,11 +32,14 @@ from __future__ import annotations
 import base64
 import re
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
+
+from update_classes import apply_changes, load_changes
 
 MATERIAL_URL = (
     "https://capnkitten.github.io/BetterDiscord/Themes/Material-Discord/css/source.css"
@@ -65,6 +68,14 @@ EXCLUDED_IMPORTS = ("icons.css",)
 # from the fonts.gstatic.com that font-src does allow. The stylesheet itself has
 # to be fetched at build time and pasted, because style-src does not list
 # fonts.googleapis.com either.
+# update_classes.py repairs hashed class names in our own theme, which leaves
+# Material's carrying whatever it shipped with - 94 stale names at last count. The
+# same changelist fixes those too, and the bundle is the only place we are free to
+# rewrite someone else's stylesheet.
+CHANGELIST_URL = (
+    "https://raw.githubusercontent.com/SyndiShanX/Update-Classes/main/Changes.txt"
+)
+
 GOOGLE_FONTS_CSS = "https://fonts.googleapis.com/css2?family="
 GOOGLE_FONT_URLS = (
     f"{GOOGLE_FONTS_CSS}Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap",
@@ -125,6 +136,17 @@ def inline_imports(css: str, base_url: str, depth: int = 0) -> str:
     return css
 
 
+def refresh_classes(css: str) -> tuple[str, int, int]:
+    """Rewrite Material's stale hashed class names using the SyndiShanX changelist."""
+    with tempfile.TemporaryDirectory() as directory:
+        changelist = Path(directory) / "Changes.txt"
+        changelist.write_bytes(fetch(CHANGELIST_URL))
+        pairs = load_changes(changelist)
+
+    css, log = apply_changes(css, pairs)
+    return css, len(pairs), len(log)
+
+
 def swap_fonts(css: str) -> tuple[str, int, int]:
     """Drop the @font-face rules font-src blocks and paste Google's in instead."""
     blocked = [face for face in FONT_FACE_RE.findall(css) if "capnkitten" in face]
@@ -157,6 +179,9 @@ def main() -> None:
 
     material, count = inline_svgs(material)
     print(f"  inlined {count} icon files as data: URIs -> {len(material)} chars")
+
+    material, pairs, renamed = refresh_classes(material)
+    print(f"  changelist has {pairs} pairs, {renamed} of Material's names were stale")
 
     material, dropped, added = swap_fonts(material)
     print(f"  dropped {dropped} blocked @font-face, pasted {added} from Google")
