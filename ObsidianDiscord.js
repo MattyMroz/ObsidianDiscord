@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Obsidian Discord Theme
 // @namespace    http://tampermonkey.net/
-// @version      2.1
+// @version      2.0
 // @description  Applies the Obsidian theme to Discord in the browser: fetched once, re-attached if Discord drops it
 // @author       Matty_Mroz
 // @match        https://discord.com/*
