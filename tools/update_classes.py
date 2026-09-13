@@ -11,7 +11,7 @@ How to use:
        (click Raw -> Save As -> put in this repo root or wherever)
 
     2. Run:
-       python tools/update_classes.py Changes.txt ObsidianDiscordAll.theme.css
+       python tools/update_classes.py Changes.txt ObsidianDiscord.theme.css
 
     3. Check the diff, test in Discord, commit.
 
@@ -41,10 +41,7 @@ def load_changes(changes_path: Path) -> list[tuple[str, str]]:
 
 
 def apply_changes(css: str, pairs: list[tuple[str, str]]) -> tuple[str, list[str]]:
-    """Apply all class name replacements sequentially.
-
-    Returns (updated_css, list_of_change_descriptions).
-    """
+    """Apply every replacement in order, returning the new CSS and one line per change."""
     log: list[str] = []
     for old, new in pairs:
         if old in css:
@@ -55,9 +52,12 @@ def apply_changes(css: str, pairs: list[tuple[str, str]]) -> tuple[str, list[str
 
 
 def main() -> None:
+    """Rewrite the CSS file given on argv using the changelist given on argv."""
     if len(sys.argv) < 3:
         print("Usage: python tools/update_classes.py <Changes.txt> <theme.css>")
-        print("Example: python tools/update_classes.py Changes.txt ObsidianDiscordAll.theme.css")
+        print(
+            "Example: python tools/update_classes.py Changes.txt ObsidianDiscord.theme.css"
+        )
         sys.exit(1)
 
     changes_path = Path(sys.argv[1])
@@ -85,7 +85,7 @@ def main() -> None:
         css_path.write_text(updated, encoding="utf-8")
         print(f"\nSaved: {css_path}")
     else:
-        print("No changes needed — CSS is already up to date.")
+        print("No changes needed - CSS is already up to date.")
 
 
 if __name__ == "__main__":
