@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.3.0
+ * @version 1.5.0
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -674,7 +674,6 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
     opacity: 1 !important;
     visibility: visible !important;
     overflow: visible !important;
-    margin-right: 5px !important;
 }
 
 /*
@@ -770,4 +769,167 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
 [class*="menu_"] [class*="item_"],
 .menu_c1e9c4 .item_c1e9c4 {
     flex-direction: row !important;
+}
+
+/*
+  *
+  *	SETTINGS
+  *	Written against the live DOM with the screen open, and measured there, because
+  *	guesswork failed here twice. Material aims at standardSidebarView,
+  *	contentRegion and sidebarRegion; counted in the open settings screen, all
+  *	three are gone. What Discord ships is sidebar__409aa beside content_e9e3ed,
+  *	with nav entries item_caf372 and rows baseControlItem_dbfbe0.
+  *
+  *	Every selector below is paired with an attribute form so a hash change costs
+  *	the exact styling of one element rather than the whole screen.
+  *
+  */
+
+.container_abd9a8,
+[class*="container_abd9a8"] {
+    background-color: var(--main-alt) !important;
+}
+
+/* LEFT NAV */
+
+.sidebar__409aa,
+[class*="sidebar__409aa"] {
+    background-color: var(--sidebar-panel-color) !important;
+    border-inline-end: 1px solid var(--card-border-color) !important;
+}
+
+.sidebar__409aa .item_caf372,
+[class*="sidebar__409aa"] [class*="item_caf372"] {
+    border-radius: var(--card-radius) !important;
+    color: var(--menu-item-text-color) !important;
+    transition: var(--default-time) var(--default-animation) background-color !important;
+}
+
+/* --menu-item-hover and --card-color-active are both within one lightness step
+   of --sidebar-panel-color, so used here they measured 30,32,36 against 30,32,36
+   and 33,34,39 against 30,32,36 - a hover nobody can see and a selected entry
+   three units from its background, where Discord had a plainly visible overlay.
+   Those two tokens are for panels darker than this one.
+   Both states are translucent white instead, which reads on any surface: the
+   selected one is --menu-item-select, the theme's own token at 0.1, and hover is
+   the step below it. --card-color-alt-hover was tried and measured 35,37,41,
+   five units off the sidebar, which is still not a hover you can see. */
+.sidebar__409aa .item_caf372:hover,
+[class*="sidebar__409aa"] [class*="item_caf372"]:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.sidebar__409aa .item_caf372.active_caf372,
+[class*="sidebar__409aa"] [class*="item_caf372"][class*="active_caf372"] {
+    background-color: var(--menu-item-select) !important;
+    color: rgb(246, 243, 237) !important;
+}
+
+.sidebar__409aa .label__409aa,
+[class*="sidebar__409aa"] [class*="label__409aa"] {
+    color: rgb(246, 243, 237) !important;
+    opacity: 0.6 !important;
+}
+
+/* Sidebar search field, so it matches the inputs the theme styles elsewhere. */
+.searchBarContainer_fffcb4 .wrapper__72c38,
+[class*="searchBarContainer_"] [class*="wrapper__72c38"] {
+    background-color: var(--main-textarea-color) !important;
+    border: 1px solid var(--main-textarea-border) !important;
+    border-radius: var(--card-radius-big) !important;
+}
+
+/* Nested page list under an expanded nav entry. */
+.subnav_e4d939 .item_e4d939,
+[class*="subnav_e4d939"] [class*="item_e4d939"] {
+    border-radius: var(--card-radius) !important;
+    color: var(--menu-item-text-color) !important;
+}
+
+/* Same trap as the nav entries above: this list sits on the sidebar surface, so
+   --menu-item-hover would match it exactly. */
+.subnav_e4d939 .item_e4d939:hover,
+[class*="subnav_e4d939"] [class*="item_e4d939"]:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.subnav_e4d939 .item_e4d939.active_e4d939,
+[class*="subnav_e4d939"] [class*="item_e4d939"][class*="active_e4d939"] {
+    color: rgb(246, 243, 237) !important;
+}
+
+/* CONTENT SIDE */
+
+.content_e9e3ed,
+.contentBody_e9e3ed,
+.scroller__6131a,
+.panel__6131a,
+[class*="content_e9e3ed"],
+[class*="contentBody_e9e3ed"],
+[class*="scroller__6131a"],
+[class*="panel__6131a"] {
+    background-color: var(--main-color) !important;
+}
+
+/* Material rounds all four corners of the content panel by 18px and clips it
+   with overflow: hidden. The sidebar is glued to its left edge and has square
+   corners, so those two left corners cut a wedge out of the seam and the
+   near-black container shows through it - measured at the top and the bottom of
+   the join. The outer corners stay rounded, because that floating-panel
+   silhouette is deliberate; only the joined edge is squared off. */
+.content_e9e3ed,
+[class*="content_e9e3ed"] {
+    border-start-start-radius: 0 !important;
+    border-end-start-radius: 0 !important;
+}
+
+.contentHeader_e9e3ed,
+[class*="contentHeader_e9e3ed"] {
+    background-color: var(--main-color) !important;
+    border-block-end: 1px solid var(--card-border-color) !important;
+    box-shadow: none !important;
+}
+
+.breadcrumbText__6989f,
+[class*="breadcrumbText_"] {
+    color: rgb(246, 243, 237) !important;
+}
+
+/* Each setting is a row rather than a card upstream, which is what makes the
+   screen read as an undressed list. Giving rows the theme's card surface is what
+   ties this screen to the rest of the theme. */
+.baseControlItem_dbfbe0,
+[class*="baseControlItem_"] {
+    background-color: var(--card-color-alt) !important;
+    border-radius: var(--card-radius-big) !important;
+    padding: 12px 16px !important;
+}
+
+.baseControlItem_dbfbe0.clickable_dbfbe0:hover,
+[class*="baseControlItem_"][class*="clickable_"]:hover {
+    background-color: var(--card-color-alt-hover) !important;
+}
+
+.baseControlItemTitle_dbfbe0 h2,
+[class*="baseControlItemTitle_"] h2 {
+    color: rgb(246, 243, 237) !important;
+}
+
+/* Dividers between categories duplicate the row borders once rows are cards. */
+.divider__6131a,
+[class*="divider__6131a"] {
+    border-color: var(--card-border-color) !important;
+}
+
+/* The round Edytuj buttons, on the theme's button surface instead of Discord's. */
+.button_a22cb0.secondary_a22cb0,
+[class*="button_a22cb0"][class*="secondary_a22cb0"] {
+    background-color: var(--card-button-color) !important;
+    color: rgb(246, 243, 237) !important;
+    border-radius: var(--button-radius) !important;
+}
+
+.button_a22cb0.secondary_a22cb0:hover,
+[class*="button_a22cb0"][class*="secondary_a22cb0"]:hover {
+    background-color: var(--card-button-color-hover) !important;
 }
