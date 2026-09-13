@@ -15,6 +15,13 @@ name: Pages
 on:
   push:
     branches: [main]
+  # Nothing in this repository has to change for the published file to go stale:
+  # Material moves on CapnKitten's schedule and the class changelist on
+  # SyndiShanX's. Rebuilding daily picks both up without anyone touching the repo,
+  # which is the difference between a build that is current and one that was
+  # current the last time somebody pushed.
+  schedule:
+    - cron: "37 4 * * *"
   workflow_dispatch:
   # Called by update-classes.yml after it commits a repair. A push made with
   # GITHUB_TOKEN does not start another workflow run, so that job cannot rely on
@@ -70,12 +77,17 @@ jobs:
           source: .
           destination: ./_site
 
-      # sudo, because the Jekyll step above runs in a container as root and
-      # leaves _site owned by root; a plain cp here fails with EACCES.
-      - name: Add the generated bundle to the site
+      # The built file takes the place of the source copy Jekyll put there, so the
+      # site publishes one stylesheet under one name - installable by hand in
+      # BetterDiscord and fetchable by the userscript.
+      #
+      # sudo, because the Jekyll step above runs in a container as root and leaves
+      # _site owned by root; a plain cp here fails with EACCES.
+      - name: Publish the built stylesheet under the one public name
         run: |
-          sudo cp ObsidianDiscordBrowser.css ./_site/
-          ls -l ./_site/ObsidianDiscord.theme.css ./_site/ObsidianDiscordBrowser.css
+          sudo cp dist/ObsidianDiscord.theme.css ./_site/ObsidianDiscord.theme.css
+          ls -l ./_site/ObsidianDiscord.theme.css
+          head -4 ./_site/ObsidianDiscord.theme.css
 
       - uses: actions/upload-pages-artifact@v5
         with:

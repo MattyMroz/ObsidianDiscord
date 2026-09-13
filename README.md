@@ -13,8 +13,10 @@
 
 [![ObsidianDiscord.theme.css](https://img.shields.io/badge/Download-ObsidianDiscord.theme.css-darkviolet?style=for-the-badge&logo=github)](https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscord.theme.css)
 
-One stylesheet. Drop it into the BetterDiscord themes folder, or import it from
-your own custom CSS:
+One stylesheet, one address. Drop it into the BetterDiscord themes folder, or
+import it from your own custom CSS. It is rebuilt and republished automatically -
+every day, and on every change - so it keeps working when Discord renames its CSS
+classes underneath it:
 
 #### CSS IMPORT
 
@@ -64,9 +66,9 @@ Once you have Tampermonkey installed, you can download and install the script fr
 [![Tampermonkey Script](https://img.shields.io/badge/Download-Tampermonkey_Script-darkviolet?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.js)
 
 The script is all you need in the browser - do not paste the theme there as well.
-Discord's Content Security Policy blocks the page from fetching Material Discord,
-which this theme is built on, so the script pulls a prebuilt stylesheet that has
-Material already inside it and pastes that in. That file is generated on every
-change and published automatically; it is not something you install by hand.
+It fetches the same stylesheet linked above and pastes it in, which is the only
+way it survives Discord's Content Security Policy: the page itself is not allowed
+to fetch Material Discord, the theme this one is built on, but a userscript is.
+Tampermonkey keeps the script itself up to date on its own.
 
 </p>

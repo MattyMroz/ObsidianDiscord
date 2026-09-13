@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Obsidian Discord Theme
 // @namespace    http://tampermonkey.net/
-// @version      3.0
-// @description  Adds the Obsidian theme to Discord, fetching the prebuilt bundle once so Discord's CSP cannot block Material Discord
+// @version      3.1
+// @description  Adds the Obsidian theme to Discord, fetching the published stylesheet once so Discord's CSP cannot block Material Discord
 // @author       Matty_Mroz
 // @match        https://discord.com/*
 // @grant        GM_addStyle
@@ -15,21 +15,21 @@
 (() => {
     'use strict';
 
-    // The bundle, not the theme and not ObsidianDiscordThemeOnline.css.
+    // The one published stylesheet. Not a second file: the same theme, served
+    // with everything it depends on already inside it.
     //
     // Discord sends style-src 'self' 'unsafe-inline' and img-src 'self' blob:
     // data:, so pasted CSS text applies but anything the page has to fetch from
-    // capnkitten.github.io does not. Fetching the theme left Material Discord
-    // blocked in the browser - all four of its stylesheets - because the theme
-    // reaches Material through @import. The bundle is that whole chain inlined
-    // ahead of time by scripts/build_browser_css.py, its icons turned into data:
-    // URIs, its fonts repointed at fonts.gstatic.com, and the theme appended last
-    // so it still overrides.
+    // capnkitten.github.io does not. The theme reaches Material Discord through
+    // @import, so pasting the source alone left all four Material stylesheets
+    // blocked. scripts/build_browser_css.py folds that whole chain in ahead of
+    // time - icons as data: URIs, fonts repointed at fonts.gstatic.com - and the
+    // Pages workflow publishes the result at this URL on every change.
     //
     // GM_xmlhttpRequest is not bound by the page policy, which is the only reason
     // any of this works.
     const cssUrl =
-        'https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscordBrowser.css';
+        'https://mattymroz.github.io/ObsidianDiscord/ObsidianDiscord.theme.css';
 
     let styleElement = null;
     let cachedCss = null;
