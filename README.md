@@ -63,7 +63,7 @@ To use this script, you'll need to install the Tampermonkey extension. You can g
 
 Once you have Tampermonkey installed, you can download and install the script from the following link:
 
-[![Tampermonkey Script](https://img.shields.io/badge/Download-Tampermonkey_Script-darkviolet?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.js)
+[![Tampermonkey Script](https://img.shields.io/badge/Download-Tampermonkey_Script-darkviolet?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.user.js)
 
 The script is all you need in the browser - do not paste the theme there as well.
 It fetches the same stylesheet linked above and pastes it in, which is the only

@@ -23,7 +23,7 @@ warstwa, której nie da się ominąć przez `--no-verify`.
 - Publikowany arkusz nazywa się **tak samo** jak źródło i nie jest osobnym plikiem projektu: `scripts/build_browser_css.py` zapisuje `dist/ObsidianDiscord.theme.css` (`dist/` jest ignorowane), a `pages.yml` kładzie go w witrynie pod `/ObsidianDiscord.theme.css`. Jedna nazwa, jeden publiczny URL, ta sama instalka dla BetterDiscorda i dla userscriptu. Nie edytuj wyniku builda — każdy przebieg nadpisuje go od zera, poprawki idą do pliku źródłowego.
 - Nagłówek `/** @name ... */` musi zostać **pierwszym blokiem** pliku motywu. Build przenosi go na sam szczyt wyniku, bo BetterDiscord czyta metadane z początku pliku; `verify()` odrzuca bundle bez `@name` w pierwszych 600 znakach.
 - Strażniki bundle (rozmiar, zero `@import`, zero pobrań z capnkitten, dokładnie jedna kopia motywu, zgodny `@version`) siedzą w `verify()` w `build_browser_css.py`, nie w YAML-u. Build sam odmawia zapisu złego pliku, więc PR i deploy dziedziczą tę samą kontrolę. Dodając regułę, dodaj ją tam.
-- Zmiana wyglądu motywu bumpuje `@version` w nagłówku `ObsidianDiscord.theme.css`. `@version` w `ObsidianDiscord.js` jest **niezależny** — to wersja userscriptu, nie motywu.
+- Zmiana wyglądu motywu bumpuje `@version` w nagłówku `ObsidianDiscord.theme.css`. `@version` w `ObsidianDiscord.user.js` jest **niezależny** — to wersja userscriptu, nie motywu.
 - `!important` i zahashowane selektory w CSS są tu złożonością konieczną: nadpisujemy cudzy arkusz o wyższej specyficzności. Nie „sprzątaj" ich.
 - Kod, komentarze, nazwy plików i commity po angielsku (repo publiczne, README angielski). `AGENTS.md` i dokumenty robocze po polsku. Pliki źródłowe (`.css`, `.js`, `.py`) muszą być **czysto ASCII** — pilnuje tego hook `ascii-only`.
 - `assets/img/`: kebab-case, format WebP.
@@ -66,7 +66,7 @@ Co robi build i dlaczego:
 | Ścieżka                                | Rola                                                             |
 | -------------------------------------- | ---------------------------------------------------------------- |
 | `ObsidianDiscord.theme.css`            | **jedyny plik CSS**: źródło prawdy, instalka BetterDiscorda      |
-| `ObsidianDiscord.js`                   | userscript Tampermonkey, pobiera opublikowany bundle             |
+| `ObsidianDiscord.user.js`              | userscript Tampermonkey, pobiera opublikowany bundle             |
 | `scripts/build_browser_css.py`         | składa bundle obok CSP i sam go weryfikuje (`verify()`)          |
 | `scripts/update_classes.py`            | podmiana zahashowanych klas wg changelistu SyndiShanX            |
 | `docs/discord-class-research.md`       | research narzędzi do klas Discorda                               |

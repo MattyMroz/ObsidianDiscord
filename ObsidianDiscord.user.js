@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Obsidian Discord Theme
 // @namespace    http://tampermonkey.net/
-// @version      4.0
+// @version      4.1
 // @description  Adds the Obsidian theme to Discord, from cache before the first paint so no unstyled frame is ever shown
 // @author       Matty_Mroz
 // @match        https://discord.com/*
@@ -10,8 +10,11 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @connect      mattymroz.github.io
-// @updateURL    https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.js
-// @downloadURL  https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.js
+// The .user.js suffix is load-bearing: Tampermonkey only offers its install
+// screen for URLs that end in it. Named ObsidianDiscord.js, the raw link opened
+// as plain text and clicking it installed nothing.
+// @updateURL    https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.user.js
+// @downloadURL  https://raw.githubusercontent.com/MattyMroz/ObsidianDiscord/main/ObsidianDiscord.user.js
 // ==/UserScript==
 
 (() => {
