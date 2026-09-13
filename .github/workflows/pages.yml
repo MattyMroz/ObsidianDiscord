@@ -70,9 +70,11 @@ jobs:
           source: .
           destination: ./_site
 
+      # sudo, because the Jekyll step above runs in a container as root and
+      # leaves _site owned by root; a plain cp here fails with EACCES.
       - name: Add the generated bundle to the site
         run: |
-          cp ObsidianDiscordBrowser.css ./_site/
+          sudo cp ObsidianDiscordBrowser.css ./_site/
           ls -l ./_site/ObsidianDiscord.theme.css ./_site/ObsidianDiscordBrowser.css
 
       - uses: actions/upload-pages-artifact@v5
