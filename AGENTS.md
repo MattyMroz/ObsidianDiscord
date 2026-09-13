@@ -5,12 +5,16 @@ Motyw Discorda w schemacie kolorów Obsidian, zbudowany jako nadbudowa na Materi
 ## Bramki jakości
 
 ```sh
-uv run ruff format --check tools
-uv run ruff check tools
-uv run mypy
+prek run --all-files                      # cała bramka
+prek run --hook-stage manual --all-files  # czy któryś hook nie jest martwy
+uv run mypy                               # hook pre-push, nie łapie go run --all-files
 ```
 
-Środowisko: `uv sync` (Python >=3.14, `.venv` + `uv.lock` w repo).
+Po klonie: `uv sync`, `git config --local core.autocrlf false`, `prek install`.
+Bez `autocrlf false` hook `mixed-line-ending` wpada w pętlę z `.gitattributes`.
+
+CI (`.github/workflows/ci.yml`) powtarza bramkę plus dwa strażniki aliasu — to jedyna
+warstwa, której nie da się ominąć przez `--no-verify`.
 
 ## Twarde reguły
 
@@ -19,8 +23,9 @@ uv run mypy
 - Nazwa pliku motywu **musi kończyć się na `.theme.css`** — BetterDiscord ładuje z folderu motywów tylko takie pliki.
 - Zmiana wyglądu motywu bumpuje `@version` w nagłówku `ObsidianDiscord.theme.css`. `@version` w `ObsidianDiscord.js` jest **niezależny** — to wersja userscriptu, nie motywu.
 - `!important` i zahashowane selektory w CSS są tu złożonością konieczną: nadpisujemy cudzy arkusz o wyższej specyficzności. Nie „sprzątaj" ich.
-- Kod, komentarze, nazwy plików i commity po angielsku (repo publiczne, README angielski). `AGENTS.md` i dokumenty robocze po polsku.
+- Kod, komentarze, nazwy plików i commity po angielsku (repo publiczne, README angielski). `AGENTS.md` i dokumenty robocze po polsku. Pliki źródłowe (`.css`, `.js`, `.py`) muszą być **czysto ASCII** — pilnuje tego hook `ascii-only`.
 - `assets/img/`: kebab-case, format WebP.
+- Commity: Conventional Commits ze **obowiązkowym scope**, wymuszane przez hook `commit-msg` i workflow `pr-title.yml`. Dozwolone scope: `theme`, `userscript`, `tools`, `assets`, `docs`, `git`, `hooks`, `ci`. Lista żyje w dwóch miejscach (`.pre-commit-config.yaml` i `pr-title.yml`) — `pre-commit` nie umie dzielić konfiguracji między plikami, więc przy zmianie popraw oba.
 
 ## Klasy CSS Discorda
 
@@ -45,6 +50,9 @@ Przy dotykaniu selektorów preferuj rzeczy odporne na hash: `var(--background-pr
 | `tools/update_classes.py`             | podmiana zahashowanych klas wg changelistu SyndiShanX  |
 | `knowledge/discord-class-research.md` | research narzędzi do klas Discorda                     |
 | `assets/img/`                         | zrzuty ekranu do README                                |
+| `.pre-commit-config.yaml`             | bramka `prek`, oparta na `agents/presets/hooks`        |
+| `biome.json`                          | formatter i linter CSS/JS, trzy reguły świadomie off   |
+| `.github/workflows/ci.yml`            | bramka serwerowa + strażnicy aliasu i sufiksu motywu   |
 
 ## Pułapki
 
