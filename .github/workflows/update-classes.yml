@@ -2,8 +2,9 @@ name: Discord class updates
 
 # Discord rewrites its CSS class hashes on every client update, which silently
 # kills selectors in the theme. SyndiShanX publishes the old -> new mappings, so
-# this runs the repair daily, rebuilds the browser bundle on top of it, and
-# commits straight to main once both pass their guards.
+# this runs the repair daily and commits straight to main once it passes its
+# guard, then hands over to the Pages workflow, which rebuilds the browser bundle
+# from the repaired theme and publishes it.
 
 on:
   schedule:
@@ -24,6 +25,8 @@ jobs:
   update:
     name: Apply the changelist
     runs-on: ubuntu-latest
+    outputs:
+      repaired: ${{ steps.commit.outputs.repaired }}
     steps:
       - uses: actions/checkout@v7
 
@@ -83,69 +86,39 @@ jobs:
 
           echo "guard passed: $before rule blocks, header and imports untouched"
 
-      # The bundle carries a copy of the theme and a copy of Material, so a repair
-      # that stops at the theme leaves every browser user on the broken selectors.
-      # It is rebuilt unconditionally: Material is vendored in here, and it moves
-      # on CapnKitten's schedule, not on ours. BetterDiscord users already track
-      # those changes live through @import with no review at all, so the bundle is
-      # only catching up to what they are served anyway.
-      - name: Rebuild the browser bundle
-        run: uv run --no-dev python scripts/build_browser_css.py
-
-      - name: Refuse a bundle that would not survive Discord's CSP
-        run: |
-          bundle=ObsidianDiscordBrowser.css
-          theme=ObsidianDiscord.theme.css
-
-          size=$(wc -c <"$bundle")
-          if [ "$size" -lt 400000 ]; then
-            echo "::error file=$bundle::$size bytes, expected at least 400000"
-            exit 1
-          fi
-
-          # The whole reason this file exists: nothing in it may need fetching.
-          if grep -q '@import' "$bundle"; then
-            echo "::error file=$bundle::an @import survived; the page would be blocked"
-            exit 1
-          fi
-          if grep -Eq 'url\(\s*.?https://capnkitten' "$bundle"; then
-            echo "::error file=$bundle::a capnkitten URL survived; img-src blocks it"
-            exit 1
-          fi
-
-          # And it has to be this theme, not a stale copy of it.
-          if [ "$(grep -c '^/\* ObsidianDiscord\.theme\.css \*/$' "$bundle")" -ne 1 ]; then
-            echo "::error file=$bundle::the appended theme is missing or duplicated"
-            exit 1
-          fi
-          version=$(grep -m1 '@version' "$theme")
-          if ! grep -qF "$version" "$bundle"; then
-            echo "::error file=$bundle::does not carry '$version' from the theme"
-            exit 1
-          fi
-
-          echo "guard passed: $size bytes, no fetches, carries $version"
-
       - name: Commit the repair to main
+        id: commit
         run: |
           theme=ObsidianDiscord.theme.css
-          bundle=ObsidianDiscordBrowser.css
-
-          if git diff --quiet -- "$theme" "$bundle"; then
-            echo "Nothing moved."
-            exit 0
-          fi
 
           if git diff --quiet -- "$theme"; then
-            message="chore(theme): rebuild the browser bundle"
-          else
-            message="fix(theme): update Discord class hashes"
+            echo "Nothing moved."
+            echo "repaired=false" >>"$GITHUB_OUTPUT"
+            exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Only these two are ever staged, so a stray file cannot ride along.
-          git add -- "$theme" "$bundle"
-          git commit -m "$message"
+          # Only the theme is ever staged, so a stray file cannot ride along.
+          git add -- "$theme"
+          git commit -m "fix(theme): update Discord class hashes"
           git push origin HEAD:main
+          echo "repaired=true" >>"$GITHUB_OUTPUT"
+
+  # The published bundle carries a copy of the theme, so a repair that stops at
+  # the commit above leaves every browser user on the dead selectors until the
+  # next unrelated push. It cannot be left to the push trigger either: a push made
+  # with GITHUB_TOKEN starts no further workflow runs.
+  publish:
+    name: Publish the repaired theme
+    needs: update
+    if: needs.update.outputs.repaired == 'true'
+    # main, not the commit this run started from - that one predates the repair.
+    uses: ./.github/workflows/pages.yml
+    with:
+      ref: main
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

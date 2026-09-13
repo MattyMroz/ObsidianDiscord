@@ -1,0 +1,83 @@
+name: Pages
+
+# The browser bundle is built here instead of being committed.
+#
+# It is 650 KB of machine output: Material Discord inlined, icons turned into
+# data: URIs, fonts repointed at gstatic. Keeping it in the repository meant the
+# only hand-written stylesheet sat next to a generated near-copy of itself, and
+# every theme change produced two diffs where one of them was noise nobody could
+# read. Worse, the copy in git went stale the moment anyone forgot to rebuild.
+#
+# So Pages no longer serves the branch. This workflow builds the site, adds the
+# freshly generated bundle to it, and deploys that - which means the published
+# bundle is always built from the theme as it exists on main.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # Called by update-classes.yml after it commits a repair. A push made with
+  # GITHUB_TOKEN does not start another workflow run, so that job cannot rely on
+  # the push trigger above and calls this one directly.
+  workflow_call:
+    inputs:
+      ref:
+        description: Commit or branch to publish
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  # Never cancel a deploy in flight; a half-finished one would take the live
+  # stylesheet URLs down with it.
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      # The build refuses to write a bundle that would fail Discord's CSP or one
+      # built from a theme other than this checkout, so the deploy below cannot
+      # publish a broken stylesheet.
+      - name: Build the browser bundle
+        run: uv run --no-dev python scripts/build_browser_css.py
+
+      - uses: actions/configure-pages@v6
+
+      # Same Jekyll the branch-served site ran, so the rendered README stays at
+      # the site root and every existing URL keeps resolving.
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: .
+          destination: ./_site
+
+      - name: Add the generated bundle to the site
+        run: |
+          cp ObsidianDiscordBrowser.css ./_site/
+          ls -l ./_site/ObsidianDiscord.theme.css ./_site/ObsidianDiscordBrowser.css
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./_site
+
+      - id: deployment
+        uses: actions/deploy-pages@v5

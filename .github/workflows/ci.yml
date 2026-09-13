@@ -47,45 +47,64 @@ jobs:
       - name: mypy
         run: uv run mypy
 
-  alias:
-    name: Theme alias
+  single_stylesheet:
+    name: One stylesheet
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
-      # The theme once lived in two copies that drifted apart and shipped
-      # different styling to BetterDiscord and browser users for months. These
-      # two assertions are what would have caught it.
-      - name: Alias forwards and carries no rules of its own
+      # This project shipped three stylesheets at once: the theme, a one-line
+      # @import alias, and a generated 650 KB bundle. Two of them were copies of
+      # the third in some form, an earlier pair drifted apart and served different
+      # styling to BetterDiscord and browser users for months, and nobody could
+      # tell from the repository which file was authoritative.
+      #
+      # There is one now, and this is what keeps it that way. The browser bundle
+      # is built by the Pages workflow and published from there, never committed.
+      - name: The repository tracks exactly one stylesheet
         run: |
-          alias_file=ObsidianDiscordThemeOnline.css
+          tracked=$(git ls-files '*.css')
+          count=$(printf '%s\n' "$tracked" | grep -c . || true)
 
-          imports=$(grep -c '^@import' "$alias_file")
-          if [ "$imports" -ne 1 ]; then
-            echo "::error file=$alias_file::expected exactly 1 @import, found $imports"
-            exit 1
-          fi
-
-          if grep -q '{' "$alias_file"; then
-            echo "::error file=$alias_file::contains a rule block; it must only forward"
-            exit 1
-          fi
-
-          target=$(sed -n 's|^@import url(.*/\([^/)]*\));|\1|p' "$alias_file")
-          if [ ! -f "$target" ]; then
-            echo "::error file=$alias_file::forwards to '$target', which is not in the repo"
-            exit 1
-          fi
-          echo "alias -> $target"
-
-      # BetterDiscord only loads files matching *.theme.css from its themes dir.
-      - name: Theme file keeps the suffix BetterDiscord requires
-        run: |
-          count=$(ls -1 *.theme.css 2>/dev/null | wc -l)
           if [ "$count" -ne 1 ]; then
-            echo "::error::expected exactly 1 *.theme.css in the root, found $count"
+            echo "::error::expected exactly 1 tracked .css file, found $count:"
+            printf '%s\n' "$tracked"
             exit 1
           fi
-          ls -1 *.theme.css
+
+          # BetterDiscord only loads files matching *.theme.css from its themes
+          # directory, so the one file has to be installable as it stands.
+          case "$tracked" in
+            ObsidianDiscord.theme.css) ;;
+            *)
+              echo "::error::the tracked stylesheet is '$tracked'"
+              echo "::error::it must be ObsidianDiscord.theme.css - BetterDiscord loads *.theme.css only"
+              exit 1
+              ;;
+          esac
+
+          echo "single stylesheet: $tracked"
+
+  bundle:
+    name: Browser bundle
+    runs-on: ubuntu-latest
+    # On main the Pages workflow builds and publishes the same bundle, so
+    # building it twice per push would only double the load on the hosts it
+    # fetches from. Pull requests have no deploy, which is exactly where an
+    # unbuildable bundle would otherwise go unnoticed until it was merged.
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      # The script carries its own guards - size, no @import, no capnkitten URL,
+      # exactly one copy of this theme in it - and exits non-zero when one fails.
+      - name: Build refuses to produce a bundle a browser would reject
+        run: uv run --no-dev python scripts/build_browser_css.py

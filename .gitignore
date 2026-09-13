@@ -291,6 +291,11 @@ logs/
 # Discord class changelist from SyndiShanX — always fetch fresh, never pin a copy.
 Changes.txt
 
+# Browser bundle — 650 KB of build output, published by .github/workflows/pages.yml.
+# Committed, it sat next to the theme as a generated near-copy of it and went stale
+# whenever a rebuild was forgotten.
+ObsidianDiscordBrowser.css
+
 # ── Re-includes ───────────────────────────────────────────────────────────────
 # Every keeper lives HERE, not next to the rule it escapes — a template pasted
 # into section 8 would otherwise bury negations written above it.
