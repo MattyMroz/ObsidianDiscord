@@ -14,7 +14,6 @@ on:
 # because it never declared these. Set them explicitly.
 permissions:
   contents: write
-  pull-requests: write
 
 concurrency:
   group: class-updates
@@ -47,16 +46,47 @@ jobs:
             "$RUNNER_TEMP/Changes.txt" \
             ObsidianDiscord.theme.css
 
-      - name: Open or update the pull request
-        env:
-          GH_TOKEN: ${{ github.token }}
+      # A pull request would leave the theme broken until somebody noticed it,
+      # which is the problem this workflow exists to remove. The changelist maps
+      # one hashed class name onto another, so if Discord moved a hash the theme
+      # has to move with it. These assertions stand in for the human: they fail
+      # the run rather than commit something that changed more than class names.
+      - name: Refuse a change that touches anything but class names
         run: |
-          branch=class-updates
           theme=ObsidianDiscord.theme.css
 
-          # Nothing moved: no branch, no commit, no pull request, exit clean.
           if git diff --quiet -- "$theme"; then
             echo "Theme already matches the changelist."
+            exit 0
+          fi
+
+          git show "HEAD:$theme" >"$RUNNER_TEMP/before.css"
+
+          # The header carries @name, @version and the credits, and line 13 is the
+          # Material Discord import the theme is built on. None of it is a class.
+          for probe in '^@import' '@name' '@version' '@author' '@source' '@credit'; do
+            if ! diff <(grep -- "$probe" "$RUNNER_TEMP/before.css") \
+                      <(grep -- "$probe" "$theme") >/dev/null; then
+              echo "::error file=$theme::a line matching '$probe' changed; refusing to commit"
+              exit 1
+            fi
+          done
+
+          # Renaming classes cannot add or remove a rule block.
+          before=$(grep -c '{' "$RUNNER_TEMP/before.css")
+          after=$(grep -c '{' "$theme")
+          if [ "$before" -ne "$after" ]; then
+            echo "::error file=$theme::rule blocks went from $before to $after; refusing to commit"
+            exit 1
+          fi
+
+          echo "guard passed: $before rule blocks, header and imports untouched"
+
+      - name: Commit the repair to main
+        run: |
+          theme=ObsidianDiscord.theme.css
+
+          if git diff --quiet -- "$theme"; then
             exit 0
           fi
 
@@ -64,33 +94,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           # Only the theme is ever staged, so a stray file cannot ride along.
-          git checkout -B "$branch"
           git add -- "$theme"
           git commit -m "fix(theme): update Discord class hashes"
-
-          # The branch belongs to this workflow alone, and every run rebuilds it
-          # from current main, so overwriting it is the intended behaviour.
-          git push --force origin "$branch"
-
-          if [ -n "$(gh pr list --head "$branch" --state open --json number --jq '.[].number')" ]; then
-            echo "Existing pull request updated."
-            exit 0
-          fi
-
-          gh pr create \
-            --head "$branch" \
-            --base main \
-            --title "fix(theme): update Discord class hashes" \
-            --body "$(cat <<'BODY'
-          Automated run of `scripts/update_classes.py` against the current
-          [SyndiShanX changelist](https://github.com/SyndiShanX/Update-Classes).
-
-          **Review before merging. Do not auto-merge.** The script replaces
-          substrings across the whole file, so a mapping can in principle land
-          somewhere other than a selector, and only a human can tell whether the
-          theme still looks right in Discord.
-
-          Bump `@version` in the theme header as part of the merge if the change
-          is visible to users.
-          BODY
-          )"
+          git push origin HEAD:main

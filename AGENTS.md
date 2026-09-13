@@ -31,7 +31,9 @@ warstwa, której nie da się ominąć przez `--no-verify`.
 
 Discord używa CSS Modules — selektory typu `members_cbd271` mają hash, który zmienia się przy **każdym** update klienta i łamie motyw.
 
-Robi to za nas `.github/workflows/update-classes.yml`: codziennie pobiera changelist SyndiShanX i przy zmianach aktualizuje PR na branchu `class-updates`. **PR wymaga review i nie wolno go auto-mergować** — skrypt podmienia podciągi w całym pliku, więc tylko człowiek stwierdzi, czy motyw dalej wygląda poprawnie. `@version` bumpuje człowiek przy merge'u.
+Robi to za nas `.github/workflows/update-classes.yml`: codziennie pobiera changelist SyndiShanX i przy zmianach **commituje naprawę wprost na `main`**. Bez PR-a celowo — motyw z martwymi selektorami jest zepsuty do chwili naprawy, więc czekanie na review przywraca dokładnie ten problem, który ten automat usuwa.
+
+Rolę recenzenta pełni strażnik w tym samym workflow: odrzuca przebieg, jeśli podmiana ruszyła nagłówek, którykolwiek `@import` albo liczbę bloków reguł. Zmiana nazw klas nie może zrobić żadnej z tych rzeczy. `@version` nie jest bumpowany — naprawa hashy przywraca zamierzony wygląd, nie tworzy nowego.
 
 Ręcznie, gdy potrzebny jest przebieg poza harmonogramem:
 
@@ -57,7 +59,7 @@ Przy dotykaniu selektorów preferuj rzeczy odporne na hash: `var(--background-pr
 | `.pre-commit-config.yaml`              | bramka `prek`, oparta na `agents/presets/hooks`        |
 | `biome.json`                           | formatter i linter CSS/JS, trzy reguły świadomie off   |
 | `.github/workflows/ci.yml`             | bramka serwerowa + strażnicy aliasu i sufiksu motywu   |
-| `.github/workflows/update-classes.yml` | codzienna auto-naprawa klas, otwiera PR                |
+| `.github/workflows/update-classes.yml` | codzienna auto-naprawa klas, commit na `main`          |
 
 ## Pułapki
 
