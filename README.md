@@ -4,7 +4,7 @@
 
 ### <p align="center">
 
-<img src="./assets/img/DiscordIconBaner.jpg" alt="" width="100%" height="">
+<img src="./assets/img/banner.webp" alt="Obsidian Discord banner" width="100%">
 </p>
 
 ## Files
@@ -28,22 +28,22 @@
 ### <p align="center">📸 Obsidian Discord</p>
 
 <p align="center">
-<img src="./assets/img/BetterDiscordLogo.png" alt="" width="50%" height="">
-<img src="./assets/img/ObsidianDiscordTheme_1.png" alt="" width="100%" height="">
-<img src="./assets/img/ObsidianDiscordTheme_2.png" alt="" width="100%" height="">
-<img src="./assets/img/ObsidianDiscordTheme_3.png" alt="" width="100%" height="">
-<img src="./assets/img/ObsidianDiscordTheme_4.png" alt="" width="75%" height="">
+<img src="./assets/img/betterdiscord-logo.webp" alt="BetterDiscord logo" width="50%">
+<img src="./assets/img/preview-1.webp" alt="Obsidian Discord theme preview 1" width="100%">
+<img src="./assets/img/preview-2.webp" alt="Obsidian Discord theme preview 2" width="100%">
+<img src="./assets/img/preview-3.webp" alt="Obsidian Discord theme preview 3" width="100%">
+<img src="./assets/img/preview-4.webp" alt="Obsidian Discord theme preview 4" width="75%">
 </p>
 
 ### <p align="center">⚡ Installation – BetterDiscord</p>
 
 <p align="center">
-<img src="./assets/img/ObsidianDiscordTheme_0.png" alt="" width="100%" height="">
-<img src="./assets/img/BetterDiscordWeb.png" alt="" width="100%" height="">
-<img src="./assets/img/Install.png" alt="" width="100%" height="">
-<img src="./assets/img/Motywy.png" alt="" width="100%" height="">
-<img src="./assets/img/ObsidianDiscordAll.theme.css.png" alt="" width="100%" height="">
-<img src="./assets/img/Installed.png" alt="" width="100%" height="">
+<img src="./assets/img/install-1.webp" alt="Step 1 – theme overview" width="100%">
+<img src="./assets/img/install-2.webp" alt="Step 2 – BetterDiscord website" width="100%">
+<img src="./assets/img/install-3.webp" alt="Step 3 – install BetterDiscord" width="100%">
+<img src="./assets/img/install-4.webp" alt="Step 4 – open the Themes folder" width="100%">
+<img src="./assets/img/install-5.webp" alt="Step 5 – drop the .theme.css file into the folder" width="100%">
+<img src="./assets/img/install-6.webp" alt="Step 6 – theme installed and enabled" width="100%">
 </p>
 
 ### <p align="center">⚡ Browser - Configuration</p>
