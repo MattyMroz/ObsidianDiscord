@@ -1,5 +1,8 @@
 {
     "$schema": "https://biomejs.dev/schemas/2.5.7/schema.json",
+    "files": {
+        "includes": ["**", "!ObsidianDiscordBrowser.css"]
+    },
     "formatter": {
         "indentStyle": "space",
         "indentWidth": 4

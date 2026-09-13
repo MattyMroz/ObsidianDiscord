@@ -57,8 +57,13 @@ repos:
     hooks:
       # Fixes typos on its own. Its dictionary is English only, and the Polish
       # documents in this repo are all .md.
+      #
+      # The browser bundle is generated and carries Google's @font-face blocks.
+      # Their unicode-range hex reads as misspelled English to this hook, which
+      # then demands corrections inside codepoint ranges. The file holds no prose
+      # to check in the first place.
       - id: typos
-        exclude: \.md$
+        exclude: \.md$|^ObsidianDiscordBrowser\.css$
 
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.4.0
