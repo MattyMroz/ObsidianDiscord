@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.5.3
+ * @version 1.5.4
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -264,6 +264,12 @@
 [class*="mentionsBar_"],
 [class*="mentionsBar_"] [class*="barText_"] {
     color: var(--alert-text-color) !important;
+    text-transform: none !important;
+}
+
+[class*="container_"]:has(> [class*="mentionsBar_"]) {
+    padding-block: 12px !important;
+    overflow: visible !important;
 }
 
 /*
