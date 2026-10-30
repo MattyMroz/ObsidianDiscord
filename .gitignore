@@ -13,6 +13,7 @@
 .claude/*
 .codex/*
 .agents/
+.worktrees/*
 
 # ── AI agents: other tools — uncomment what you use ───────────────────────────
 # .cursor/*
@@ -287,7 +288,7 @@ logs/
 # github.com/github/gitignore — paste below this line.
 # Everything after this section overrides templates, which is the point.
 
-# ── Project-specific ──────────────────────────────────────────────────────────
+# ── Project-specific — fill in, delete the rest ───────────────────────────────
 # Discord class changelist from SyndiShanX — always fetch fresh, never pin a copy.
 Changes.txt
 
@@ -306,7 +307,8 @@ ObsidianDiscordBrowser.css
 !.claude/
 !.claude/settings.json
 !.claude/commands/
-!.codex/hooks.json
+!.worktrees/
+!.worktrees/.gitkeep
 !.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json

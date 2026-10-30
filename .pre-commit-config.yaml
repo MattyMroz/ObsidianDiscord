@@ -72,7 +72,7 @@ repos:
         stages: [commit-msg]
         args:
           - --force-scope
-          - --scopes=theme,userscript,scripts,assets,docs,git,hooks,ci
+          - --scopes=theme,userscript,scripts,assets,docs,git,hooks,ci,repo
           - feat
           - fix
           - chore
@@ -84,6 +84,16 @@ repos:
           - ci
           - build
           - revert
+
+# ── OWN STANDARDS ─────────────────────────────────────────────────────────────
+# Scope lives in the published hook definitions; do not repeat files/types here.
+
+  - repo: https://github.com/MattyMroz/agents
+    rev: hooks-v1.1.0 # or newer: prek autoupdate
+    hooks:
+      # Commit body: summary + Validation block bound to recorded runs.
+      # Format and the mm-validate workflow: presets/hooks/references/commit-message.md
+      - id: commit-validation
 
 # ── MARKDOWN ──────────────────────────────────────────────────────────────────
 

@@ -1,7 +1,11 @@
 {
     "$schema": "https://biomejs.dev/schemas/2.5.7/schema.json",
     "files": {
-        "includes": ["**", "!ObsidianDiscordBrowser.css"]
+        "includes": [
+            "**",
+            "!ObsidianDiscordBrowser.css",
+            "!.claude/settings.json"
+        ]
     },
     "formatter": {
         "indentStyle": "space",
