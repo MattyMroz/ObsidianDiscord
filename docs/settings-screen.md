@@ -61,7 +61,7 @@ Kandydat `margin-inline-end: 0` naprawia układ „arkusz wszedł przed otwarcie
 ## Jak to sprawdzić ponownie
 
 1. Uruchomić przeglądarkę z debugowaniem i wyłączonym usypianiem kart, zalogować się w Discordzie.
-2. Wstrzyknąć bundle jako tekst (`GM_xmlhttpRequest` w userscripcie robi to samo; w teście wystarczy dodać `<style>` z zawartością pliku).
+2. Wstrzyknąć bundle tak samo jak userscript: `new CSSStyleSheet()` + `replaceSync(tekst)` dopisany do `document.adoptedStyleSheets`. Nie przez `<style>`: Discord dokleja leniwie ładowane arkusze za nim i wynik pomiaru zależy wtedy od tego, co zdążyło się załadować.
 3. Otworzyć ustawienia kliknięciem zębatki.
 4. Odczytać `getBoundingClientRect()` i `getComputedStyle()` na elementach z tabel powyżej i porównać z kolumną „obowiązuje".
 5. Różnica znaczy, że albo Discord zmienił hashe klas (patrz `AGENTS.md`, sekcja o klasach), albo ktoś zmienił wartość bez pomiaru.

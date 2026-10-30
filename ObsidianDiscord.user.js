@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Obsidian Discord Theme
 // @namespace    http://tampermonkey.net/
-// @version      4.1
+// @version      5.0
 // @description  Adds the Obsidian theme to Discord, from cache before the first paint so no unstyled frame is ever shown
 // @author       Matty_Mroz
 // @match        https://discord.com/*
@@ -50,107 +50,40 @@
         console.error('ObsidianDiscord: cache unreadable', error);
     }
 
-    let styleElement = null;
+    // Adopted, not a <style> element. Discord ships its CSS in hundreds of
+    // chunks, many loaded only when a screen or dialog first opens, and appends
+    // each one to <head>. A <style> put there at document-start sat in the middle
+    // of that queue, and every chunk loaded after it beat Material wherever both
+    // used the same specificity: channel rows grew from 36 to 44 px and the
+    // create-channel dialog fell apart. Adopted sheets cascade after every sheet
+    // in the document however late those arrive, and Discord never touches them,
+    // so nothing has to be moved, polled or put back.
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(css);
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
 
-    function ensureStyle() {
-        if (!css) {
-            return;
-        }
-        if (styleElement && styleElement.isConnected) {
-            return;
-        }
+    GM_xmlhttpRequest({
+        method: 'GET',
+        url: cssUrl,
+        onload: (response) => {
+            if (response.status !== 200) {
+                console.error('ObsidianDiscord: HTTP', response.status);
+                return;
+            }
+            if (response.responseText === css) {
+                return;
+            }
 
-        // At document-start there may be no <head> yet. <html> takes a <style>
-        // just as well, and the poll below moves it once the head exists.
-        const parent = document.head || document.documentElement;
-        if (!parent) {
-            return;
-        }
-
-        styleElement = document.createElement('style');
-        styleElement.id = 'obsidian-discord';
-        styleElement.textContent = css;
-        parent.appendChild(styleElement);
-    }
-
-    // Injecting this early means Discord's own stylesheets load after it, and the
-    // rules Material does not mark !important would lose to them on equal
-    // specificity. appendChild on a node already in the document moves it, so
-    // this puts the theme back at the end once Discord is done adding its own.
-    function moveLast() {
-        if (!styleElement || !document.head) {
-            return;
-        }
-        if (document.head.lastElementChild === styleElement) {
-            return;
-        }
-        document.head.appendChild(styleElement);
-    }
-
-    function refresh() {
-        GM_xmlhttpRequest({
-            method: 'GET',
-            url: cssUrl,
-            onload: (response) => {
-                if (response.status !== 200) {
-                    console.error('ObsidianDiscord: HTTP', response.status);
-                    return;
-                }
-                if (response.responseText === css) {
-                    return;
-                }
-
-                css = response.responseText;
-                try {
-                    GM_setValue(cacheKey, css);
-                } catch (error) {
-                    console.error('ObsidianDiscord: cache unwritable', error);
-                }
-
-                if (styleElement) {
-                    styleElement.remove();
-                    styleElement = null;
-                }
-                ensureStyle();
-                moveLast();
-            },
-            onerror: (error) => {
-                console.error('ObsidianDiscord: fetch failed', error);
-            },
-        });
-    }
-
-    // Styled from the first frame, on every load after the first one.
-    ensureStyle();
-    refresh();
-
-    // The poll is the backstop for Discord tearing the element out; the history
-    // hooks only make that reattach immediate instead of up to 100 ms late.
-    setInterval(ensureStyle, 100);
-
-    document.addEventListener('DOMContentLoaded', () => {
-        ensureStyle();
-        moveLast();
+            css = response.responseText;
+            try {
+                GM_setValue(cacheKey, css);
+            } catch (error) {
+                console.error('ObsidianDiscord: cache unwritable', error);
+            }
+            sheet.replaceSync(css);
+        },
+        onerror: (error) => {
+            console.error('ObsidianDiscord: fetch failed', error);
+        },
     });
-
-    window.addEventListener('load', () => {
-        ensureStyle();
-        moveLast();
-    });
-
-    window.addEventListener('popstate', ensureStyle);
-    window.addEventListener('hashchange', ensureStyle);
-
-    const originalPushState = history.pushState;
-    const originalReplaceState = history.replaceState;
-
-    history.pushState = function () {
-        originalPushState.apply(this, arguments);
-        ensureStyle();
-    };
-
-    history.replaceState = function () {
-        originalReplaceState.apply(this, arguments);
-        ensureStyle();
-    };
 })();
