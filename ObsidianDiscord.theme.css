@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.5.5
+ * @version 1.5.6
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -255,8 +255,7 @@
 }
 
 .bar__3b95d,
-[class*="mentionsBar_"],
-.live_a7acae {
+[class*="mentionsBar_"] {
     background-color: var(--bar-color) !important;
     box-shadow: 0px 0px 10px 2px var(--bar-box-shadow-color) !important;
 }
@@ -830,6 +829,36 @@ div.hoverBarButton_f84418.button_f7ecac svg [stroke="currentColor"] {
 [class*="menu_"] [class*="item_"],
 .menu_c1e9c4 .item_c1e9c4 {
     flex-direction: row !important;
+}
+
+/*
+  *
+  *	RADIO OPTIONS WITH AN ICON
+  *	Discord now lays a radio option out from its own variables: the text starts
+  *	at --custom-radio-text-start, the leading icon sits there too and the text
+  *	of an option with an icon moves on by --custom-radio-icon-offset. Material
+  *	pads the option with a fixed 44px and centers the radio, so in the
+  *	create-channel dialog the title ran over the icon, the icon stuck to the
+  *	top edge and the description slid under the radio. Handing Discord's own
+  *	variable Material's 44px puts every piece back in its place.
+  *	Hashed on purpose: these only correct Material's hashed rule, and must die
+  *	with it rather than outlive it.
+  *
+  */
+
+.radioGroupOption__64e61 {
+    --custom-radio-text-start: 44px;
+}
+
+.radioGroupOption__64e61.withLeadingIcon__64e61 {
+    padding-inline-start: calc(
+        var(--custom-radio-text-start) +
+        var(--custom-radio-icon-offset)
+    );
+}
+
+.radioGroupOption__64e61 > .radioItemIcon__64e61 {
+    inset-block-start: var(--space-12);
 }
 
 /*
