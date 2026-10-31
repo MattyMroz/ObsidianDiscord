@@ -28,6 +28,8 @@ repos:
     hooks:
       # Fixes the file, then fails the commit. Run `git add` and commit again.
       - id: trailing-whitespace
+        # Two trailing spaces are a hard line break in Markdown.
+        args: [--markdown-linebreak-ext=md]
       - id: end-of-file-fixer
       - id: mixed-line-ending
         args: [--fix=lf]
@@ -55,15 +57,14 @@ repos:
   - repo: https://github.com/crate-ci/typos
     rev: v1.49.0
     hooks:
-      # Fixes typos on its own. Its dictionary is English only, and the Polish
-      # documents in this repo are all .md.
-      #
-      # The browser bundle is generated and carries Google's @font-face blocks.
-      # Their unicode-range hex reads as misspelled English to this hook, which
-      # then demands corrections inside codepoint ranges. The file holds no prose
-      # to check in the first place.
+      # Reports only: its dictionary is English, and with the default
+      # --write-changes it rewrote Polish words into English ones.
+      # Count its findings on main first: Polish words in code are findings
+      # too, and a hook with a backlog blocks every commit. Keep it only at
+      # zero; a later false positive goes to _typos.toml [default.extend-words].
       - id: typos
-        exclude: \.md$|^ObsidianDiscordBrowser\.css$
+        args: [--force-exclude]
+        types_or: [python, pyi, javascript, jsx, ts, tsx, rust, shell]
 
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.4.0
