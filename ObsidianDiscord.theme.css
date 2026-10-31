@@ -1,6 +1,6 @@
 /**
  * @name Obsidian Discord
- * @version 1.5.6
+ * @version 1.5.7
  * @description A theme for Discord based on the Obsidian color scheme + a few extras
  * @author Matty_Mroz
  *
@@ -439,10 +439,6 @@ div.hoverBarButton_f84418.button_f7ecac svg.icon_f84418 {
     opacity: 1 !important;
     visibility: visible !important;
     overflow: visible !important;
-}
-
-div.hoverBarButton_f84418.button_f7ecac > svg.icon_f84418 {
-    margin-right: 6px !important;
 }
 
 .button_f7ecac svg [fill="currentColor"],
