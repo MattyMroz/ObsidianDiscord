@@ -84,7 +84,7 @@ repos:
 # Scope lives in the published hook definitions; do not repeat files/types here.
 
   - repo: https://github.com/MattyMroz/agents
-    rev: hooks-v1.2.0 # or newer: prek autoupdate
+    rev: hooks-v1.3.0 # or newer: prek autoupdate
     hooks:
       # U+FFFD is what a botched encoding leaves behind.
       - id: no-replacement-char
@@ -146,7 +146,7 @@ repos:
 # this guards is real: a Polish CSS comment shipped in the theme until 1.2.7.
 
   - repo: https://github.com/MattyMroz/agents
-    rev: hooks-v1.2.0
+    rev: hooks-v1.3.0
     hooks:
       - id: ascii-only
         files: \.(css|js|py)$
