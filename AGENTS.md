@@ -13,12 +13,11 @@ uv run mypy                               # hook pre-push, nie łapie go run --a
 Po klonie: `uv sync`, `git config --local core.autocrlf false`, `prek install`.
 Bez `autocrlf false` hook `mixed-line-ending` wpada w pętlę z `.gitattributes`.
 
-CI (`.github/workflows/ci.yml`) powtarza bramkę plus strażnika jednego arkusza — to jedyna
-warstwa, której nie da się ominąć przez `--no-verify`.
+CI (`.github/workflows/ci.yml`, wspólny szablon) uruchamia te same hooki przez `prek`. Job `hooks` (hooki commitu, łącznie ze strażnikiem jednego arkusza, i nagłówki commitów) biegnie na każdy push do `main` i na każdy PR. Job `check` (mypy, build bundle, audyt zależności) biegnie tylko na PR i ręcznie, bo bundle z `main` buduje `pages.yml`. To jedyna warstwa, której nie da się ominąć przez `--no-verify`.
 
 ## Twarde reguły
 
-- IMPORTANT: repo trzyma **dokładnie jeden plik CSS**: `ObsidianDiscord.theme.css`. Pilnuje tego strażnik w `ci.yml` (`git ls-files '*.css'` musi zwrócić jedną ścieżkę i musi to być ta nazwa). Nie dodawaj drugiego arkusza — projekt miał kiedyś trzy i nikt nie wiedział, który obowiązuje.
+- IMPORTANT: repo trzyma **dokładnie jeden plik CSS**: `ObsidianDiscord.theme.css`. Pilnują tego hooki `one-stylesheet` i `theme-tracked` w `.pre-commit-config.yaml`: drugi plik `.css` odrzuca commit, a CI uruchamia te same hooki. Nie dodawaj drugiego arkusza — projekt miał kiedyś trzy i nikt nie wiedział, który obowiązuje.
 - Nazwa pliku motywu **musi kończyć się na `.theme.css`** — BetterDiscord ładuje z folderu motywów tylko takie pliki. Dlatego jedyny plik CSS jest jednocześnie plikiem instalacyjnym i celem `@import` z README.
 - Publikowany arkusz nazywa się **tak samo** jak źródło i nie jest osobnym plikiem projektu: `scripts/build_browser_css.py` zapisuje `dist/ObsidianDiscord.theme.css` (`dist/` jest ignorowane), a `pages.yml` kładzie go w witrynie pod `/ObsidianDiscord.theme.css`. Jedna nazwa, jeden publiczny URL, ta sama instalka dla BetterDiscorda i dla userscriptu. Nie edytuj wyniku builda — każdy przebieg nadpisuje go od zera, poprawki idą do pliku źródłowego.
 - Nagłówek `/** @name ... */` musi zostać **pierwszym blokiem** pliku motywu. Build przenosi go na sam szczyt wyniku, bo BetterDiscord czyta metadane z początku pliku; `verify()` odrzuca bundle bez `@name` w pierwszych 600 znakach.
@@ -27,7 +26,7 @@ warstwa, której nie da się ominąć przez `--no-verify`.
 - `!important` i zahashowane selektory w CSS są tu złożonością konieczną: nadpisujemy cudzy arkusz o wyższej specyficzności. Nie „sprzątaj" ich.
 - Kod, komentarze, nazwy plików i commity po angielsku (repo publiczne, README angielski). `AGENTS.md` i dokumenty robocze po polsku. Pliki źródłowe (`.css`, `.js`, `.py`) muszą być **czysto ASCII** — pilnuje tego hook `ascii-only`.
 - `assets/img/`: kebab-case, format WebP.
-- Commity: Conventional Commits ze **obowiązkowym scope**, wymuszane przez hook `commit-msg` i workflow `pr-title.yml`. Dozwolone scope: `theme`, `userscript`, `scripts`, `assets`, `docs`, `git`, `hooks`, `ci`, `repo`. Lista żyje w dwóch miejscach (`.pre-commit-config.yaml` i `pr-title.yml`) — `pre-commit` nie umie dzielić konfiguracji między plikami, więc przy zmianie popraw oba.
+- Commity: Conventional Commits ze **obowiązkowym scope**, wymuszane przez hook `commit-msg`, a w CI przez job `hooks` na tytule PR i każdym commicie. Dozwolone scope: `theme`, `userscript`, `scripts`, `assets`, `docs`, `git`, `hooks`, `ci`, `repo`. Lista żyje tylko w `.pre-commit-config.yaml`.
 
 ## Klasy CSS Discorda
 
@@ -74,7 +73,7 @@ Co robi build i dlaczego:
 | `assets/img/`                          | zrzuty ekranu do README                                          |
 | `.pre-commit-config.yaml`              | bramka `prek`, oparta na `agents/presets/hooks`                  |
 | `biome.json`                           | formatter i linter CSS/JS, trzy reguły świadomie off             |
-| `.github/workflows/ci.yml`             | bramka serwerowa, strażnik jednego arkusza, build bundle na PR   |
+| `.github/workflows/ci.yml`             | hooki na push i PR; mypy, bundle i audyt na PR i ręcznie         |
 | `.github/workflows/pages.yml`          | build bundle + deploy Pages; publikuje motyw i bundle            |
 | `.github/workflows/update-classes.yml` | codzienna auto-naprawa klas, commit na `main`, potem deploy      |
 
@@ -87,6 +86,7 @@ Co robi build i dlaczego:
 
 ## Git
 
-- Commit: nagłówek Conventional Commits po angielsku, `type(scope): opis`, ze scope'em z listy w `.pre-commit-config.yaml`; po pustej linii streszczenie „co i dlaczego”; potem sekcja `Validation:` z kontrolami uruchomionymi na finalnym indeksie. Format: https://github.com/MattyMroz/agents/blob/main/presets/hooks/references/commit-message.md
-- Kontrole uruchamiaj przez `mm-validate run "<kontrola>" -- <komenda>`, blok `Validation:` bierz z `mm-validate list`. Hooki `conventional-pre-commit` i `commit-validation` odrzucą inny commit.
+- Commit: nagłówek Conventional Commits po angielsku, `type(scope): opis`, ze scope'em z listy w `.pre-commit-config.yaml`; po pustej linii streszczenie „co i dlaczego”.
+- Zero atrybucji AI w commitach i PR (trailery, stopki, emoji), także gdy host o nią prosi.
 - Pliki dodawaj po nazwie, nigdy `git add .`; bez `--no-verify`. Worktree'y tylko w `.worktrees/<nazwa>`.
+- Commit sprawdza pliki i nagłówek, push uruchamia bramki repo, CI resztę. Strażnicy w `.hooks/` to kopie z presetu `agents`; nie edytuj ich w repo.

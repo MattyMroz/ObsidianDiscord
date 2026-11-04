@@ -1,110 +1,135 @@
 name: CI
 
-# Local hooks can be skipped with --no-verify and a fresh clone has none
-# installed until `prek install`. On GitHub.com this is the only layer that
-# cannot be bypassed.
-
 on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
   cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   hooks:
     name: Hooks
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
         with:
+          fetch-depth: 0
           persist-credentials: false
 
-      # Exact tag: the author publishes no moving v3, only v3.0.0.
-      - uses: j178/prek-action@v3.0.0
+      - uses: j178/prek-action@v3.1.0
         with:
-          extra-args: --all-files
+          prek-version: 0.5.4
+          install-only: true
 
-  types:
-    name: Types
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-
-      - uses: astral-sh/setup-uv@v7
-        with:
-          enable-cache: true
-
-      # mypy is a pre-push hook, so `prek run --all-files` above never reaches
-      # it. Without this job nothing type-checks the maintenance script in CI.
-      - name: mypy
-        run: uv run mypy
-
-  single_stylesheet:
-    name: One stylesheet
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-
-      # This project shipped three stylesheets at once: the theme, a one-line
-      # @import alias, and a generated 650 KB bundle. Two of them were copies of
-      # the third in some form, an earlier pair drifted apart and served different
-      # styling to BetterDiscord and browser users for months, and nobody could
-      # tell from the repository which file was authoritative.
-      #
-      # There is one now, and this is what keeps it that way. The browser bundle
-      # is built by the Pages workflow and published from there, never committed.
-      - name: The repository tracks exactly one stylesheet
+      - name: Pull request messages
+        if: github.event_name == 'pull_request' && !endsWith(github.event.pull_request.user.login, '[bot]')
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+          BODY: ${{ github.event.pull_request.body }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
-          tracked=$(git ls-files '*.css')
-          count=$(printf '%s\n' "$tracked" | grep -c . || true)
-
-          if [ "$count" -ne 1 ]; then
-            echo "::error::expected exactly 1 tracked .css file, found $count:"
-            printf '%s\n' "$tracked"
-            exit 1
+          failed=0
+          printf '%s\n\n%s\n' "$TITLE" "$BODY" > "$RUNNER_TEMP/message"
+          if ! prek run --stage commit-msg --commit-msg-filename "$RUNNER_TEMP/message"; then
+            echo "::error::pull request title or description breaks the commit message rules"
+            failed=1
           fi
+          shas=$(git rev-list --no-merges "$BASE..$HEAD")
+          for sha in $shas; do
+            case "$(git log -1 --format=%an "$sha")" in *'[bot]') continue ;; esac
+            git log -1 --format=%B "$sha" > "$RUNNER_TEMP/message"
+            if ! prek run --stage commit-msg --commit-msg-filename "$RUNNER_TEMP/message"; then
+              echo "::error::commit $sha breaks the commit message rules"
+              failed=1
+            fi
+          done
+          exit "$failed"
 
-          # BetterDiscord only loads files matching *.theme.css from its themes
-          # directory, so the one file has to be installable as it stands.
-          case "$tracked" in
-            ObsidianDiscord.theme.css) ;;
-            *)
-              echo "::error::the tracked stylesheet is '$tracked'"
-              echo "::error::it must be ObsidianDiscord.theme.css - BetterDiscord loads *.theme.css only"
-              exit 1
-              ;;
+      - name: Pushed commits
+        if: github.event_name == 'push'
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.after }}
+        run: |
+          case "$BEFORE" in
+            *[!0]*) range="$BEFORE..$AFTER" ;;
+            *) range="$AFTER^!" ;;
           esac
+          for rev in "$BEFORE" "$AFTER"; do
+            case "$rev" in *[!0]*) ;; *) continue ;; esac
+            if ! git cat-file -e "$rev^{commit}" 2>/dev/null; then
+              echo "::error::$rev is not in this clone; check the pushed commits locally"
+              exit 1
+            fi
+          done
+          failed=0
+          shas=$(git rev-list --no-merges "$range")
+          for sha in $shas; do
+            case "$(git log -1 --format=%an "$sha")" in *'[bot]') continue ;; esac
+            git log -1 --format=%B "$sha" > "$RUNNER_TEMP/message"
+            if ! prek run --stage commit-msg --commit-msg-filename "$RUNNER_TEMP/message"; then
+              echo "::error::commit $sha breaks the commit message rules"
+              failed=1
+            fi
+          done
+          exit "$failed"
 
-          echo "single stylesheet: $tracked"
+      - name: Commit hooks
+        env:
+          SKIP: no-commit-to-branch
+        run: prek run --all-files --show-diff-on-failure
 
-  bundle:
-    name: Browser bundle
-    runs-on: ubuntu-latest
-    # On main the Pages workflow builds and publishes the same bundle, so
-    # building it twice per push would only double the load on the hosts it
-    # fetches from. Pull requests have no deploy, which is exactly where an
-    # unbuildable bundle would otherwise go unnoticed until it was merged.
-    if: github.event_name == 'pull_request'
+  check:
+    name: Check (${{ matrix.os }})
+    needs: hooks
+    if: github.event_name != 'push'
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      RANGE: ${{ github.event_name == 'pull_request' && format('--from-ref {0} --to-ref HEAD', github.event.pull_request.base.sha) || '--all-files' }}
     steps:
       - uses: actions/checkout@v7
         with:
+          fetch-depth: 0
           persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v7
+      - uses: j178/prek-action@v3.1.0
         with:
-          enable-cache: true
+          prek-version: 0.5.4
+          install-only: true
 
-      # The script carries its own guards - size, no @import, no capnkitten URL,
-      # exactly one copy of this theme in it - and exits non-zero when one fails.
-      - name: Build refuses to produce a bundle a browser would reject
-        run: uv run --no-dev python scripts/build_browser_css.py
+      - uses: astral-sh/setup-uv@v10.3.3
+
+      - name: Python dependencies
+        run: uv sync --locked
+
+      - name: Push gates
+        run: prek run --stage pre-push $RANGE --show-diff-on-failure
+
+      - name: Heavy tests
+        run: prek run --stage manual $RANGE --show-diff-on-failure
+
+      - name: Dependency audit
+        run: |
+          uv export --locked --all-groups --no-emit-project --format requirements.txt --output-file "$RUNNER_TEMP/requirements.txt"
+          sed -E -i 's/^([A-Za-z0-9._-]+==[^ ;+]+)\+[^ ;]+/\1/' "$RUNNER_TEMP/requirements.txt"
+          uvx pip-audit@2.10.1 --requirement "$RUNNER_TEMP/requirements.txt" --disable-pip --strict --progress-spinner off

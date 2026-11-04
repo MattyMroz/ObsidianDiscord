@@ -1,21 +1,9 @@
-# Git hooks. Based on agents/presets/hooks/assets/pre-commit-config.yaml.
-#
-# After a clone:
-#
-#   git config --local core.autocrlf false     # or mixed-line-ending loops forever
-#   prek install
-#   prek run --all-files                       # builds environments before first commit
-#
-# Verify the file is sane after editing:
-#   prek run --hook-stage manual --all-files
-
 minimum_pre_commit_version: "4.0.0"
 default_install_hook_types: [pre-commit, commit-msg, pre-push]
 default_stages: [pre-commit]
+exclude: ^\.hooks/
 
 repos:
-# ── CORE ──────────────────────────────────────────────────────────────────────
-
   - repo: meta
     hooks:
       - id: check-hooks-apply
@@ -26,39 +14,29 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      # Fixes the file, then fails the commit. Run `git add` and commit again.
       - id: trailing-whitespace
-        # Two trailing spaces are a hard line break in Markdown.
         args: [--markdown-linebreak-ext=md]
+        stages: [pre-commit]
       - id: end-of-file-fixer
+        stages: [pre-commit]
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: fix-byte-order-marker
-      # Refuses only, changes nothing.
       - id: check-yaml
-      - id: check-toml
-      # No exclude: the preset skips biome.json as JSONC, but ours is strict JSON.
-      - id: check-json
       - id: check-merge-conflict
       - id: check-added-large-files
         args: [--maxkb=1024]
+        stages: [pre-commit]
       - id: check-case-conflict
       - id: check-illegal-windows-names
       - id: detect-private-key
       - id: forbid-submodules
       - id: destroyed-symlinks
-
-  - repo: https://github.com/crate-ci/typos
-    rev: v1.49.0
-    hooks:
-      # Reports only: its dictionary is English, and with the default
-      # --write-changes it rewrote Polish words into English ones.
-      # Count its findings on main first: Polish words in code are findings
-      # too, and a hook with a backlog blocks every commit. Keep it only at
-      # zero; a later false positive goes to _typos.toml [default.extend-words].
-      - id: typos
-        args: [--force-exclude]
-        types_or: [python, pyi, javascript, jsx, ts, tsx, rust, shell]
+        stages: [pre-commit]
+      - id: check-json
+      - id: check-toml
+      - id: check-ast
+      - id: debug-statements
 
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.4.0
@@ -80,38 +58,23 @@ repos:
           - build
           - revert
 
-# ── OWN STANDARDS ─────────────────────────────────────────────────────────────
-# Scope lives in the published hook definitions; do not repeat files/types here.
-
-  - repo: https://github.com/MattyMroz/agents
-    rev: hooks-v1.3.2 # or newer: prek autoupdate
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.49.0
     hooks:
-      # U+FFFD is what a botched encoding leaves behind.
-      - id: no-replacement-char
-      # Commit body: summary + Validation block bound to recorded runs.
-      # Format and the mm-validate workflow: presets/hooks/references/commit-message.md
-      - id: commit-validation
-
-# ── MARKDOWN ──────────────────────────────────────────────────────────────────
+      - id: typos
+        args: [--force-exclude]
+        types_or: [python, pyi, javascript, jsx, ts, tsx, rust, shell]
+        stages: [pre-commit]
 
   - repo: https://github.com/hukkin/mdformat
     rev: 0.7.22
     hooks:
       - id: mdformat
         args: [--number]
-        # Without these plugins it wrecks GFM tables.
         additional_dependencies:
           - mdformat-gfm==0.4.1
           - mdformat-tables==1.0.0
           - mdformat-frontmatter==2.0.8
-
-# ── PYTHON ────────────────────────────────────────────────────────────────────
-
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
-    hooks:
-      - id: check-ast
-      - id: debug-statements
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.2
@@ -119,34 +82,64 @@ repos:
       - id: ruff-check
         args: [--fix]
       - id: ruff-format
-
-  - repo: local
-    hooks:
-      - id: mypy
-        name: mypy
-        entry: uv run mypy
-        language: system
-        pass_filenames: false
-        stages: [pre-push]
-
-# ── FRONTEND ──────────────────────────────────────────────────────────────────
-# The only gate covering the 730-line theme. biome.json turns off three rules
-# that are wrong for a theme overriding someone else's stylesheet: !important is
-# required here, and rule order is load-bearing so specificity may descend.
+        types_or: [python, pyi, jupyter]
 
   - repo: https://github.com/biomejs/pre-commit
     rev: v2.5.7
     hooks:
       - id: biome-check
 
-# ── ASCII-ONLY ────────────────────────────────────────────────────────────────
-# Scoped to source by extension rather than `types: [text]` plus a long exclude.
-# The broad form fails on the box-drawing separators inside .gitignore and this
-# very file, and on the author's name in LICENSE - none of which is source. What
-# this guards is real: a Polish CSS comment shipped in the theme until 1.2.7.
-
-  - repo: https://github.com/MattyMroz/agents
-    rev: hooks-v1.3.2
+  - repo: local
     hooks:
+      - id: no-replacement-char
+        name: no U+FFFD replacement character
+        entry: python .hooks/text_guard.py
+        language: python
+        types: [text]
       - id: ascii-only
+        name: source must be ASCII
+        entry: python .hooks/text_guard.py --ascii
+        language: python
+        types: [text]
         files: \.(css|js|py)$
+      - id: no-secret-tokens
+        name: no API tokens in tracked files
+        entry: python .hooks/secret_tokens.py
+        language: python
+        types: [text]
+      - id: no-ai-trailers
+        name: no AI attribution in the commit message
+        entry: python .hooks/ai_trailers.py
+        language: python
+        stages: [commit-msg]
+      - id: no-mutating-assign
+        name: no assignment that mutates its own target container
+        entry: python .hooks/mutating_assign.py
+        language: python
+        types: [python]
+      - id: one-stylesheet
+        name: ObsidianDiscord.theme.css is the only stylesheet
+        entry: BetterDiscord loads *.theme.css only; keep every rule in ObsidianDiscord.theme.css
+        language: fail
+        files: \.css$
+        exclude: ^ObsidianDiscord\.theme\.css$
+      - id: theme-tracked
+        name: ObsidianDiscord.theme.css is tracked
+        entry: git ls-files --error-unmatch ObsidianDiscord.theme.css
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: mypy
+        name: mypy
+        entry: uv run mypy
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      - id: bundle
+        name: browser bundle builds
+        entry: uv run --no-dev python scripts/build_browser_css.py
+        language: system
+        files: (\.css$|^scripts/build_browser_css\.py$)
+        pass_filenames: false
+        stages: [pre-push]
