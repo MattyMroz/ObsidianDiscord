@@ -34,11 +34,6 @@ on:
         required: false
         default: ""
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 concurrency:
   group: pages
   # Never cancel a deploy in flight; a half-finished one would take the live
@@ -46,12 +41,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    name: Build and deploy
+  build:
+    name: Build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v7
         with:
@@ -93,5 +87,22 @@ jobs:
         with:
           path: ./_site
 
+  # A job of its own, not a last step of the build. deploy-pages looks the
+  # artifact up through the API, and right after upload-pages-artifact finalizes
+  # it that list can still be empty: three nightly runs in a row uploaded the
+  # artifact and then failed with 'No artifacts named "github-pages" were found'.
+  # This job starts only after the build job has finished, which is also the
+  # layout of GitHub's own Pages workflow template.
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v5
