@@ -22,3 +22,8 @@ files = ["scripts"]
 # names are not ours to rename, so the shape is ignored wholesale.
 [tool.typos.default]
 extend-ignore-identifiers-re = ["[A-Za-z]+_{1,2}[0-9a-f]{5,6}"]
+
+# Newer hashes mix upper and lower case (mainLoginContainer_8bJOD9, member_Iy0c7A).
+# Only the stylesheet carries them, so the wider shape stays out of the Python code.
+[tool.typos.type.css]
+extend-ignore-identifiers-re = ["[A-Za-z]+_{1,2}[0-9A-Za-z]{5,6}"]

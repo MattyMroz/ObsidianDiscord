@@ -12,10 +12,7 @@ on:
     - cron: "17 4 * * *"
   workflow_dispatch:
 
-# The previous sync workflow in this repo failed for months on `git push`
-# because it never declared these. Set them explicitly.
-permissions:
-  contents: write
+permissions: {}
 
 concurrency:
   group: class-updates
@@ -25,12 +22,19 @@ jobs:
   update:
     name: Apply the changelist
     runs-on: ubuntu-latest
+    # The previous sync workflow in this repo failed for months on `git push`
+    # because it never declared these. Set them explicitly.
+    permissions:
+      contents: write
     outputs:
       repaired: ${{ steps.commit.outputs.repaired }}
     steps:
-      - uses: actions/checkout@v7
+      # The commit step below pushes with the credentials this checkout keeps.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true # zizmor: ignore[artipacked]
 
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
         with:
           enable-cache: true
 
@@ -115,7 +119,7 @@ jobs:
     needs: update
     if: needs.update.outputs.repaired == 'true'
     # main, not the commit this run started from - that one predates the repair.
-    uses: ./.github/workflows/pages.yml
+    uses: ./.github/workflows/pages.yml # zizmor: ignore[self-repository]
     with:
       ref: main
     permissions:

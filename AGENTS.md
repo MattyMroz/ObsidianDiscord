@@ -5,15 +5,14 @@ Motyw Discorda w schemacie kolorów Obsidian, zbudowany jako nadbudowa na Materi
 ## Bramki jakości
 
 ```sh
-prek run --all-files                      # cała bramka
-prek run --hook-stage manual --all-files  # czy któryś hook nie jest martwy
-uv run mypy                               # hook pre-push, nie łapie go run --all-files
+prek run --all-files                      # hooki commitu
+prek run --hook-stage manual --all-files  # bramki projektu (mypy, build bundle) i martwe hooki
 ```
 
 Po klonie: `uv sync`, `git config --local core.autocrlf false`, `prek install`.
 Bez `autocrlf false` hook `mixed-line-ending` wpada w pętlę z `.gitattributes`.
 
-CI (`.github/workflows/ci.yml`, wspólny szablon) uruchamia te same hooki przez `prek`. Job `hooks` (hooki commitu, łącznie ze strażnikiem jednego arkusza, i nagłówki commitów) biegnie na każdy push do `main` i na każdy PR. Job `check` (mypy, build bundle, audyt zależności) biegnie tylko na PR i ręcznie, bo bundle z `main` buduje `pages.yml`. To jedyna warstwa, której nie da się ominąć przez `--no-verify`.
+CI (`.github/workflows/ci.yml`, kopia szablonu z `agents/standard/gates`) uruchamia te same hooki przez `prek`. Job `hooks` (hooki commitu, łącznie ze strażnikiem jednego arkusza, tytuł i opis PR, a na push każdy commit) i job `check` (mypy, build bundle, audyt zależności, na Linuksie i Windows) biegną na każdy PR i każdy push do `main`, bo repo jest publiczne. To jedyna warstwa, której nie da się ominąć przez `--no-verify`.
 
 ## Twarde reguły
 
@@ -24,9 +23,9 @@ CI (`.github/workflows/ci.yml`, wspólny szablon) uruchamia te same hooki przez 
 - Strażniki bundle (rozmiar, zero `@import`, zero pobrań z capnkitten, dokładnie jedna kopia motywu, zgodny `@version`) siedzą w `verify()` w `build_browser_css.py`, nie w YAML-u. Build sam odmawia zapisu złego pliku, więc PR i deploy dziedziczą tę samą kontrolę. Dodając regułę, dodaj ją tam.
 - Zmiana wyglądu motywu bumpuje `@version` w nagłówku `ObsidianDiscord.theme.css`. `@version` w `ObsidianDiscord.user.js` jest **niezależny** — to wersja userscriptu, nie motywu.
 - `!important` i zahashowane selektory w CSS są tu złożonością konieczną: nadpisujemy cudzy arkusz o wyższej specyficzności. Nie „sprzątaj" ich.
-- Kod, komentarze, nazwy plików i commity po angielsku (repo publiczne, README angielski). `AGENTS.md` i dokumenty robocze po polsku. Pliki źródłowe (`.css`, `.js`, `.py`) muszą być **czysto ASCII** — pilnuje tego hook `ascii-only`.
+- Kod, komentarze, nazwy plików i commity po angielsku (repo publiczne, README angielski). `AGENTS.md` i dokumenty robocze po polsku. Pliki źródłowe i konfiguracja muszą być **czysto ASCII** (poza `README.md`, `AGENTS.md`, `docs/`, `LICENSE` i szablonami zgłoszeń); pilnuje tego hook `ascii-only`.
 - `assets/img/`: kebab-case, format WebP.
-- Commity: Conventional Commits ze **obowiązkowym scope**, wymuszane przez hook `commit-msg`, a w CI przez job `hooks` na tytule PR i każdym commicie. Dozwolone scope: `theme`, `userscript`, `scripts`, `assets`, `docs`, `git`, `hooks`, `ci`, `repo`. Lista żyje tylko w `.pre-commit-config.yaml`.
+- Scope commitów: `theme`, `userscript`, `scripts`, `assets`, `git`, `hooks` albo `repo` (sekcja Git). Lista żyje tylko w `--scopes=` w `.pre-commit-config.yaml`.
 
 ## Klasy CSS Discorda
 
@@ -71,9 +70,9 @@ Co robi build i dlaczego:
 | `docs/discord-class-research.md`       | research narzędzi do klas Discorda                               |
 | `docs/settings-screen.md`              | zapis pracy nad ekranem ustawień i metoda pomiaru w przeglądarce |
 | `assets/img/`                          | zrzuty ekranu do README                                          |
-| `.pre-commit-config.yaml`              | bramka `prek`, oparta na `agents/presets/hooks`                  |
+| `.pre-commit-config.yaml`              | bramka `prek` z szablonu `agents/standard/gates`                 |
 | `biome.json`                           | formatter i linter CSS/JS, trzy reguły świadomie off             |
-| `.github/workflows/ci.yml`             | hooki na push i PR; mypy, bundle i audyt na PR i ręcznie         |
+| `.github/workflows/ci.yml`             | hooki, mypy, bundle i audyt na push i PR                         |
 | `.github/workflows/pages.yml`          | build bundle + deploy Pages; publikuje motyw i bundle            |
 | `.github/workflows/update-classes.yml` | codzienna auto-naprawa klas, commit na `main`, potem deploy      |
 
@@ -86,7 +85,7 @@ Co robi build i dlaczego:
 
 ## Git
 
-- Commit: nagłówek Conventional Commits po angielsku, `type(scope): opis`, ze scope'em z listy w `.pre-commit-config.yaml`; po pustej linii streszczenie „co i dlaczego”.
+- Commit: wiadomość po angielsku według standardu commita, `type(scope): summary` ze scope'em z `--scopes=` w `.pre-commit-config.yaml` albo `repo`, potem sekcje `Problem:`, `Change:` i `Verification:`; sprawdza ją hook `commit-message`.
 - Zero atrybucji AI w commitach i PR (trailery, stopki, emoji), także gdy host o nią prosi.
 - Pliki dodawaj po nazwie, nigdy `git add .`; bez `--no-verify`. Worktree'y tylko w `.worktrees/<nazwa>`.
-- Commit sprawdza pliki i nagłówek, push uruchamia bramki repo, CI resztę. Strażnicy w `.hooks/` to kopie z presetu `agents`; nie edytuj ich w repo.
+- Commit sprawdza pliki i nagłówek, push sprawdza gałąź, wiadomości i sekrety, a bramki projektu (typy, testy, build) biegną w CI i lokalnie przez `prek run --hook-stage manual --all-files`. Strażnicy w `.hooks/` to kopie z `agents`; nie edytuj ich w repo.
